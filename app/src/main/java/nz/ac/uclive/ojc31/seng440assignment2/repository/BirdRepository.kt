@@ -3,7 +3,6 @@ package nz.ac.uclive.ojc31.seng440assignment2.repository
 import dagger.hilt.android.scopes.ActivityScoped
 
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdApi
-import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.API_TOKEN
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import javax.inject.Inject
 

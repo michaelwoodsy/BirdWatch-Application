@@ -120,7 +120,10 @@ fun SearchBar(
                 searchText = it
                 onSearch(searchText)
             },
-            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            keyboardActions = KeyboardActions(onDone = {
+                focusManager.clearFocus()
+                isHintDisplayed
+            }),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Text),
             maxLines = 1,
             singleLine = true,
