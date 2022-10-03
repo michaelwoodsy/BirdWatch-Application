@@ -33,7 +33,11 @@ fun SplashScreen(navController: NavHostController) {
         startAnimation = true
         delay(4000)
         navController.popBackStack()
-        navController.navigate(Screen.Home.route)
+        navController.navigate(Screen.Home.route) {
+            popUpTo(Screen.Splash.route) {
+                inclusive = true // prevent back button returning to splash screen
+            }
+        }
     }
     Splash(alpha = alphaAnim.value)
 }
