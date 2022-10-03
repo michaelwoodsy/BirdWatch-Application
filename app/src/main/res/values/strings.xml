@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BirdWatch</string>
+
+    <string name="screen_label_splash">Splash</string>
+    <string name="screen_label_home">Home</string>
+
 </resources>

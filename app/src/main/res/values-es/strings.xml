@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AvesObservación</string>
+    <string name="screen_label_splash">La salpicadura</string>
+    <string name="screen_label_home">Hogar</string>
 </resources>
