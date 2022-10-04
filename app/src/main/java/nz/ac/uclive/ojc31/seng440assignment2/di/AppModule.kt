@@ -1,11 +1,15 @@
 package nz.ac.uclive.ojc31.seng440assignment2.di
 
+import android.app.Application
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import nz.ac.uclive.ojc31.seng440assignment2.data.AppDatabase
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdApi
+import nz.ac.uclive.ojc31.seng440assignment2.data.EntryDao
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
+import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -36,5 +40,23 @@ object AppModule {
             .client(okHttp.build())
             .build()
             .create(BirdApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideEntryRepository(entryDao: EntryDao): EntryRepository {
+        return EntryRepository(entryDao = entryDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(app: Application): AppDatabase {
+        return AppDatabase.getInstance(app)
+    }
+
+    @Singleton
+    @Provides
+    fun provideEntryDao(appDatabase: AppDatabase): EntryDao {
+        return appDatabase.entryDao()
     }
 }

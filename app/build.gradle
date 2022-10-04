@@ -19,6 +19,15 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
     }
 
     buildTypes {
@@ -92,4 +101,12 @@ dependencies {
     // Maps
     implementation "com.google.maps.android:maps-compose:2.5.0"
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
+    // Room persistence library
+    implementation "androidx.room:room-runtime:2.4.3"
+    annotationProcessor "androidx.room:room-compiler:2.4.3"
+    // to use kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:2.4.3"
+    // support kotlin extensions and coroutines (e.g. flow)
+    implementation "androidx.room:room-ktx:2.4.3"
 }
