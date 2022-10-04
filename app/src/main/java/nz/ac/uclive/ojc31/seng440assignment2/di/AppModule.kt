@@ -7,11 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdApi
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.BASE_URL
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -29,7 +26,7 @@ object AppModule {
     fun provideBirdApi(): BirdApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BirdApi::class.java)
     }

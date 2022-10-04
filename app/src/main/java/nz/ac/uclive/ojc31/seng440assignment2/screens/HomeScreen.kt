@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import nz.ac.uclive.ojc31.seng440assignment2.data.BirdItem
+import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -183,12 +183,12 @@ fun BirdList(
 
 @Composable
 fun BirdEntry(
-    entry: BirdItem,
+    entry: BirdsItem,
     navController: NavHostController,
     viewModel: BirdListViewModel = hiltViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
-    val birdName = entry.COMMON_NAME
+    val birdName = entry.comName
     var dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
@@ -306,7 +306,7 @@ fun BirdEntry(
 @Composable
 fun BirdRow(
     rowIndex: Int,
-    entries: List<BirdItem>,
+    entries: List<BirdsItem>,
     navController: NavHostController
 ) {
     Row {
