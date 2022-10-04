@@ -6,23 +6,22 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
 import androidx.compose.ui.Modifier
-import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdListScreen
+import androidx.navigation.*
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Graph.BIRDS
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -50,21 +49,50 @@ fun NavGraph(navController: NavHostController) {
                 navController = navController,
                 startDestination = Screen.Splash.route
             ) {
-
                 composable(route = Screen.Splash.route) {
                     SplashScreen(navController = navController)
                 }
                 composable(route = Screen.Home.route) {
                     HomeScreen()
                 }
-                composable(route = Screen.BirdList.route) {
-                    BirdListScreen(navController = navController)
-                }
-                composable(route = Screen.Map.route) {
-                    MapScreen()
-                }
+                birdNavGraph(navController = navController)
             }
         }
+    }
+}
+
+fun NavGraphBuilder.birdNavGraph(navController: NavHostController) {
+    navigation(
+        BIRDS,
+        "Testing"
+    ) {
+        composable(route = Screen.BirdList.route) {
+            BirdListScreen(navController = navController)
+        }
+        composable(
+            "bird_details_screen/{birdId}",
+            arguments = listOf(
+                navArgument("birdId") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val birdName = remember {
+                it.arguments?.getString("birdId")
+            }
+//                        val dominantColor = remember {
+//                            val color = it.arguments?.getInt("dominantColor")
+//                            color?.let { Color(it) } ?: Color.White
+//                        }
+            BirdDetailsScreen(
+//                            dominantColor = dominantColor,
+                birdId = birdName ?: "",
+                navController = navController,
+            )
+        }
+    }
+    composable(route = Screen.Map.route) {
+        MapScreen()
     }
 }
 
@@ -96,4 +124,8 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
             }
         }
     }
+}
+
+object Graph {
+    const val BIRDS = "bird_graph"
 }

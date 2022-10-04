@@ -4,6 +4,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdApi
 import nz.ac.uclive.ojc31.seng440assignment2.data.Birds
+import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import javax.inject.Inject
 
@@ -25,12 +26,16 @@ class BirdRepository @Inject constructor(
     }
 
 
-//    suspend fun getBirdInfo(bird: String): Resource<String> {
-//        val response = try {
-//            api.getBirdInfo(bird)
-//        } catch (e: Exception) {
-//            return Resource.Error("An unknown error occurred")
-//        }
-//        return Resource.Success(response)
-//    }
+    suspend fun getBirdInfo(bird: String): Resource<Birds> {
+        val response = try {
+            api.getBirdInfo(
+                "species",
+                "json",
+                bird
+            )
+        } catch (e: Exception) {
+            return Resource.Error("An unknown error occurred")
+        }
+        return Resource.Success(response)
+    }
 }
