@@ -4,4 +4,5 @@
     <string name="screen_label_home">Hogar</string>
     <string name="screen_label_map">Mapa</string>
     <string name="screen_label_bird_list">Aves</string>
+    <string name="screen_label_history">"Historia "</string>
 </resources>

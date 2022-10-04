@@ -18,11 +18,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
 import androidx.compose.ui.Modifier
-import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdListScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -32,7 +29,8 @@ fun NavGraph(navController: NavHostController) {
     val screens = listOf(
         Screen.Map,
         Screen.Home,
-        Screen.BirdList
+        Screen.BirdList,
+        Screen.History
     ) // add more nav screens here
     showNavigationBar.value = navBackStackEntry?.destination?.route in screens.map{ it.route}
 
@@ -62,6 +60,9 @@ fun NavGraph(navController: NavHostController) {
                 }
                 composable(route = Screen.Map.route) {
                     MapScreen()
+                }
+                composable(route = Screen.History.route) {
+                    BirdHistoryScreen(navController = navController)
                 }
             }
         }

@@ -6,5 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "entry")
 data class Entry(
     @PrimaryKey(autoGenerate = true) var entryId: Long? = null,
-    var text: String,
+    var speciesCode: String,
+    var observedDate: String,
+    var observedLocation: String
 )

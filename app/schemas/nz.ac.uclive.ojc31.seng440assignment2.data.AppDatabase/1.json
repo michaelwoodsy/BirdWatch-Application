@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "64ae24218cd033ae2c9ecc9f632479ba",
+    "identityHash": "12ce1ad28c2c47fcd0a61bb28c13ed36",
     "entities": [
       {
         "tableName": "entry",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `text` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `speciesCode` TEXT NOT NULL, `observedDate` TEXT NOT NULL, `observedLocation` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "entryId",
@@ -15,8 +15,20 @@
             "notNull": false
           },
           {
-            "fieldPath": "text",
-            "columnName": "text",
+            "fieldPath": "speciesCode",
+            "columnName": "speciesCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observedDate",
+            "columnName": "observedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observedLocation",
+            "columnName": "observedLocation",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -34,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '64ae24218cd033ae2c9ecc9f632479ba')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '12ce1ad28c2c47fcd0a61bb28c13ed36')"
     ]
   }
 }

@@ -13,9 +13,10 @@ interface BirdApi {
         @Query("fmt") format: String,
     ): Birds
 
-//    @Headers("X-eBirdApiToken: $API_TOKEN")
-//    @GET("ref/taxonomy/ebird")
-//    suspend fun getBirdInfo(
-//        @Query("species") species: String
-//    ):  String
+    @Headers("X-eBirdApiToken: $EBIRD_API_TOKEN")
+    @GET("ref/taxonomy/ebird")
+    suspend fun getBirdInfo(
+        @Query("species") species: String,
+        @Query("fmt") format: String
+    ):  Birds
 }
