@@ -16,7 +16,6 @@ interface BirdApi {
     @Headers("X-eBirdApiToken: $EBIRD_API_TOKEN")
     @GET("ref/taxonomy/ebird")
     suspend fun getBirdInfo(
-        @Query("cat") category: String,
         @Query("fmt") format: String,
         @Query("species") species: String
     ):  Birds

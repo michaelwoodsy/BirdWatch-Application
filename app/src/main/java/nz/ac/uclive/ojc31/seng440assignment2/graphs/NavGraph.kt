@@ -17,9 +17,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Graph.BIRDS
 import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {

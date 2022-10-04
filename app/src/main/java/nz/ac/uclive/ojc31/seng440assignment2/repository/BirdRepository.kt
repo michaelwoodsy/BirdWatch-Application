@@ -25,12 +25,11 @@ class BirdRepository @Inject constructor(
     }
 
 
-    suspend fun getBirdInfo(bird: String): Resource<Birds> {
+    suspend fun getBirdInfo(birdCodes: String): Resource<Birds> {
         val response = try {
             api.getBirdInfo(
-                "species",
                 "json",
-                bird
+                birdCodes
             )
         } catch (e: Exception) {
             return Resource.Error("An unknown error occurred")
