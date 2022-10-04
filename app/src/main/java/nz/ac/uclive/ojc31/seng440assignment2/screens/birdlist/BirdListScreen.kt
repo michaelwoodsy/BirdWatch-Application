@@ -1,7 +1,8 @@
-package nz.ac.uclive.ojc31.seng440assignment2.screens
+package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
@@ -57,7 +60,7 @@ fun BirdListScreen(
 //                            .padding(16.dp)
 //                    )
                     SearchBar(
-                        hint = "Search for birds...", // stringResource(id = R.string.search_hint)
+                        hint = stringResource(id = R.string.bird_search_hint),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
@@ -81,7 +84,7 @@ fun BirdListScreen(
 //                                .padding(16.dp)
 //                        )
                         SearchBar(
-                            hint = "Search for birds...", // stringResource(id = R.string.search_hint)
+                            hint = stringResource(id = R.string.bird_search_hint),
                             modifier = Modifier
                                 .fillMaxWidth(0.6f)
                                 .align(Alignment.CenterEnd)
@@ -189,6 +192,7 @@ fun BirdEntry(
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     val birdName = entry.comName
+    val birdId = entry.speciesCode
     var dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
@@ -208,11 +212,11 @@ fun BirdEntry(
                             )
                         )
                     )
-//                    .clickable {
-//                        navController.navigate(
-//                            "pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
-//                        )
-//                    },
+                    .clickable {
+                        navController.navigate(
+                            "bird_details_screen/${birdId}" //"pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
+                        )
+                    },
             ) {
 //                SubcomposeAsyncImage(
 //                    model = ImageRequest.Builder(LocalContext.current)
@@ -260,11 +264,11 @@ fun BirdEntry(
                             )
                         )
                     )
-//                    .clickable {
-//                        navController.navigate(
-//                            "pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
-//                        )
-//                    },
+                    .clickable {
+                        navController.navigate(
+                            "bird_details_screen/${birdName}" //"pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
+                        )
+                    },
             ) {
 //                SubcomposeAsyncImage(
 //                    model = ImageRequest.Builder(LocalContext.current)
