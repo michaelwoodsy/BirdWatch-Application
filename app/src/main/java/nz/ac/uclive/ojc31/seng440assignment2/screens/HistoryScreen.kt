@@ -16,14 +16,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.data.EntryDTO
-import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
@@ -56,7 +59,6 @@ fun HistoryList(
 ) {
     val historyList by remember { viewModel.historyList }
     val isLoading by remember { viewModel.isLoading }
-    val hasLoaded by remember { viewModel.hasLoaded }
 
     if (isLoading) {
         Box(modifier = Modifier
@@ -72,11 +74,6 @@ fun HistoryList(
         LazyColumn(contentPadding = PaddingValues(16.dp)) {
             val itemCount = historyList.size
             items(itemCount) {
-                if (!hasLoaded && !isLoading) {
-                    LaunchedEffect(key1 = true) {
-                        viewModel.loadEntries()
-                    }
-                }
                 HistoryRow(rowIndex = it, entries = historyList, navController = navController)
             }
         }
@@ -114,16 +111,31 @@ fun HistoryEntry(
                     )
 
             ) {
-                Text(
-                    text = entry.bird.comName,
-                    fontFamily = RobotoCondensed,
-                    fontSize = 36.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterVertically),
-                    overflow = TextOverflow.Ellipsis
-                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = entry.bird.comName,
+                        fontFamily = RobotoCondensed,
+                        fontSize = 28.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = buildAnnotatedString {
+                            append("Found on ")
+                            withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(entry.observedDate)
+                            }
+                            append(" at ")
+                            withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(entry.observedLocation)
+                            }
+                        }
+                    )
+                }
+
             }
         }
         else -> {

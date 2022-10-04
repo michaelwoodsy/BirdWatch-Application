@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import nz.ac.uclive.ojc31.seng440assignment2.data.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.data.EntryDTO
-import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
@@ -23,13 +21,13 @@ class BirdHistoryViewModel @Inject constructor (
     var historyList = mutableStateOf<List<EntryDTO>>(listOf())
     var isLoading = mutableStateOf(false)
     var loadError = mutableStateOf("")
-    var hasLoaded = mutableStateOf(false)
+
 
     init {
         loadEntries()
     }
 
-    fun loadEntries() {
+    private fun loadEntries() {
         viewModelScope.launch {
             isLoading.value = true
 
@@ -42,20 +40,20 @@ class BirdHistoryViewModel @Inject constructor (
 
                 when (val result = birdRepo.getBirdInfo(speciesQuery)) {
                     is Resource.Success -> {
-                        val birds = result.data!!
                         loadError.value = ""
+
+                        val birds = result.data!!
                         val birdsBySpeciesCode: Map<String, BirdsItem> =
                             birds.associateBy { it.speciesCode }
 
-                        val result = history.filter { birdsBySpeciesCode[it.speciesCode] != null }
+                        val entryDTOList = history.filter { birdsBySpeciesCode[it.speciesCode] != null }
                             .map { entry ->
                                 birdsBySpeciesCode[entry.speciesCode]?.let { bird ->
                                     EntryDTO(bird, entry.observedDate, entry.observedLocation)
                                 }
                             }
-                        historyList.value = result as List<EntryDTO>
+                        historyList.value = entryDTOList as List<EntryDTO>
                         isLoading.value = false
-                        hasLoaded.value = false
                     }
                     is Resource.Error -> {
                         loadError.value = result.message!!
@@ -63,7 +61,6 @@ class BirdHistoryViewModel @Inject constructor (
                     }
                     else -> {}
                 }
-                // map into bird entries by bird key
             }
         }
     }
