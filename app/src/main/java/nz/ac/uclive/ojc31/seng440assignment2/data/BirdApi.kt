@@ -1,12 +1,12 @@
 package nz.ac.uclive.ojc31.seng440assignment2.data
 
-import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.API_TOKEN
+import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.EBIRD_API_TOKEN
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface BirdApi {
-    @Headers("X-eBirdApiToken: $API_TOKEN")
+    @Headers("X-eBirdApiToken: $EBIRD_API_TOKEN")
     @GET("ref/taxonomy/ebird")
     suspend fun getBirdList(
         @Query("cat") category: String,

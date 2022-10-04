@@ -2,4 +2,6 @@
     <string name="app_name">AvesObservación</string>
     <string name="screen_label_splash">La salpicadura</string>
     <string name="screen_label_home">Hogar</string>
+    <string name="screen_label_map">Mapa</string>
+    <string name="screen_label_bird_list">Aves</string>
 </resources>

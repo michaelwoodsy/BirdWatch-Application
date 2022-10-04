@@ -19,8 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
 import androidx.compose.ui.Modifier
+import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdListScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -37,7 +39,11 @@ fun NavGraph(navController: NavHostController) {
         bottomBar = {
             NavigationBar(
                 navController = navController,
-                items = listOf(Screen.Home), // Add more screens here
+                items = listOf(
+                    Screen.Map,
+                    Screen.Home,
+                    Screen.BirdList
+                ), // Add more screens here
                 showNavigationBar = showNavigationBar
             )
         }
@@ -52,7 +58,13 @@ fun NavGraph(navController: NavHostController) {
                     SplashScreen(navController = navController)
                 }
                 composable(route = Screen.Home.route) {
-                    HomeScreen(navController = navController)
+                    HomeScreen()
+                }
+                composable(route = Screen.BirdList.route) {
+                    BirdListScreen(navController = navController)
+                }
+                composable(route = Screen.Map.route) {
+                    MapScreen()
                 }
             }
         }
