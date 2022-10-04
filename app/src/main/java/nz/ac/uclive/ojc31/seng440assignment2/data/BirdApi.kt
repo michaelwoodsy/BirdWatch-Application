@@ -8,11 +8,14 @@ import retrofit2.http.Query
 interface BirdApi {
     @Headers("X-eBirdApiToken: $API_TOKEN")
     @GET("ref/taxonomy/ebird")
-    suspend fun getBirdList(): String
+    suspend fun getBirdList(
+        @Query("cat") category: String,
+        @Query("fmt") format: String,
+    ): Birds
 
-    @Headers("X-eBirdApiToken: $API_TOKEN")
-    @GET("ref/taxonomy/ebird")
-    suspend fun getBirdInfo(
-        @Query("species") species: String
-    ):  String
+//    @Headers("X-eBirdApiToken: $API_TOKEN")
+//    @GET("ref/taxonomy/ebird")
+//    suspend fun getBirdInfo(
+//        @Query("species") species: String
+//    ):  String
 }
