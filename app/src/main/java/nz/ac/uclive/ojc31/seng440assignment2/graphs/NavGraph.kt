@@ -24,20 +24,17 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    val showNavigationBar = rememberSaveable { (mutableStateOf(true))}
+    val showNavigationBar = rememberSaveable { (mutableStateOf(false))}
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    // hide navigation bar on these pages
-    when (navBackStackEntry?.destination?.route) {
-        Screen.Splash.route -> showNavigationBar.value = false
-        else -> showNavigationBar.value = true
-    }
+    val screens = listOf(Screen.Home) // add more nav screens here
+    showNavigationBar.value = navBackStackEntry?.destination?.route in screens.map{ it.route}
 
     Scaffold(
         bottomBar = {
             NavigationBar(
                 navController = navController,
-                items = listOf(Screen.Home), // Add more screens here
+                items = screens,
                 showNavigationBar = showNavigationBar
             )
         }
