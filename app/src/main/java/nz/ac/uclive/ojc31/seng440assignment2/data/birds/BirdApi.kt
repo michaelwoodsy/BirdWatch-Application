@@ -1,4 +1,4 @@
-package nz.ac.uclive.ojc31.seng440assignment2.data
+package nz.ac.uclive.ojc31.seng440assignment2.data.birds
 
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.EBIRD_API_TOKEN
 import retrofit2.http.GET
@@ -18,5 +18,5 @@ interface BirdApi {
     suspend fun getBirdInfo(
         @Query("fmt") format: String,
         @Query("species") species: String
-    ):  Birds
+    ): Birds
 }

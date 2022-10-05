@@ -1,4 +1,4 @@
-package nz.ac.uclive.ojc31.seng440assignment2.data
+package nz.ac.uclive.ojc31.seng440assignment2.data.entries
 
 import android.content.Context
 import androidx.room.Database

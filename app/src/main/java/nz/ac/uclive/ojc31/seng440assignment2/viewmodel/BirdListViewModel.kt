@@ -11,14 +11,14 @@ import androidx.palette.graphics.Palette
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
+import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import javax.inject.Inject
 
 @HiltViewModel
 class BirdListViewModel @Inject constructor(
-    private val repository: BirdRepository
+    private val repository: BirdRepository,
 ) : ViewModel() {
 
     private var curPage = 0
@@ -26,7 +26,7 @@ class BirdListViewModel @Inject constructor(
     var searchText = mutableStateOf("")
 
     var birdList = mutableStateOf<List<BirdsItem>>(listOf())
-    var loadError = mutableStateOf("")
+    private var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
@@ -86,21 +86,31 @@ class BirdListViewModel @Inject constructor(
                 else -> {}
             }
         }
-        loadBirdImages()
     }
 
-    private fun loadBirdImages() {
-        birdList.value = birdList.value
-    }
-
-
-    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
-        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-
-        Palette.from(bmp).generate { palette ->
-            palette?.dominantSwatch?.rgb?.let { colorValue ->
-                onFinish(Color(colorValue))
-            }
-        }
-    }
+//    fun loadBirdImages() {
+//        for (bird in birdList.value) {
+//            viewModelScope.launch {
+//                when(val result = repository.getBirdImages(bird.comName)) {
+//                    is Resource.Success -> {
+//                        val birdImages = result.data!!
+//                    }
+//                    is Resource.Error -> {
+//                    }
+//                    else -> {}
+//                }
+//            }
+//        }
+//    }
+//
+//
+//    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
+//        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
+//
+//        Palette.from(bmp).generate { palette ->
+//            palette?.dominantSwatch?.rgb?.let { colorValue ->
+//                onFinish(Color(colorValue))
+//            }
+//        }
+//    }
 }

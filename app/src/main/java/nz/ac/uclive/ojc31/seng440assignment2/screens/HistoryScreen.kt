@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import nz.ac.uclive.ojc31.seng440assignment2.data.EntryDTO
+import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
@@ -90,7 +90,7 @@ fun HistoryEntry(
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
 
-    var dominantColor by remember {
+    val dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
     val configuration = LocalConfiguration.current
