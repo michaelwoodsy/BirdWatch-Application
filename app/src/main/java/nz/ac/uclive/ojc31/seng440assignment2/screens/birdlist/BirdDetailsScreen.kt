@@ -74,6 +74,7 @@ fun BirdDetailsScreen(
                 )
                 BirdDetailStateWrapper(
                     birdInfo = birdInfo,
+                    birdsImages = birdImages,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -129,6 +130,7 @@ fun BirdDetailsScreen(
                 )
                 BirdDetailStateWrapper(
                     birdInfo = birdInfo,
+                    birdsImages = birdImages,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -281,6 +283,7 @@ fun BirdDetailTopSection(
 @Composable
 fun BirdDetailStateWrapper(
     birdInfo: Resource<Birds>,
+    birdsImages: Resource<Images>,
     modifier: Modifier = Modifier,
     loadingModifier: Modifier = Modifier,
 ) {
@@ -291,6 +294,7 @@ fun BirdDetailStateWrapper(
                 Configuration.ORIENTATION_PORTRAIT -> {
                     BirdDetailSection(
                         birdInfo = birdInfo.data!!,
+                        birdsImages = birdsImages,
                         modifier = modifier
                             .offset(y = (-10).dp)
                     )
@@ -298,6 +302,7 @@ fun BirdDetailStateWrapper(
                 else -> {
                     BirdDetailSection(
                         birdInfo = birdInfo.data!!,
+                        birdsImages = birdsImages,
                         modifier = modifier
                     )
                 }
@@ -322,8 +327,8 @@ fun BirdDetailStateWrapper(
 @Composable
 fun BirdDetailSection(
     birdInfo: Birds,
+    birdsImages: Resource<Images>,
     modifier: Modifier,
-    BirdImageSize: Dp = 200.dp,
 ) {
     val scrollState = rememberScrollState()
     val birdName = birdInfo[0].comName
@@ -357,12 +362,7 @@ fun BirdDetailSection(
                     Box(
                         modifier = Modifier,
                         contentAlignment = Alignment.TopCenter) {
-//                        AsyncImage(
-//                            model = birdInfo.sprites.front_default,
-//                            contentDescription = birdInfo.name,
-//                            modifier = Modifier
-//                                .size(BirdImageSize)
-//                        )
+                        BirdImage(birdsImages = birdsImages)
                     }
                     Text(
                         text = birdName,

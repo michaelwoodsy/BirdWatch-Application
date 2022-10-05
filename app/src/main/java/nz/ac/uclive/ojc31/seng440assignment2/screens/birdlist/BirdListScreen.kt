@@ -246,7 +246,7 @@ fun BirdEntry(
                     )
                     .clickable {
                         navController.navigate(
-                            "bird_details_screen/${birdName}"
+                            "bird_details_screen/${birdId}/${birdName}"
                         )
                     },
             ) {
