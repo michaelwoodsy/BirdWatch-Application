@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
+import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -193,7 +193,7 @@ fun BirdEntry(
     val defaultDominantColor = MaterialTheme.colors.surface
     val birdName = entry.comName
     val birdId = entry.speciesCode
-    var dominantColor by remember {
+    val dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
     val configuration = LocalConfiguration.current

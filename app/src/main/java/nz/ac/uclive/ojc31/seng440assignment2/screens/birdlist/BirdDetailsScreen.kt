@@ -11,14 +11,19 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,8 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import nz.ac.uclive.ojc31.seng440assignment2.data.Birds
-import nz.ac.uclive.ojc31.seng440assignment2.data.BirdsItem
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
 
@@ -39,12 +45,15 @@ fun BirdDetailsScreen(
     navController: NavHostController,
     topPadding: Dp = 20.dp,
     birdImageSize: Dp = 200.dp,
-    viewModel: BirdDetailViewModel =  hiltViewModel()
+    viewModel: BirdDetailViewModel = hiltViewModel()
 ) {
     val birdInfo = produceState<Resource<Birds>>(initialValue = Resource.Loading()) {
-        value =  viewModel.getBirdInfo(birdId)
+        value = viewModel.getBirdInfo(birdId)
     }.value
+    val birdImageUrl by remember { viewModel.birdImageUrl }
+
     val configuration = LocalConfiguration.current
+
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             Box {
@@ -56,14 +65,16 @@ fun BirdDetailsScreen(
                         .fillMaxHeight(0.2f)
                         .align(Alignment.TopCenter),
                 )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.8f)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.8f)
 //                    .background(dominantColor)
-                    .align(Alignment.BottomCenter)
+                        .align(Alignment.BottomCenter)
                 )
                 BirdDetailsStateWrapper(
                     birdInfo = birdInfo,
+                    birdImageUrl = birdImageUrl,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -87,26 +98,35 @@ fun BirdDetailsScreen(
                             bottom = 16.dp
                         )
                 )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(16.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(16.dp)
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize(),
-                        contentAlignment = Alignment.TopCenter) {
-//                        if (pokemonInfo is Resource.Success) {
-//                            pokemonInfo.data?.sprites?.let {
-//                                AsyncImage(
-//                                    model = it.front_default,
-//                                    contentDescription = pokemonInfo.data.name,
-//                                    modifier = Modifier
-//                                        .size(pokemonImageSize)
-//                                        .offset(y = topPadding)
-//                                )
-//                            }
-//                        }
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        if (birdInfo is Resource.Success) {
+                            SubcomposeAsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(birdImageUrl)
+                                    .build(),
+                                contentDescription = birdInfo.data!![0].comName,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(birdImageSize)
+                                    .offset(y = topPadding),
+                                loading = {
+                                    CircularProgressIndicator(
+                                        color = MaterialTheme.colors.primary,
+                                        modifier = Modifier.scale(0.5f)
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -121,14 +141,16 @@ fun BirdDetailsScreen(
                         .fillMaxHeight()
                         .align(Alignment.CenterStart),
                 )
-                Box(modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .fillMaxHeight()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .fillMaxHeight()
 //                    .background(dominantColor)
-                    .align(Alignment.CenterEnd)
+                        .align(Alignment.CenterEnd)
                 )
                 BirdDetailsStateWrapper(
                     birdInfo = birdInfo,
+                    birdImageUrl = birdImageUrl,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -229,8 +251,9 @@ fun BirdDetailsStateWrapper(
     birdInfo: Resource<Birds>,
     modifier: Modifier = Modifier,
     loadingModifier: Modifier = Modifier,
+    birdImageUrl: String,
 ) {
-    when(birdInfo) {
+    when (birdInfo) {
         is Resource.Success -> {
             val configuration = LocalConfiguration.current
             when (configuration.orientation) {
@@ -238,13 +261,15 @@ fun BirdDetailsStateWrapper(
                     BirdDetailsSection(
                         birdInfo = birdInfo.data!!,
                         modifier = modifier
-                            .offset(y = (-10).dp)
+                            .offset(y = (-10).dp),
+                        birdImageUrl = birdImageUrl
                     )
                 }
                 else -> {
                     BirdDetailsSection(
                         birdInfo = birdInfo.data!!,
-                        modifier = modifier
+                        modifier = modifier,
+                        birdImageUrl = birdImageUrl
                     )
                 }
             }
@@ -268,8 +293,10 @@ fun BirdDetailsStateWrapper(
 @Composable
 fun BirdDetailsSection(
     birdInfo: Birds,
+    birdImageUrl: String,
     modifier: Modifier,
-//    pokemonImageSize: Dp = 200.dp,
+    birdImageSize: Dp = 200.dp,
+    topPadding: Dp = 20.dp,
 ) {
     val scrollState = rememberScrollState()
     val birdName = birdInfo[0].comName
@@ -308,13 +335,24 @@ fun BirdDetailsSection(
                 Row {
                     Box(
                         modifier = Modifier,
-                        contentAlignment = Alignment.TopCenter) {
-//                        AsyncImage(
-//                            model = pokemonInfo.sprites.front_default,
-//                            contentDescription = pokemonInfo.name,
-//                            modifier = Modifier
-//                                .size(pokemonImageSize)
-//                        )
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        SubcomposeAsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(birdImageUrl)
+                                .build(),
+                            contentDescription = birdInfo[0].comName,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(birdImageSize)
+                                .offset(y = topPadding),
+                            loading = {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colors.primary,
+                                    modifier = Modifier.scale(0.5f)
+                                )
+                            }
+                        )
                     }
                     Text(
                         text = birdName,
