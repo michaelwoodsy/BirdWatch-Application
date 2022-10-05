@@ -20,8 +20,8 @@ sealed class Screen(val route: String, @StringRes val description : Int, val ico
         R.string.screen_label_home,
         R.drawable.home)
 
-    object BirdList : Screen(
-        "bird_list_screen",
+    object Birds : Screen(
+        "birds",
         R.string.screen_label_bird_list,
         R.drawable.bird
     )
@@ -31,4 +31,11 @@ sealed class Screen(val route: String, @StringRes val description : Int, val ico
         R.string.screen_label_history,
         R.drawable.history
     )
+}
+
+sealed class SubScreen(val route: String) {
+    object BirdList : SubScreen("bird_list")
+    object BirdDetails : SubScreen("bird_details_screen/{birdId}") {
+        val birdId : String = "birdId"
+    }
 }
