@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
@@ -34,14 +35,21 @@ import kotlin.math.roundToInt
 fun NavGraph(navController: NavHostController) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false))}
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val destination = navBackStackEntry?.destination
 
     val screens = listOf(
         Screen.Map,
         Screen.Home,
         Screen.Birds,
         Screen.History
-    ) // add more nav screens here
-    showNavigationBar.value = navBackStackEntry?.destination?.route in screens.map{ it.route}
+    )
+
+    when (destination?.route) {
+        Screen.Splash.route -> showNavigationBar.value = false
+        SubScreen.BirdDetails.route -> showNavigationBar.value = false
+        null -> {}
+        else -> showNavigationBar.value = true
+    }
 
     Scaffold(
         bottomBar = {
