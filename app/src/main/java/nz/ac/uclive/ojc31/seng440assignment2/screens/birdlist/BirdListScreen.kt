@@ -1,6 +1,7 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,14 +53,14 @@ fun BirdListScreen(
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 Column {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.pokedex),
-//                        contentDescription = "Pokemon",
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .align(Alignment.CenterHorizontally)
-//                            .padding(16.dp)
-//                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.bird),
+                        contentDescription = "BirdWatch",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(16.dp)
+                    )
                     SearchBar(
                         hint = stringResource(id = R.string.bird_search_hint),
                         modifier = Modifier
@@ -75,14 +77,14 @@ fun BirdListScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()) {
-//                        Image(
-//                            painter = painterResource(id = R.drawable.pokedex),
-//                            contentDescription = "Pokemon",
-//                            modifier = Modifier
-//                                .fillMaxWidth(0.4f)
-//                                .align(Alignment.CenterStart)
-//                                .padding(16.dp)
-//                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.bird),
+                            contentDescription = "BirdWatch",
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .align(Alignment.CenterStart)
+                                .padding(16.dp)
+                        )
                         SearchBar(
                             hint = stringResource(id = R.string.bird_search_hint),
                             modifier = Modifier
@@ -188,7 +190,6 @@ fun BirdList(
 fun BirdEntry(
     entry: BirdsItem,
     navController: NavHostController,
-    viewModel: BirdListViewModel = hiltViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     val birdName = entry.comName
@@ -214,31 +215,10 @@ fun BirdEntry(
                     )
                     .clickable {
                         navController.navigate(
-                            "bird_details_screen/${birdId}" //"pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
+                            "bird_details_screen/${birdId}/${birdName}",
                         )
                     },
             ) {
-//                SubcomposeAsyncImage(
-//                    model = ImageRequest.Builder(LocalContext.current)
-//                        .data(entry.imageUrl)
-//                        .build(),
-//                    contentDescription = entry.pokemonName,
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .size(120.dp),
-//                    onSuccess = { success ->
-//                        val drawable = success.result.drawable
-//                        viewModel.calcDominantColor(drawable) { color ->
-//                            dominantColor = color
-//                        }
-//                    },
-//                    loading = {
-//                        CircularProgressIndicator(
-//                            color = MaterialTheme.colors.primary,
-//                            modifier = Modifier.scale(0.5f)
-//                        )
-//                    },
-//                )
                 Text(
                     text = birdName,
                     fontFamily = RobotoCondensed,
@@ -266,31 +246,10 @@ fun BirdEntry(
                     )
                     .clickable {
                         navController.navigate(
-                            "bird_details_screen/${birdName}" //"pokemon_details_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
+                            "bird_details_screen/${birdName}"
                         )
                     },
             ) {
-//                SubcomposeAsyncImage(
-//                    model = ImageRequest.Builder(LocalContext.current)
-//                        .data(entry.imageUrl)
-//                        .build(),
-//                    contentDescription = entry.pokemonName,
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .size(120.dp),
-//                    onSuccess = { success ->
-//                        val drawable = success.result.drawable
-//                        viewModel.calcDominantColor(drawable) { color ->
-//                            dominantColor = color
-//                        }
-//                    },
-//                    loading = {
-//                        CircularProgressIndicator(
-//                            color = MaterialTheme.colors.primary,
-//                            modifier = Modifier.scale(0.5f)
-//                        )
-//                    }
-//                )
                 Text(
                     text = birdName,
                     fontFamily = RobotoCondensed,
