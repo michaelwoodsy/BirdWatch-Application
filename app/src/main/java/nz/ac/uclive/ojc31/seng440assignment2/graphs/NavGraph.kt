@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
@@ -156,7 +157,12 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
                 BottomNavigationItem(
                     selected = currentDestination?.hierarchy?.any {it.route == screen.route} == true,
                     label = {Text(stringResource(screen.description))},
-                    icon = { Icon(screen.icon, stringResource(screen.description) ) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = screen.icon),
+                            contentDescription = "Navigation Item"
+                        )
+                    },
                     onClick = {
                         navController.navigate(screen.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
