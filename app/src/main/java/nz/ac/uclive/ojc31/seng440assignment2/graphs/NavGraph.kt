@@ -60,7 +60,6 @@ fun NavGraph(navController: NavHostController) {
             )
         }
     ) { innerPadding ->
-        Box(Modifier.padding(innerPadding)) {
             NavHost(
                 navController = navController,
                 startDestination = Screen.Splash.route
@@ -70,17 +69,23 @@ fun NavGraph(navController: NavHostController) {
                     SplashScreen(navController = navController)
                 }
                 composable(route = Screen.Home.route) {
-                    HomeScreen()
+                    Box(Modifier.padding(innerPadding)) {
+                        HomeScreen()
+                    }
                 }
                 composable(route = Screen.Map.route) {
-                    MapScreen()
+                    Box(Modifier.padding(innerPadding)) {
+                        MapScreen()
+                    }
                 }
                 composable(route = Screen.History.route) {
-                    BirdHistoryScreen(navController = navController)
+                    Box(Modifier.padding(innerPadding)) {
+                        BirdHistoryScreen(navController = navController)
+                    }
                 }
-                birdNavGraph(navController = navController)
+                birdNavGraph(navController = navController, innerPadding = innerPadding)
             }
-        }
+
     }
 }
 
@@ -127,11 +132,13 @@ fun SwipeToReturn(navController: NavHostController, content : @Composable() ()->
 
 }
 
-fun NavGraphBuilder.birdNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
     navigation( startDestination = SubScreen.BirdList.route, route = Screen.Birds.route ) {
 
         composable(route = SubScreen.BirdList.route) {
-            BirdListScreen(navController = navController)
+            Box(Modifier.padding(innerPadding)) {
+                BirdListScreen(navController = navController)
+            }
         }
 
         composable(SubScreen.BirdDetails.route, arguments = listOf(
