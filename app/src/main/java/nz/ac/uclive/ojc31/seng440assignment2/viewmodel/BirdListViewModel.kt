@@ -87,30 +87,4 @@ class BirdListViewModel @Inject constructor(
             }
         }
     }
-
-//    fun loadBirdImages() {
-//        for (bird in birdList.value) {
-//            viewModelScope.launch {
-//                when(val result = repository.getBirdImages(bird.comName)) {
-//                    is Resource.Success -> {
-//                        val birdImages = result.data!!
-//                    }
-//                    is Resource.Error -> {
-//                    }
-//                    else -> {}
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
-//        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-//
-//        Palette.from(bmp).generate { palette ->
-//            palette?.dominantSwatch?.rgb?.let { colorValue ->
-//                onFinish(Color(colorValue))
-//            }
-//        }
-//    }
 }

@@ -135,14 +135,17 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController) {
         }
 
         composable(SubScreen.BirdDetails.route, arguments = listOf(
-                navArgument(SubScreen.BirdDetails.birdId) { type = NavType.StringType }
+                navArgument(SubScreen.BirdDetails.birdId) { type = NavType.StringType },
+                navArgument(SubScreen.BirdDetails.birdName) { type = NavType.StringType}
             )
         ) {
-            val birdName = remember { it.arguments?.getString(SubScreen.BirdDetails.birdId) }
+            val birdId = remember { it.arguments?.getString(SubScreen.BirdDetails.birdId) }
+            val birdName = remember { it.arguments?.getString(SubScreen.BirdDetails.birdName) }
 
             SwipeToReturn(navController = navController) {
                 BirdDetailsScreen(
-                    birdId = birdName ?: "",
+                    birdId = birdId ?: "",
+                    birdName = birdName ?: "",
                     navController = navController,
                 )
             }
