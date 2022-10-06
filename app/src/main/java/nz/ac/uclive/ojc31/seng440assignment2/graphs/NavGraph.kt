@@ -22,7 +22,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
@@ -176,7 +175,10 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        BottomNavigation {
+        BottomNavigation(
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.surface
+        ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
 
@@ -191,12 +193,14 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
                         )
                     },
                     onClick = {
-                        navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (currentDestination?.hierarchy?.any {it.route == screen.route} == false) {
+                            navController.navigate(screen.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
                     })
             }
