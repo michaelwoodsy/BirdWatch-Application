@@ -1,13 +1,8 @@
 package nz.ac.uclive.ojc31.seng440assignment2.viewmodel
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.palette.graphics.Palette
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,5 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2.graphs
 
+import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -21,8 +22,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
@@ -31,6 +32,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavGraph(navController: NavHostController) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false))}
@@ -70,7 +72,13 @@ fun NavGraph(navController: NavHostController) {
                 }
                 composable(route = Screen.Home.route) {
                     Box(Modifier.padding(innerPadding)) {
-                        HomeScreen()
+                        HomeScreen(
+                            permissions = listOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
                     }
                 }
                 composable(route = Screen.Map.route) {
@@ -91,7 +99,7 @@ fun NavGraph(navController: NavHostController) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SwipeToReturn(navController: NavHostController, content : @Composable() ()-> Unit) {
+fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> Unit) {
     val configuration = LocalConfiguration.current // probably not the best way to get the size
     val width = configuration.screenWidthDp.dp
     val sizePx = with(LocalDensity.current) { width.toPx() }
@@ -117,7 +125,7 @@ fun SwipeToReturn(navController: NavHostController, content : @Composable() ()->
             .swipeable(
                 state = swipeState,
                 anchors = anchors,
-                thresholds = { _, _ -> FractionalThreshold(0.3f) },
+                thresholds = { _, _ -> FractionalThreshold(0.7f) },
                 orientation = Orientation.Horizontal,
             )
     ) {
@@ -167,7 +175,10 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        BottomNavigation {
+        BottomNavigation(
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.surface
+        ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
 
@@ -182,12 +193,14 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
                         )
                     },
                     onClick = {
-                        navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (currentDestination?.hierarchy?.any {it.route == screen.route} == false) {
+                            navController.navigate(screen.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
                     })
             }

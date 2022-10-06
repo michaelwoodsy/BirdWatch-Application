@@ -6,6 +6,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdApi
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.ImageApi
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
+import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.FLICKR_API_TOKEN
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import javax.inject.Inject
 
@@ -44,7 +45,7 @@ class BirdRepository @Inject constructor(
         val response = try {
             imageApi.getBirdImages(
                 "flickr.photos.search",
-                "d310fa96de3a14787ecc43d28aaf1ad2",
+                FLICKR_API_TOKEN,
                 birdName,
                 "relevance",
                 5,

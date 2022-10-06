@@ -1,6 +1,13 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,8 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -287,26 +293,39 @@ fun BirdDetailStateWrapper(
     modifier: Modifier = Modifier,
     loadingModifier: Modifier = Modifier,
 ) {
+    val showBirdInfo = remember{ mutableStateOf(false)}
     when(birdInfo) {
         is Resource.Success -> {
-            val configuration = LocalConfiguration.current
-            when (configuration.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> {
-                    BirdDetailSection(
-                        birdInfo = birdInfo.data!!,
-                        birdsImages = birdsImages,
-                        modifier = modifier
-                            .offset(y = (-10).dp)
-                    )
-                }
-                else -> {
-                    BirdDetailSection(
-                        birdInfo = birdInfo.data!!,
-                        birdsImages = birdsImages,
-                        modifier = modifier
-                    )
+            LaunchedEffect(Unit) {
+                showBirdInfo.value = true
+            }
+            AnimatedVisibility(
+                visible = showBirdInfo.value,
+                enter = slideInVertically(initialOffsetY = {it}),
+                exit = fadeOut(),
+
+
+            ) {
+                val configuration = LocalConfiguration.current
+                when (configuration.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> {
+                        BirdDetailSection(
+                            birdInfo = birdInfo.data!!,
+                            birdsImages = birdsImages,
+                            modifier = modifier
+                                .offset(y = (-10).dp)
+                        )
+                    }
+                    else -> {
+                        BirdDetailSection(
+                            birdInfo = birdInfo.data!!,
+                            birdsImages = birdsImages,
+                            modifier = modifier
+                        )
+                    }
                 }
             }
+
         }
         is Resource.Error -> {
             Text(
