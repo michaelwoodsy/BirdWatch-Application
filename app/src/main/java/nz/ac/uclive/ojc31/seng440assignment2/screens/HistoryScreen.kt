@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -58,6 +59,14 @@ fun HistoryList(
 ) {
     val historyList by remember { viewModel.historyList }
     val isLoading by remember { viewModel.isLoading }
+    FloatingActionButton(
+        onClick = {},
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.surface,
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Icon(Icons.Filled.Add, "")
+    }
 
     if (isLoading) {
         Box(modifier = Modifier

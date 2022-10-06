@@ -1,20 +1,15 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
-import android.content.Context
-import android.location.LocationManager
-import android.widget.Toast
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -68,8 +63,7 @@ fun MapScreen() {
         }
         else -> {}
     }
-    Surface(
-        color = MaterialTheme.colors.background,
+    Box(
         modifier = Modifier.fillMaxSize()
     ) {
         GoogleMap(
@@ -78,6 +72,14 @@ fun MapScreen() {
             properties = properties,
             uiSettings = uiSettings,
         ) {
+        }
+        FloatingActionButton(
+            onClick = {},
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.surface,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Icon(Icons.Filled.Add, "")
         }
     }
 }
