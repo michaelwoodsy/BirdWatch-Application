@@ -125,7 +125,7 @@ fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> U
             .swipeable(
                 state = swipeState,
                 anchors = anchors,
-                thresholds = { _, _ -> FractionalThreshold(0.3f) },
+                thresholds = { _, _ -> FractionalThreshold(0.7f) },
                 orientation = Orientation.Horizontal,
             )
     ) {

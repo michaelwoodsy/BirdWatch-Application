@@ -34,21 +34,26 @@ import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
 @Composable
 fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryViewModel = hiltViewModel()) {
-    val configuration = LocalConfiguration.current
-    Surface(
-        color = MaterialTheme.colors.background,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                Column {
-                    HistoryList(navController = navController)
-                }
-            }
-            else -> {
-                HistoryList(navController = navController)
-            }
+    Scaffold(
+        floatingActionButton = {
+            AddEntryButton(){}
         }
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
+            HistoryList(navController = navController)
+        }
+    }
+}
+
+@Composable
+fun AddEntryButton(onAddEntry: ()-> Unit) {
+    FloatingActionButton(
+        onClick = onAddEntry,
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.surface,
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Icon(Icons.Filled.Add, "")
     }
 }
 
@@ -59,14 +64,6 @@ fun HistoryList(
 ) {
     val historyList by remember { viewModel.historyList }
     val isLoading by remember { viewModel.isLoading }
-    FloatingActionButton(
-        onClick = {},
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.surface,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Icon(Icons.Filled.Add, "")
-    }
 
     if (isLoading) {
         Box(modifier = Modifier
@@ -98,8 +95,6 @@ fun HistoryList(
         }
 
     }
-
-
 }
 
 @Composable
@@ -161,6 +156,7 @@ fun HistoryEntry(
         else -> {
             Row (
                 modifier = Modifier
+                    .padding(horizontal = 40.dp)
                     .shadow(5.dp, RoundedCornerShape(10.dp))
                     .clip(RoundedCornerShape(10.dp))
                     .background(
@@ -173,16 +169,30 @@ fun HistoryEntry(
                     )
             ) {
 
-                Text(
-                    text = entry.bird.comName,
-                    fontFamily = RobotoCondensed,
-                    fontSize = 50.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterVertically),
-                    overflow = TextOverflow.Ellipsis
-                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = entry.bird.comName,
+                        fontFamily = RobotoCondensed,
+                        fontSize = 28.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = buildAnnotatedString {
+                            append("Found on ")
+                            withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(entry.observedDate)
+                            }
+                            append(" at ")
+                            withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(entry.observedLocation)
+                            }
+                        }
+                    )
+                }
             }
         }
     }
