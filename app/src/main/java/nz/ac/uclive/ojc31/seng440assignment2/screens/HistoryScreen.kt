@@ -101,7 +101,7 @@ fun HistoryList(
 fun HistoryEntry(
     entry: EntryDTO,
     navController: NavHostController,
-    viewModel: BirdListViewModel = hiltViewModel()
+    viewModel: BirdHistoryViewModel = hiltViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
 
@@ -202,12 +202,12 @@ fun HistoryEntry(
 fun HistoryRow(
     rowIndex: Int,
     entries: List<EntryDTO>,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     Row {
         HistoryEntry(
             entry = entries[rowIndex],
-            navController = navController,
+            navController = navController
         )
     }
     Spacer(modifier = Modifier.height(16.dp))

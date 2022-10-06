@@ -49,7 +49,7 @@ class BirdHistoryViewModel @Inject constructor (
                         val entryDTOList = history.filter { birdsBySpeciesCode[it.speciesCode] != null }
                             .map { entry ->
                                 birdsBySpeciesCode[entry.speciesCode]?.let { bird ->
-                                    EntryDTO(bird, entry.observedDate, entry.observedLocation)
+                                    EntryDTO(bird, entry)
                                 }
                             }
                         historyList.value = entryDTOList as List<EntryDTO>
