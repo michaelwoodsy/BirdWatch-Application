@@ -1,22 +1,33 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 
 @Composable
 fun MapScreen() {
-    val configuration = LocalConfiguration.current
-
-    val singapore = LatLng(1.35, 103.87)
+    val universityOfCanterbury = LatLng(-43.5225, 172.5794)
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        position = CameraPosition.fromLatLngZoom(universityOfCanterbury, 10f)
+    }
+    val uiSettings = remember {
+//        MapUiSettings(myLocationButtonEnabled = true)
+        MapUiSettings(
+
+        )
+    }
+    val properties by remember {
+//        mutableStateOf(MapProperties(isMyLocationEnabled = true))
+        mutableStateOf(MapProperties(
+            mapType = MapType.HYBRID,
+
+        ))
     }
 
     Surface(
@@ -25,13 +36,10 @@ fun MapScreen() {
     ) {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
+            properties = properties,
+            uiSettings = uiSettings,
         ) {
-            Marker(
-                state = MarkerState(position = singapore),
-                title = "Singapore",
-                snippet = "Marker in Singapore"
-            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2.graphs
 
+import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
@@ -31,6 +33,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavGraph(navController: NavHostController) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false))}
@@ -70,7 +73,13 @@ fun NavGraph(navController: NavHostController) {
                 }
                 composable(route = Screen.Home.route) {
                     Box(Modifier.padding(innerPadding)) {
-                        HomeScreen()
+                        HomeScreen(
+                            permissions = listOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
                     }
                 }
                 composable(route = Screen.Map.route) {
