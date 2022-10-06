@@ -1,7 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme

@@ -99,7 +99,7 @@ fun NavGraph(navController: NavHostController) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SwipeToReturn(navController: NavHostController, content : @Composable() ()-> Unit) {
+fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> Unit) {
     val configuration = LocalConfiguration.current // probably not the best way to get the size
     val width = configuration.screenWidthDp.dp
     val sizePx = with(LocalDensity.current) { width.toPx() }

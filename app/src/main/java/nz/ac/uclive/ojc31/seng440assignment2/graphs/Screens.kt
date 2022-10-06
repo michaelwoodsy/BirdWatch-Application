@@ -36,7 +36,7 @@ sealed class Screen(val route: String, @StringRes val description : Int, val ico
 sealed class SubScreen(val route: String) {
     object BirdList : SubScreen("bird_list")
     object BirdDetails : SubScreen("bird_details_screen/{birdId}/{birdName}") {
-        val birdId : String = "birdId"
-        val birdName : String = "birdName"
+        const val birdId : String = "birdId"
+        const val birdName : String = "birdName"
     }
 }

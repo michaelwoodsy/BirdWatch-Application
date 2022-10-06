@@ -8,6 +8,6 @@ object Constants {
 
     const val FLICKR_BASE_URL = "https://www.flickr.com/services/"
 
-    const val FLICKR_API_TOKEN = "e3f1b8f55e0791c6500aafe774392102"
+    const val FLICKR_API_TOKEN = "d310fa96de3a14787ecc43d28aaf1ad2"
 
 }
