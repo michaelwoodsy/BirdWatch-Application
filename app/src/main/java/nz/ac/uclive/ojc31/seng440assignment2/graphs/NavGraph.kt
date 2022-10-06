@@ -170,6 +170,8 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding:
 
 @Composable
 fun NavigationBar(navController: NavHostController, items: List<Screen>, showNavigationBar: MutableState<Boolean>) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     AnimatedVisibility(
         visible = showNavigationBar.value,
         enter = slideInVertically(initialOffsetY = { it }),
@@ -179,8 +181,7 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
             backgroundColor = MaterialTheme.colors.primary,
             contentColor = MaterialTheme.colors.surface
         ) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+
 
             items.forEach { screen ->
                 BottomNavigationItem(
@@ -195,7 +196,7 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
                     onClick = {
                         if (currentDestination?.hierarchy?.any {it.route == screen.route} == false) {
                             navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
+                                popUpTo(Screen.Home.route) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
