@@ -1,9 +1,11 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,11 +13,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.*
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 
 @ExperimentalPermissionsApi
 @Composable
 fun HomeScreen(
+    navController: NavHostController,
     permissions: List<String>,
     deniedMessage: String = "Give this app a permission to proceed. If it doesn't work, then you'll have to do it manually from the settings.",
     rationaleMessage: String = "To use this app's functionalities, you need to give us the permission.",
@@ -25,7 +30,8 @@ fun HomeScreen(
     Scaffold(
         floatingActionButton = {
             ExtendedAddEntryButton(){}
-        }
+        },
+        topBar = {HomeTopAppBar(navController)}
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             HandleRequests(
@@ -48,6 +54,23 @@ fun HomeScreen(
         }
     }
 
+}
+
+@Composable
+private fun HomeTopAppBar(navController: NavHostController) {
+    TopAppBar(
+        title = {
+            Row(Modifier.fillMaxSize()) {
+                Text("BirdWatch")
+                Icon(Icons.Filled.Settings, null, Modifier
+                    .clickable {
+                        navController.navigate(SubScreen.Settings.route)
+                })
+            }
+
+        },
+        backgroundColor = MaterialTheme.colors.primary
+    )
 }
 
 @ExperimentalPermissionsApi

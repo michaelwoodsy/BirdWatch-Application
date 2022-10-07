@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preferences.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="main_settings"
+        app:title="Settings">
+
+        <DropDownPreference
+            app:key="app_theme"
+            app:title="App theme"
+            />
+
+        <SwitchPreferenceCompat
+            app:key="setting1"
+            app:title="This is a setting"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="about"
+        app:title="About">
+
+        <Preference
+            app:key="contrib"
+            app:title="Contributors"
+            app:summary="Michael Woodard, Oliver Cranshaw, Henry Barrett"/>
+
+    </PreferenceCategory>
+</androidx.preferences.PreferenceScreen>

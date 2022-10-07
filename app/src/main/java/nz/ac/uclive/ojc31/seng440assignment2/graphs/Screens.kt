@@ -39,4 +39,5 @@ sealed class SubScreen(val route: String) {
         const val birdId : String = "birdId"
         const val birdName : String = "birdName"
     }
+    object Settings : SubScreen("settings")
 }

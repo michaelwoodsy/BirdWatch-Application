@@ -24,10 +24,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import kotlin.math.roundToInt
@@ -73,6 +70,7 @@ fun NavGraph(navController: NavHostController) {
                 composable(route = Screen.Home.route) {
                     Box(Modifier.padding(innerPadding)) {
                         HomeScreen(
+                            navController = navController,
                             permissions = listOf(
                                 Manifest.permission.CAMERA,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -92,8 +90,13 @@ fun NavGraph(navController: NavHostController) {
                     }
                 }
                 birdNavGraph(navController = navController, innerPadding = innerPadding)
-            }
 
+                composable(route=SubScreen.Settings.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        SettingsScreen()
+                    }
+                }
+            }
     }
 }
 
@@ -137,7 +140,6 @@ fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> U
             content()
         }
     }
-
 }
 
 fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
