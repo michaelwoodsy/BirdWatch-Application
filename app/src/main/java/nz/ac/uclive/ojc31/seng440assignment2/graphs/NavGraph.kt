@@ -74,7 +74,14 @@ fun NavGraph(navController: NavHostController) {
                 SplashScreen(navController = navController)
             }
             composable(route = Screen.Onboarding.route) {
-                OnboardingScreen(navController = navController)
+                OnboardingScreen(
+                    navController = navController,
+                    permissions = listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                )
             }
             composable(route = Screen.Home.route) {
                 Box(Modifier.padding(innerPadding)) {

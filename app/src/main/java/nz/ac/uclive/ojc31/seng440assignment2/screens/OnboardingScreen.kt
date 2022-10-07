@@ -26,21 +26,30 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 
+@OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
-fun OnboardingScreen(navController: NavHostController) {
+fun OnboardingScreen(
+    navController: NavHostController,
+    permissions: List<String>
+) {
     val pagerState = rememberPagerState(0)
 
-    Column() {
+    val multiplePermissionsState = rememberMultiplePermissionsState(permissions)
+
+    Column {
 
         Text(text = "Skip",modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
             .clickable {
+                multiplePermissionsState.launchMultiplePermissionRequest()
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Onboarding.route) {
                         inclusive = true // prevent back button returning to splash screen
@@ -70,6 +79,7 @@ fun OnboardingScreen(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),onClick = {
+                    multiplePermissionsState.launchMultiplePermissionRequest()
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Onboarding.route) {
                             inclusive = true // prevent back button returning to splash screen
