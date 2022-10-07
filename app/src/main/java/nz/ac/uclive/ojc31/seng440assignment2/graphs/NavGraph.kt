@@ -19,12 +19,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import kotlinx.coroutines.flow.collect
+import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
@@ -39,6 +42,10 @@ fun NavGraph(navController: NavHostController) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
+
+    val context = LocalContext.current
+    val onboardingDataStore = StoreOnboarding(context)
+    val onboardingState = onboardingDataStore.getOnboardingState.collectAsState(initial = false)
 
     val screens = listOf(
         Screen.Map,
@@ -65,28 +72,17 @@ fun NavGraph(navController: NavHostController) {
             )
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Splash.route
-        ) {
-
-            composable(route = Screen.Splash.route) {
-                SplashScreen(navController = navController)
-            }
-            composable(route = Screen.Onboarding.route) {
-                OnboardingScreen(
-                    navController = navController,
-                    permissions = listOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
-            }
-            composable(route = Screen.Home.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    HomeScreen(
-                        navController,
+        if (onboardingState.value!!) {
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Home.route
+            ) {
+                composable(route = Screen.Splash.route) {
+                    SplashScreen(navController = navController)
+                }
+                composable(route = Screen.Onboarding.route) {
+                    OnboardingScreen(
+                        navController = navController,
                         permissions = listOf(
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -94,21 +90,76 @@ fun NavGraph(navController: NavHostController) {
                         )
                     )
                 }
-            }
-            composable(route = Screen.Map.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    MapScreen(navController = navController)
+                composable(route = Screen.Home.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        HomeScreen(
+                            navController,
+                            permissions = listOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                    }
                 }
-            }
-            composable(route = Screen.History.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    BirdHistoryScreen(navController = navController)
+                composable(route = Screen.Map.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        MapScreen(navController = navController)
+                    }
                 }
+                composable(route = Screen.History.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        BirdHistoryScreen(navController = navController)
+                    }
+                }
+                birdNavGraph(navController = navController, innerPadding = innerPadding)
+                entryNavGraph(navController = navController)
             }
-            birdNavGraph(navController = navController, innerPadding = innerPadding)
-            entryNavGraph(navController = navController)
-        }
+        } else {
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Splash.route
+            ) {
+                composable(route = Screen.Splash.route) {
+                    SplashScreen(navController = navController)
+                }
+                composable(route = Screen.Onboarding.route) {
+                    OnboardingScreen(
+                        navController = navController,
+                        permissions = listOf(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                }
+                composable(route = Screen.Home.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        HomeScreen(
+                            navController,
+                            permissions = listOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                    }
+                }
+                composable(route = Screen.Map.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        MapScreen(navController = navController)
+                    }
+                }
+                composable(route = Screen.History.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        BirdHistoryScreen(navController = navController)
+                    }
+                }
+                birdNavGraph(navController = navController, innerPadding = innerPadding)
+                entryNavGraph(navController = navController)
+            }
 
+        }
     }
 }
 

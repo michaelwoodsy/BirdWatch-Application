@@ -12,9 +12,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +30,9 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -43,12 +47,19 @@ fun OnboardingScreen(
 
     val multiplePermissionsState = rememberMultiplePermissionsState(permissions)
 
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val onboardingDataStore = StoreOnboarding(context)
+
     Column {
 
         Text(text = "Skip",modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
             .clickable {
+                scope.launch {
+                    onboardingDataStore.setOnboardingState(true)
+                }
                 multiplePermissionsState.launchMultiplePermissionRequest()
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Onboarding.route) {
@@ -79,6 +90,9 @@ fun OnboardingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),onClick = {
+                    scope.launch {
+                        onboardingDataStore.setOnboardingState(true)
+                    }
                     multiplePermissionsState.launchMultiplePermissionRequest()
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Onboarding.route) {
