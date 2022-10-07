@@ -54,6 +54,10 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {
@@ -118,4 +122,7 @@ dependencies {
 
     // Datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Object detection & tracking feature with custom bundled model
+    implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 }
