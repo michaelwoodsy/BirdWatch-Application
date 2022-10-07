@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,21 +27,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
+import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
+import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
 @Composable
 fun AddEntryScreen(
     navController: NavHostController,
     topPadding: Dp = 20.dp,
     birdImageSize: Dp = 200.dp,
-    viewModel: AddEntryViewModel = hiltViewModel()
-) {
+    viewModel: AddEntryViewModel = hiltViewModel(),
+    birdName: String,
+    birdId: String,
+    lat: String,
+    long: String,
+
+    ) {
+
+    viewModel.currentBirdName.value = birdName
+    viewModel.currentBirdId.value = birdId
+    viewModel.currentLat.value = lat
+    viewModel.currentLong.value = long
+
 
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
@@ -61,6 +77,7 @@ fun AddEntryScreen(
                         .align(Alignment.BottomCenter)
                 )
                 AddEntryFormStateWrapper(
+                    navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -73,7 +90,7 @@ fun AddEntryScreen(
                         .clip(RoundedCornerShape(10.dp))
                         .background(MaterialTheme.colors.surface)
                         .padding(16.dp)
-                        .align(Alignment.BottomCenter)
+                        .align(Alignment.BottomCenter),
                 )
                 Box(
                     modifier = Modifier
@@ -109,6 +126,7 @@ fun AddEntryScreen(
                         .align(Alignment.CenterEnd)
                 )
                 AddEntryFormStateWrapper(
+                    navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
@@ -194,16 +212,17 @@ fun AddEntryTopSection(
 
 @Composable
 fun AddEntryFormStateWrapper(
+    navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    val showForm = remember{ mutableStateOf(false)}
+    val showForm = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         showForm.value = true
     }
     AnimatedVisibility(
         visible = showForm.value,
-        enter = slideInVertically(initialOffsetY = {it}),
+        enter = slideInVertically(initialOffsetY = { it }),
         exit = fadeOut(),
 
 
@@ -211,14 +230,16 @@ fun AddEntryFormStateWrapper(
         val configuration = LocalConfiguration.current
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
-                AddEntryForm(
+                AddEntryForm (
+                    navController = navController,
                     modifier = modifier
-                        .offset(y = (-10).dp)
+                        .offset(y = (-10).dp),
                 )
             }
             else -> {
                 AddEntryForm(
-                    modifier = modifier
+                    navController = navController,
+                    modifier = modifier,
                 )
             }
         }
@@ -228,56 +249,63 @@ fun AddEntryFormStateWrapper(
 
 @Composable
 fun AddEntryForm(
+    navController: NavHostController,
     modifier: Modifier,
-) {
+    viewModel: AddEntryViewModel = hiltViewModel(),
+    ) {
     val scrollState = rememberScrollState()
-    val birdName = "Bird Name"
     val configuration = LocalConfiguration.current
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .fillMaxSize()
-                    .offset(y = 100.dp)
-                    .verticalScroll(scrollState)
-            ) {
-                Text(
-                    text = birdName,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.onSurface
-                )
-            }
-        }
-        else -> {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-            ) {
-                Row {
-                    Box(
-                        modifier = Modifier,
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        // Image
-                    }
+
+    Surface(
+        color = MaterialTheme.colors.background,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .fillMaxSize()
+                        .offset(y = 100.dp)
+                ) {
                     Text(
-                        text = birdName,
+                        text = viewModel.currentBirdName.value,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 50.sp,
+                        fontSize = 30.sp,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterVertically),
-                        overflow = TextOverflow.Ellipsis,
                         color = MaterialTheme.colors.onSurface
                     )
+                    BirdList(navController = navController, fromEntry = true)
+                }
+            }
+            else -> {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .fillMaxSize()
+                ) {
+                    Row {
+                        Box(
+                            modifier = Modifier,
+                            contentAlignment = Alignment.TopCenter
+                        ) {
+                            // Image
+                        }
+                        Text(
+                            text = viewModel.currentBirdName.value,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 50.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically),
+                            overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                    }
                 }
             }
         }
     }
 }
+

@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
+import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
 @Composable
@@ -154,7 +155,8 @@ fun SearchBar(
 @Composable
 fun BirdList(
     navController: NavHostController,
-    viewModel: BirdListViewModel = hiltViewModel()
+    viewModel: BirdListViewModel = hiltViewModel(),
+    fromEntry: Boolean = false,
 ) {
     val birdList by remember { viewModel.birdList }
     val endReached by remember { viewModel.endReached }
@@ -180,7 +182,7 @@ fun BirdList(
                         viewModel.loadBirds()
                     }
                 }
-                BirdRow(rowIndex = it, entries = birdList, navController = navController)
+                BirdRow(rowIndex = it, entries = birdList, navController = navController, fromEntry = fromEntry)
             }
         }
     }
@@ -190,6 +192,8 @@ fun BirdList(
 fun BirdEntry(
     entry: BirdsItem,
     navController: NavHostController,
+    fromEntry: Boolean = false,
+    entryViewModel: AddEntryViewModel = hiltViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     val birdName = entry.comName
@@ -214,9 +218,14 @@ fun BirdEntry(
                         )
                     )
                     .clickable {
-                        navController.navigate(
-                            "bird_details_screen/${birdId}/${birdName}",
-                        )
+                        if (fromEntry) {
+                            entryViewModel.currentBirdId.value = birdId
+                            entryViewModel.currentBirdName.value = birdName
+                        } else {
+                            navController.navigate(
+                                "bird_details_screen/${birdId}/${birdName}",
+                            )
+                        }
                     },
             ) {
                 Text(
@@ -270,12 +279,14 @@ fun BirdEntry(
 fun BirdRow(
     rowIndex: Int,
     entries: List<BirdsItem>,
-    navController: NavHostController
+    navController: NavHostController,
+    fromEntry: Boolean = false,
 ) {
     Row {
         BirdEntry(
             entry = entries[rowIndex],
             navController = navController,
+            fromEntry = fromEntry,
         )
     }
     Spacer(modifier = Modifier.height(16.dp))

@@ -174,11 +174,26 @@ fun NavGraphBuilder.entryNavGraph(
 ) {
     navigation(startDestination = EntrySubScreen.PrevScreen.route, route = Screen.AddEntry.route) {
 
-        composable(
-            EntrySubScreen.AddEntryDetails.route, arguments = listOf()
+        composable(EntrySubScreen.AddEntryDetails.route, arguments = listOf(
+            navArgument(EntrySubScreen.AddEntryDetails.birdId) { type = NavType.StringType },
+            navArgument(EntrySubScreen.AddEntryDetails.birdName) { type = NavType.StringType },
+            navArgument(EntrySubScreen.AddEntryDetails.lat) { type = NavType.StringType },
+            navArgument(EntrySubScreen.AddEntryDetails.long) { type = NavType.StringType }
+        )
         ) {
+            val birdId = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.birdId) }
+            val birdName = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.birdName) }
+            val lat = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.lat) }
+            val long = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.long) }
+
             SwipeToReturn(navController = navController) {
-                AddEntryScreen(navController)
+                AddEntryScreen(
+                    navController = navController,
+                    birdId = birdId ?: "",
+                    birdName = birdName ?: "",
+                    lat = lat ?: "",
+                    long = long ?: "",
+                )
             }
         }
     }

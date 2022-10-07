@@ -91,12 +91,18 @@ fun Content(text: String, showButton: Boolean = true, onClick: () -> Unit) {
 }
 
 @Composable
-fun ExtendedAddEntryButton(navController: NavHostController) {
+fun ExtendedAddEntryButton(
+    navController: NavHostController,
+    birdId: String = "a",
+    birdName: String = "a",
+    lat: String = "a",
+    long: String = "a",
+) {
     ExtendedFloatingActionButton(
         text = { Text(text = "Add Entry") },
         icon = { Icon(Icons.Filled.Add, "") },
         onClick = { navController.navigate(
-            "add_entry_screen/",
+            "add_entry_screen/${birdId}/${birdName}/${lat}/${long}",
         ) },
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.surface,
