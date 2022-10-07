@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -23,7 +24,9 @@ import com.google.maps.android.compose.*
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MapScreen() {
+fun MapScreen(
+    navController: NavHostController
+) {
     val context = LocalContext.current
 
     val fineLocationPermissionState = rememberPermissionState(
@@ -91,6 +94,6 @@ fun MapScreen() {
             uiSettings = uiSettings,
         ) {
         }
-        ExtendedAddEntryButton {}
+        ExtendedAddEntryButton(navController)
     }
 }

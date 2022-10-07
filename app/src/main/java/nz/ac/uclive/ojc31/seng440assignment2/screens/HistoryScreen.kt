@@ -36,7 +36,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryViewModel = hiltViewModel()) {
     Scaffold(
         floatingActionButton = {
-            ExtendedAddEntryButton(){}
+            ExtendedAddEntryButton(navController)
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {

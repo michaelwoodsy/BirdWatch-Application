@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,10 +23,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import nz.ac.uclive.ojc31.seng440assignment2.screens.BirdHistoryScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.MapScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.HomeScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.SplashScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.*
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import kotlin.math.roundToInt
@@ -35,7 +32,7 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavGraph(navController: NavHostController) {
-    val showNavigationBar = rememberSaveable { (mutableStateOf(false))}
+    val showNavigationBar = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
 
@@ -43,8 +40,9 @@ fun NavGraph(navController: NavHostController) {
         Screen.Map,
         Screen.Home,
         Screen.Birds,
-        Screen.History
+        Screen.History,
     )
+
 
     when (destination?.route) {
         Screen.Splash.route -> showNavigationBar.value = false
@@ -62,44 +60,46 @@ fun NavGraph(navController: NavHostController) {
             )
         }
     ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = Screen.Splash.route
-            ) {
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Splash.route
+        ) {
 
-                composable(route = Screen.Splash.route) {
-                    SplashScreen(navController = navController)
-                }
-                composable(route = Screen.Home.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        HomeScreen(
-                            permissions = listOf(
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                        )
-                    }
-                }
-                composable(route = Screen.Map.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        MapScreen()
-                    }
-                }
-                composable(route = Screen.History.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        BirdHistoryScreen(navController = navController)
-                    }
-                }
-                birdNavGraph(navController = navController, innerPadding = innerPadding)
+            composable(route = Screen.Splash.route) {
+                SplashScreen(navController = navController)
             }
+            composable(route = Screen.Home.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    HomeScreen(
+                        navController,
+                        permissions = listOf(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                }
+            }
+            composable(route = Screen.Map.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    MapScreen(navController = navController)
+                }
+            }
+            composable(route = Screen.History.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    BirdHistoryScreen(navController = navController)
+                }
+            }
+            birdNavGraph(navController = navController, innerPadding = innerPadding)
+            entryNavGraph(navController = navController)
+        }
 
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> Unit) {
+fun SwipeToReturn(navController: NavHostController, content: @Composable () -> Unit) {
     val configuration = LocalConfiguration.current // probably not the best way to get the size
     val width = configuration.screenWidthDp.dp
     val sizePx = with(LocalDensity.current) { width.toPx() }
@@ -141,7 +141,7 @@ fun SwipeToReturn(navController: NavHostController, content : @Composable ()-> U
 }
 
 fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
-    navigation( startDestination = SubScreen.BirdList.route, route = Screen.Birds.route ) {
+    navigation(startDestination = SubScreen.BirdList.route, route = Screen.Birds.route) {
 
         composable(route = SubScreen.BirdList.route) {
             Box(Modifier.padding(innerPadding)) {
@@ -150,9 +150,9 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding:
         }
 
         composable(SubScreen.BirdDetails.route, arguments = listOf(
-                navArgument(SubScreen.BirdDetails.birdId) { type = NavType.StringType },
-                navArgument(SubScreen.BirdDetails.birdName) { type = NavType.StringType}
-            )
+            navArgument(SubScreen.BirdDetails.birdId) { type = NavType.StringType },
+            navArgument(SubScreen.BirdDetails.birdName) { type = NavType.StringType }
+        )
         ) {
             val birdId = remember { it.arguments?.getString(SubScreen.BirdDetails.birdId) }
             val birdName = remember { it.arguments?.getString(SubScreen.BirdDetails.birdName) }
@@ -168,8 +168,28 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding:
     }
 }
 
+
+fun NavGraphBuilder.entryNavGraph(
+    navController: NavHostController,
+) {
+    navigation(startDestination = EntrySubScreen.PrevScreen.route, route = Screen.AddEntry.route) {
+
+        composable(
+            EntrySubScreen.AddEntryDetails.route, arguments = listOf()
+        ) {
+            SwipeToReturn(navController = navController) {
+                AddEntryScreen(navController)
+            }
+        }
+    }
+}
+
 @Composable
-fun NavigationBar(navController: NavHostController, items: List<Screen>, showNavigationBar: MutableState<Boolean>) {
+fun NavigationBar(
+    navController: NavHostController,
+    items: List<Screen>,
+    showNavigationBar: MutableState<Boolean>
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     AnimatedVisibility(
@@ -185,8 +205,8 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
 
             items.forEach { screen ->
                 BottomNavigationItem(
-                    selected = currentDestination?.hierarchy?.any {it.route == screen.route} == true,
-                    label = {Text(stringResource(screen.description))},
+                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                    label = { Text(stringResource(screen.description)) },
                     icon = {
                         Icon(
                             painter = painterResource(id = screen.icon),
@@ -194,7 +214,7 @@ fun NavigationBar(navController: NavHostController, items: List<Screen>, showNav
                         )
                     },
                     onClick = {
-                        if (currentDestination?.hierarchy?.any {it.route == screen.route} == false) {
+                        if (currentDestination?.hierarchy?.any { it.route == screen.route } == false) {
                             navController.navigate(screen.route) {
                                 popUpTo(Screen.Home.route) {
                                     saveState = true

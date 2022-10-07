@@ -62,7 +62,7 @@ fun BirdDetailsScreen(
     val configuration = LocalConfiguration.current
     Scaffold(
         floatingActionButton = {
-            ExtendedAddEntryButton(){}
+            ExtendedAddEntryButton(navController)
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {

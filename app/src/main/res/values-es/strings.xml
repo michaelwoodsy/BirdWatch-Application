@@ -6,4 +6,5 @@
     <string name="screen_label_bird_list">Aves</string>
     <string name="screen_label_history">"Historia "</string>
     <string name="bird_search_hint">Búsqueda de aves…</string>
+    <string name="screen_label_add_entry">Añadir entrada</string>
 </resources>

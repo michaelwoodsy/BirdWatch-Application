@@ -11,11 +11,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.*
 
 @ExperimentalPermissionsApi
 @Composable
 fun HomeScreen(
+    navController: NavHostController,
     permissions: List<String>,
     deniedMessage: String = "Give this app a permission to proceed. If it doesn't work, then you'll have to do it manually from the settings.",
     rationaleMessage: String = "To use this app's functionalities, you need to give us the permission.",
@@ -24,7 +26,7 @@ fun HomeScreen(
 
     Scaffold(
         floatingActionButton = {
-            ExtendedAddEntryButton(){}
+            ExtendedAddEntryButton(navController)
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
@@ -89,11 +91,13 @@ fun Content(text: String, showButton: Boolean = true, onClick: () -> Unit) {
 }
 
 @Composable
-fun ExtendedAddEntryButton(onAddEntry: ()-> Unit) {
+fun ExtendedAddEntryButton(navController: NavHostController) {
     ExtendedFloatingActionButton(
         text = { Text(text = "Add Entry") },
         icon = { Icon(Icons.Filled.Add, "") },
-        onClick = onAddEntry,
+        onClick = { navController.navigate(
+            "add_entry_screen/",
+        ) },
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.surface,
         modifier = Modifier.padding(8.dp),
