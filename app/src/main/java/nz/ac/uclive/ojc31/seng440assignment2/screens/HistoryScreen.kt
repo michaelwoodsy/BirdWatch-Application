@@ -36,24 +36,12 @@ import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryViewModel = hiltViewModel()) {
     Scaffold(
         floatingActionButton = {
-            AddEntryButton(){}
+            ExtendedAddEntryButton(){}
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             HistoryList(navController = navController)
         }
-    }
-}
-
-@Composable
-fun AddEntryButton(onAddEntry: ()-> Unit) {
-    FloatingActionButton(
-        onClick = onAddEntry,
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.surface,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Icon(Icons.Filled.Add, "")
     }
 }
 

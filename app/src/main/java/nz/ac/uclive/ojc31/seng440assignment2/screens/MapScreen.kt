@@ -91,13 +91,6 @@ fun MapScreen() {
             uiSettings = uiSettings,
         ) {
         }
-        FloatingActionButton(
-            onClick = {},
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.surface,
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Icon(Icons.Filled.Add, "")
-        }
+        ExtendedAddEntryButton {}
     }
 }

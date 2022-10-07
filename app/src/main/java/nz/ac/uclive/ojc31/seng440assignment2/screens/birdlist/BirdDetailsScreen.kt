@@ -11,10 +11,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
@@ -40,6 +37,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
+import nz.ac.uclive.ojc31.seng440assignment2.screens.ExtendedAddEntryButton
+import nz.ac.uclive.ojc31.seng440assignment2.screens.HistoryList
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
 
@@ -61,108 +60,115 @@ fun BirdDetailsScreen(
     }.value
     
     val configuration = LocalConfiguration.current
-    
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            Box {
-                BirdDetailTopSection(
-                    navController = navController,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.2f)
-                        .align(Alignment.TopCenter),
-                )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.8f)
-                    .background(MaterialTheme.colors.primary)
-                    .align(Alignment.BottomCenter)
-                )
-                BirdDetailStateWrapper(
-                    birdInfo = birdInfo,
-                    birdsImages = birdImages,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = topPadding + birdImageSize / 2f,
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
+    Scaffold(
+        floatingActionButton = {
+            ExtendedAddEntryButton(){}
+        }
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
+            when (configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    Box {
+                        BirdDetailTopSection(
+                            navController = navController,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.2f)
+                                .align(Alignment.TopCenter),
                         )
-                        .shadow(10.dp, RoundedCornerShape(10.dp))
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(MaterialTheme.colors.surface)
-                        .padding(16.dp)
-                        .align(Alignment.BottomCenter),
-                    loadingModifier = Modifier
-                        .size(100.dp)
-                        .align(Alignment.Center)
-                        .padding(
-                            top = topPadding + birdImageSize / 2f,
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.8f)
+                            .background(MaterialTheme.colors.primary)
+                            .align(Alignment.BottomCenter)
                         )
-                )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(16.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.TopCenter)
-                    {
-                        BirdImage(birdsImages = birdImages)
+                        BirdDetailStateWrapper(
+                            birdInfo = birdInfo,
+                            birdsImages = birdImages,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(
+                                    top = topPadding + birdImageSize / 2f,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 16.dp
+                                )
+                                .shadow(10.dp, RoundedCornerShape(10.dp))
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(MaterialTheme.colors.surface)
+                                .padding(16.dp)
+                                .align(Alignment.BottomCenter),
+                            loadingModifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.Center)
+                                .padding(
+                                    top = topPadding + birdImageSize / 2f,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 16.dp
+                                )
+                        )
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(16.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.TopCenter)
+                            {
+                                BirdImage(birdsImages = birdImages)
+                            }
+                        }
                     }
                 }
-            }
-        }
-        else -> {
-            Box {
-                BirdDetailLeftSection(
-                    navController = navController,
-                    modifier = Modifier
-                        .fillMaxWidth(0.2f)
-                        .fillMaxHeight()
-                        .align(Alignment.CenterStart),
-                )
-                Box(modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .fillMaxHeight()
-                    .background(MaterialTheme.colors.primary)
-                    .align(Alignment.CenterEnd)
-                )
-                BirdDetailStateWrapper(
-                    birdInfo = birdInfo,
-                    birdsImages = birdImages,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = 16.dp,
-                            start = 64.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
+                else -> {
+                    Box {
+                        BirdDetailLeftSection(
+                            navController = navController,
+                            modifier = Modifier
+                                .fillMaxWidth(0.2f)
+                                .fillMaxHeight()
+                                .align(Alignment.CenterStart),
                         )
-                        .shadow(10.dp, RoundedCornerShape(10.dp))
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(MaterialTheme.colors.surface)
-                        .padding(16.dp)
-                        .align(Alignment.BottomCenter),
-                    loadingModifier = Modifier
-                        .size(100.dp)
-                        .align(Alignment.Center)
-                        .padding(
-                            top = 16.dp,
-                            start = 64.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
+                        Box(modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .fillMaxHeight()
+                            .background(MaterialTheme.colors.primary)
+                            .align(Alignment.CenterEnd)
                         )
-                )
-            }
-        }
+                        BirdDetailStateWrapper(
+                            birdInfo = birdInfo,
+                            birdsImages = birdImages,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(
+                                    top = 16.dp,
+                                    start = 64.dp,
+                                    end = 16.dp,
+                                    bottom = 16.dp
+                                )
+                                .shadow(10.dp, RoundedCornerShape(10.dp))
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(MaterialTheme.colors.surface)
+                                .padding(16.dp)
+                                .align(Alignment.BottomCenter),
+                            loadingModifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.Center)
+                                .padding(
+                                    top = 16.dp,
+                                    start = 64.dp,
+                                    end = 16.dp,
+                                    bottom = 16.dp
+                                )
+                        )
+                    }
+                }
+            }        }
     }
+
 }
 
 @Composable

@@ -1,10 +1,9 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,23 +22,32 @@ fun HomeScreen(
 ) {
     val multiplePermissionsState = rememberMultiplePermissionsState(permissions)
 
-    HandleRequests(
-        multiplePermissionsState = multiplePermissionsState,
-        deniedContent = { shouldShowRationale ->
-            PermissionDeniedContent(
-                deniedMessage = deniedMessage,
-                rationaleMessage = rationaleMessage,
-                shouldShowRationale = shouldShowRationale,
-                onRequestPermission = { multiplePermissionsState.launchMultiplePermissionRequest() }
-            )
-        },
-        content = {
-            Content(
-                text = "PERMISSION GRANTED!",
-                showButton = false
-            ) {}
+    Scaffold(
+        floatingActionButton = {
+            ExtendedAddEntryButton(){}
         }
-    )
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
+            HandleRequests(
+                multiplePermissionsState = multiplePermissionsState,
+                deniedContent = { shouldShowRationale ->
+                    PermissionDeniedContent(
+                        deniedMessage = deniedMessage,
+                        rationaleMessage = rationaleMessage,
+                        shouldShowRationale = shouldShowRationale,
+                        onRequestPermission = { multiplePermissionsState.launchMultiplePermissionRequest() }
+                    )
+                },
+                content = {
+                    Content(
+                        text = "PERMISSION GRANTED!",
+                        showButton = false
+                    ) {}
+                }
+            )
+        }
+    }
+
 }
 
 @ExperimentalPermissionsApi
@@ -80,6 +88,18 @@ fun Content(text: String, showButton: Boolean = true, onClick: () -> Unit) {
     }
 }
 
+@Composable
+fun ExtendedAddEntryButton(onAddEntry: ()-> Unit) {
+    ExtendedFloatingActionButton(
+        text = { Text(text = "Add Entry") },
+        icon = { Icon(Icons.Filled.Add, "") },
+        onClick = onAddEntry,
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.surface,
+        modifier = Modifier.padding(8.dp),
+    )
+}
+
 @ExperimentalPermissionsApi
 @Composable
 fun PermissionDeniedContent(
@@ -114,3 +134,4 @@ fun PermissionDeniedContent(
     }
 
 }
+
