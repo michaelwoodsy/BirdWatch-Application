@@ -99,6 +99,8 @@ dependencies {
     // Google Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.9-beta"
     implementation "com.google.accompanist:accompanist-permissions:0.24.9-beta"
+    implementation "com.google.accompanist:accompanist-pager:0.24.9-beta"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.24.9-beta"
 
     // Maps
     implementation "com.google.maps.android:maps-compose:2.7.2"

@@ -1,5 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.*
 
 @ExperimentalPermissionsApi

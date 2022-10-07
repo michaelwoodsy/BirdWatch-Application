@@ -2,6 +2,7 @@ package nz.ac.uclive.ojc31.seng440assignment2.graphs
 
 import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.gestures.Orientation
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
@@ -29,7 +31,9 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalAnimationApi::class,
+    ExperimentalPagerApi::class
+)
 @Composable
 fun NavGraph(navController: NavHostController) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false)) }
@@ -46,6 +50,7 @@ fun NavGraph(navController: NavHostController) {
 
     when (destination?.route) {
         Screen.Splash.route -> showNavigationBar.value = false
+        Screen.Onboarding.route -> showNavigationBar.value = false
         SubScreen.BirdDetails.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
@@ -67,6 +72,9 @@ fun NavGraph(navController: NavHostController) {
 
             composable(route = Screen.Splash.route) {
                 SplashScreen(navController = navController)
+            }
+            composable(route = Screen.Onboarding.route) {
+                OnboardingScreen(navController = navController)
             }
             composable(route = Screen.Home.route) {
                 Box(Modifier.padding(innerPadding)) {

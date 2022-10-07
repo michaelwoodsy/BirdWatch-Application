@@ -37,6 +37,12 @@ sealed class Screen(val route: String, @StringRes val description : Int, val ico
         R.string.screen_label_add_entry,
         R.drawable.add_entry
     )
+
+    object Onboarding : Screen(
+        "onboarding",
+        R.string.screen_label_home,
+        R.drawable.home
+    )
 }
 
 sealed class SubScreen(val route: String) {
