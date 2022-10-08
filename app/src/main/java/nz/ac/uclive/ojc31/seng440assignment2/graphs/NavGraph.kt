@@ -121,6 +121,11 @@ fun NavGraph(navController: NavHostController) {
                 }
                 birdNavGraph(navController = navController, innerPadding = innerPadding)
                 entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
+                composable(route = SubScreen.Settings.route) {
+                    Box(Modifier.padding(innerPadding)) {
+                        SettingsScreen(navController = navController)
+                    }
+                }
             }
         } else {
             NavHost(
@@ -165,12 +170,13 @@ fun NavGraph(navController: NavHostController) {
                 birdNavGraph(navController = navController, innerPadding = innerPadding)
                 entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
 
-                composable(route=SubScreen.Settings.route) {
+                composable(route = SubScreen.Settings.route) {
                     Box(Modifier.padding(innerPadding)) {
                         SettingsScreen(navController = navController)
                     }
                 }
             }
+        }
     }
 }
 
@@ -336,3 +342,4 @@ fun NavigationBar(
         }
     }
 }
+
