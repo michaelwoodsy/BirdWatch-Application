@@ -1,6 +1,5 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -59,17 +58,13 @@ fun HomeScreen(
 @Composable
 private fun HomeTopAppBar(navController: NavHostController) {
     TopAppBar(
-        title = {
-            Row(Modifier.fillMaxSize()) {
-                Text("BirdWatch")
-                Icon(Icons.Filled.Settings, null, Modifier
-                    .clickable {
-                        navController.navigate(SubScreen.Settings.route)
-                })
+        backgroundColor = MaterialTheme.colors.primary,
+        title = {Text("BirdWatch")},
+        navigationIcon = {
+            IconButton( onClick = { navController.navigate(SubScreen.Settings.route)}) {
+                Icon(Icons.Filled.Settings, null)
             }
-
-        },
-        backgroundColor = MaterialTheme.colors.primary
+        }
     )
 }
 

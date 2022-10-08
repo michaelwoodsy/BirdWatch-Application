@@ -93,7 +93,7 @@ fun NavGraph(navController: NavHostController) {
 
                 composable(route=SubScreen.Settings.route) {
                     Box(Modifier.padding(innerPadding)) {
-                        SettingsScreen()
+                        SettingsScreen(navController = navController)
                     }
                 }
             }
