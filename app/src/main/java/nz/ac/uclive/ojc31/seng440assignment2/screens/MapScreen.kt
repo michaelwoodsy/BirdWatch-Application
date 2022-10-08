@@ -52,7 +52,7 @@ fun MapScreen(
         ))
     }
 
-    when (fineLocationPermissionState.status) {
+    when (coarseLocationPermissionState.status) {
         is PermissionStatus.Granted -> {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
@@ -63,7 +63,7 @@ fun MapScreen(
                 }
         }
         is PermissionStatus.Denied -> {
-            when (coarseLocationPermissionState.status) {
+            when (fineLocationPermissionState.status) {
                 is PermissionStatus.Granted -> {
                     fusedLocationClient.lastLocation
                         .addOnSuccessListener { location : Location? ->

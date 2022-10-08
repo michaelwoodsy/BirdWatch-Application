@@ -31,6 +31,12 @@ sealed class Screen(val route: String, @StringRes val description : Int, val ico
         R.string.screen_label_history,
         R.drawable.history
     )
+
+    object Onboarding : Screen(
+        "onboarding",
+        R.string.screen_label_home,
+        R.drawable.home
+    )
 }
 
 sealed class SubScreen(val route: String) {
@@ -39,12 +45,5 @@ sealed class SubScreen(val route: String) {
         const val birdId : String = "birdId"
         const val birdName : String = "birdName"
     }
-    object AddEntryDetails : SubScreen("add_entry_screen/{birdId}/{birdName}/{lat}/{long}") {
-        const val birdId : String = "birdId"
-        const val birdName : String = "birdName"
-        const val lat : String = "lat"
-        const val long : String = "long"
-    }
-    object SelectLocationScreen : SubScreen("select_location")
 }
 

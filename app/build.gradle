@@ -54,6 +54,10 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {
@@ -99,6 +103,8 @@ dependencies {
     // Google Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.9-beta"
     implementation "com.google.accompanist:accompanist-permissions:0.24.9-beta"
+    implementation "com.google.accompanist:accompanist-pager:0.24.9-beta"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.24.9-beta"
 
     // Maps
     implementation "com.google.maps.android:maps-compose:2.7.2"
@@ -112,4 +118,11 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     // support kotlin extensions and coroutines (e.g. flow)
     implementation "androidx.room:room-ktx:2.4.3"
+
+
+    // Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Object detection & tracking feature with custom bundled model
+    implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 }
