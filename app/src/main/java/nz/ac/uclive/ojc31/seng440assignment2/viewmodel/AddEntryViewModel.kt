@@ -32,7 +32,7 @@ class AddEntryViewModel @Inject constructor(
                 observedDate = datePicked.value,
                 observedLocation = currentRegion.value,
                 observedLat = currentLat.value,
-                observedLong = currentLat.value
+                observedLong = currentLong.value
             )
             repository.insert(entry = entry)
             Toast.makeText(ctx, "Successfully Saved Entry!", Toast.LENGTH_SHORT).show()

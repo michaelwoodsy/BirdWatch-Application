@@ -11,7 +11,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -20,12 +22,16 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MapScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: BirdHistoryViewModel = hiltViewModel()
+
 ) {
     val context = LocalContext.current
 
@@ -93,6 +99,18 @@ fun MapScreen(
             properties = properties,
             uiSettings = uiSettings,
         ) {
+            for (entry in viewModel.historyList.value) {
+                Marker(
+                    state = MarkerState(
+                        position = LatLng(
+                            entry.lat,
+                            entry.long
+                        )
+                    ),
+                    title = "${entry.bird.comName} | ${entry.observedDate}",
+                    draggable = false,
+                )
+            }
         }
         ExtendedAddEntryButton(navController)
     }
