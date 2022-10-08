@@ -9,4 +9,6 @@ class EntryDTO (
     ) {
     val observedDate = entry.observedDate
     val observedLocation = entry.observedLocation
+    val lat = entry.observedLat
+    val long = entry.observedLong
 }

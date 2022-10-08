@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "c920fba478c614c75bee247a58ba1742",
+    "version": 4,
+    "identityHash": "9f21314409879ce0cbcb18467383dc18",
     "entities": [
       {
         "tableName": "entry",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `speciesCode` TEXT NOT NULL, `observedDate` TEXT NOT NULL, `observedLocation` TEXT NOT NULL, `observedLat` TEXT NOT NULL, `observedLong` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryId` INTEGER PRIMARY KEY AUTOINCREMENT, `speciesCode` TEXT NOT NULL, `observedDate` TEXT NOT NULL, `observedLocation` TEXT NOT NULL, `observedLat` REAL NOT NULL, `observedLong` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "entryId",
@@ -35,13 +35,13 @@
           {
             "fieldPath": "observedLat",
             "columnName": "observedLat",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "observedLong",
             "columnName": "observedLong",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -58,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c920fba478c614c75bee247a58ba1742')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f21314409879ce0cbcb18467383dc18')"
     ]
   }
 }

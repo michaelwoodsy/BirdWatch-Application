@@ -49,7 +49,7 @@ fun BirdDetailsScreen(
     navController: NavHostController,
     topPadding: Dp = 20.dp,
     birdImageSize: Dp = 200.dp,
-    viewModel: BirdDetailViewModel =  hiltViewModel()
+    viewModel: BirdDetailViewModel =  hiltViewModel(),
 ) {
     val birdInfo = produceState<Resource<Birds>>(initialValue = Resource.Loading()) {
         value =  viewModel.getBirdInfo(birdId)
@@ -62,7 +62,7 @@ fun BirdDetailsScreen(
     val configuration = LocalConfiguration.current
     Scaffold(
         floatingActionButton = {
-            ExtendedAddEntryButton(){}
+            ExtendedAddEntryButton(navController, birdName = birdName, birdId = birdId)
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {

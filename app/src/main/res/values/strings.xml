@@ -6,30 +6,16 @@
     <string name="screen_label_bird_list">Birds</string>
     <string name="screen_label_history">History</string>
     <string name="bird_search_hint">Search for birds…</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">activity_main</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
+    <string name="screen_label_add_entry">Add Entry</string>
+    <string name="bird_entry_hint">Select Bird…</string>
+    <string name="date_label">Date:</string>
+    <string name="save_label">Save</string>
+    <string name="no_bird_selected_label">No Bird Selected</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="location_label">Location:</string>
+    <string name="open_map_button">Open Map</string>
+    <string name="bird_location_marker">Bird Location</string>
+    <string name="done_button">Done</string>
+    <string name="failed_location">Failed to get location, zoom in further.</string>
+    <string name="no_location_label">No Location</string>
 </resources>
