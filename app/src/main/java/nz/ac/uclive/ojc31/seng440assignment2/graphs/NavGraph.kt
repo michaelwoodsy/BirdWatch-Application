@@ -118,7 +118,7 @@ fun NavGraph(navController: NavHostController) {
                     }
                 }
                 birdNavGraph(navController = navController, innerPadding = innerPadding)
-                entryNavGraph(navController = navController)
+                entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
             }
         } else {
             NavHost(
@@ -161,7 +161,7 @@ fun NavGraph(navController: NavHostController) {
                     }
                 }
                 birdNavGraph(navController = navController, innerPadding = innerPadding)
-                entryNavGraph(navController = navController)
+                entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
             }
 
         }
