@@ -7,4 +7,15 @@
     <string name="screen_label_history">"Historia "</string>
     <string name="bird_search_hint">Búsqueda de aves…</string>
     <string name="screen_label_add_entry">Añadir entrada</string>
+    <string name="bird_entry_hint">Seleccionar ave…</string>
+    <string name="date_label">Fecha:</string>
+    <string name="save_label">Ahorrar</string>
+    <string name="no_bird_selected_label">Ningún pájaro seleccionado</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="location_label">Ubicación:</string>
+    <string name="open_map_button">Abrir Mapa</string>
+    <string name="bird_location_marker">Ubicación de las aves</string>
+    <string name="done_button">Hecho</string>
+    <string name="failed_location">No se pudo obtener la ubicación, amplíe más.</string>
+    <string name="no_location_label">Sin Ubicación</string>
 </resources>

@@ -163,18 +163,26 @@ fun BirdList(
     val isLoading by remember { viewModel.isLoading }
     val isSearching by remember { viewModel.isSearching }
 
+    var loadingSize = 0.5f
+    var padding = 16.dp
+    if (fromEntry) {
+        loadingSize = 0.2f
+        padding = 0.dp
+    }
+
     if (isLoading) {
         Box(modifier = Modifier
-            .fillMaxSize()) {
+            .fillMaxSize()
+            .offset(y = (-20).dp)) {
             CircularProgressIndicator(
                 color = MaterialTheme.colors.primary,
                 modifier = Modifier
-                    .fillMaxSize(0.5f)
+                    .fillMaxSize(loadingSize)
                     .align(Alignment.Center)
             )
         }
     } else {
-        LazyColumn(contentPadding = PaddingValues(16.dp)) {
+        LazyColumn(contentPadding = PaddingValues(padding)) {
             val itemCount = birdList.size
             items(itemCount) {
                 if(it >= itemCount -1 && !endReached && !isLoading && !isSearching) {
@@ -202,6 +210,13 @@ fun BirdEntry(
         mutableStateOf(defaultDominantColor)
     }
     val configuration = LocalConfiguration.current
+
+    var fontSizePort = 36.sp
+    var fontSizeHor = 50.sp
+    if (fromEntry) {
+        fontSizePort = 18.sp
+        fontSizeHor = 25.sp
+    }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
@@ -231,7 +246,7 @@ fun BirdEntry(
                 Text(
                     text = birdName,
                     fontFamily = RobotoCondensed,
-                    fontSize = 36.sp,
+                    fontSize = fontSizePort,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -254,15 +269,20 @@ fun BirdEntry(
                         )
                     )
                     .clickable {
-                        navController.navigate(
-                            "bird_details_screen/${birdId}/${birdName}"
-                        )
+                        if (fromEntry) {
+                            entryViewModel.currentBirdId.value = birdId
+                            entryViewModel.currentBirdName.value = birdName
+                        } else {
+                            navController.navigate(
+                                "bird_details_screen/${birdId}/${birdName}",
+                            )
+                        }
                     },
             ) {
                 Text(
                     text = birdName,
                     fontFamily = RobotoCondensed,
-                    fontSize = 50.sp,
+                    fontSize = fontSizeHor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -289,5 +309,9 @@ fun BirdRow(
             fromEntry = fromEntry,
         )
     }
-    Spacer(modifier = Modifier.height(16.dp))
+    if (fromEntry) {
+        Spacer(modifier = Modifier.height(8.dp))
+    } else {
+        Spacer(modifier = Modifier.height(16.dp))
+    }
 }

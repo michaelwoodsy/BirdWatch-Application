@@ -21,12 +21,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
+import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -47,6 +50,8 @@ fun NavGraph(navController: NavHostController) {
     when (destination?.route) {
         Screen.Splash.route -> showNavigationBar.value = false
         SubScreen.BirdDetails.route -> showNavigationBar.value = false
+        SubScreen.AddEntryDetails.route -> showNavigationBar.value = false
+        SubScreen.SelectLocationScreen.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
     }
@@ -91,7 +96,7 @@ fun NavGraph(navController: NavHostController) {
                 }
             }
             birdNavGraph(navController = navController, innerPadding = innerPadding)
-            entryNavGraph(navController = navController)
+            entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
         }
 
     }
@@ -171,33 +176,49 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding:
 
 fun NavGraphBuilder.entryNavGraph(
     navController: NavHostController,
+    navBackStackEntry: NavBackStackEntry?,
 ) {
-    navigation(startDestination = EntrySubScreen.PrevScreen.route, route = Screen.AddEntry.route) {
 
-        composable(EntrySubScreen.AddEntryDetails.route, arguments = listOf(
-            navArgument(EntrySubScreen.AddEntryDetails.birdId) { type = NavType.StringType },
-            navArgument(EntrySubScreen.AddEntryDetails.birdName) { type = NavType.StringType },
-            navArgument(EntrySubScreen.AddEntryDetails.lat) { type = NavType.StringType },
-            navArgument(EntrySubScreen.AddEntryDetails.long) { type = NavType.StringType }
-        )
-        ) {
-            val birdId = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.birdId) }
-            val birdName = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.birdName) }
-            val lat = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.lat) }
-            val long = remember { it.arguments?.getString(EntrySubScreen.AddEntryDetails.long) }
+    composable(SubScreen.AddEntryDetails.route, arguments = listOf(
+        navArgument(SubScreen.AddEntryDetails.birdId) { type = NavType.StringType },
+        navArgument(SubScreen.AddEntryDetails.birdName) { type = NavType.StringType },
+        navArgument(SubScreen.AddEntryDetails.lat) { type = NavType.StringType },
+        navArgument(SubScreen.AddEntryDetails.long) { type = NavType.StringType }
+    )
+    ) {
+        var birdId = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdId) }
+        var birdName = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdName) }
+        var lat = remember { it.arguments?.getString(SubScreen.AddEntryDetails.lat) }
+        var long = remember { it.arguments?.getString(SubScreen.AddEntryDetails.long) }
 
-            SwipeToReturn(navController = navController) {
-                AddEntryScreen(
-                    navController = navController,
-                    birdId = birdId ?: "",
-                    birdName = birdName ?: "",
-                    lat = lat ?: "",
-                    long = long ?: "",
-                )
-            }
+        if (birdId == "default") {
+            birdId = ""
+        }
+        if (birdName == "default") {
+            birdName = ""
+        }
+        if (lat == "default") {
+            lat = "200"
+        }
+        if (long == "default") {
+            long = "200"
+        }
+
+        SwipeToReturn(navController = navController) {
+            AddEntryScreen(
+                navController = navController,
+            )
         }
     }
+
+
+    composable(route = SubScreen.SelectLocationScreen.route) {
+        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
+        SelectLocationScreen(navController = navController, hiltViewModel(backStackEntry))
+    }
 }
+
+
 
 @Composable
 fun NavigationBar(

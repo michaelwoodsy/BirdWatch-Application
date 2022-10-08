@@ -93,10 +93,10 @@ fun Content(text: String, showButton: Boolean = true, onClick: () -> Unit) {
 @Composable
 fun ExtendedAddEntryButton(
     navController: NavHostController,
-    birdId: String = "a",
-    birdName: String = "a",
-    lat: String = "a",
-    long: String = "a",
+    birdId: String = "default",
+    birdName: String = "default",
+    lat: String = "default",
+    long: String = "default",
 ) {
     ExtendedFloatingActionButton(
         text = { Text(text = "Add Entry") },
