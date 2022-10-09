@@ -4,8 +4,14 @@ import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.location.Location
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Button
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,7 +26,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import nz.ac.uclive.ojc31.seng440assignment2.screens.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import okio.IOException
 
@@ -44,7 +49,7 @@ fun SelectLocationScreen(
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     val universityOfCanterbury = LatLng(-43.5225, 172.5794)
-    var cameraPositionState = rememberCameraPositionState {
+    val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(universityOfCanterbury, 15f)
     }
     val uiSettings = remember {
@@ -139,8 +144,8 @@ fun DoneButton(
             .width(100.dp)
             .padding(5.dp),
         onClick = {
-            val geoCoder = Geocoder(ctx)
             try {
+                val geoCoder = Geocoder(ctx)
                 val addressList = geoCoder.getFromLocation(cameraPositionState.position.target.latitude,
                     cameraPositionState.position.target.longitude, 1)
                 if (addressList.size > 0) {
@@ -158,10 +163,10 @@ fun DoneButton(
                     }
                 }
             } catch (e: IOException) {
-                e.printStackTrace();
+                e.printStackTrace()
                 Toast.makeText(ctx, errorText, Toast.LENGTH_LONG).show()
             } catch (e: InterruptedException) {
-                e.printStackTrace();
+                e.printStackTrace()
                 Toast.makeText(ctx, errorText, Toast.LENGTH_LONG).show()
 
             }
