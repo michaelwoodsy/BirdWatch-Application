@@ -35,9 +35,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
-import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -226,7 +224,7 @@ fun AddEntryForm(
                     Row(Modifier.weight(1.2f)) {
                         DatePickButton()
                     }
-                    Row(Modifier.weight(1f)) {
+                    Row(Modifier.weight(1.2f)) {
                         CancelButton(navController)
                         SaveButton(navController)
                     }
