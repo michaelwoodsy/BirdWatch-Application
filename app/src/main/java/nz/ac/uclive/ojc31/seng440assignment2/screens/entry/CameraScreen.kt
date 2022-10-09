@@ -1,8 +1,10 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,11 +22,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.sharp.FlipCameraAndroid
 import androidx.compose.material.icons.sharp.Lens
 import androidx.compose.material.icons.sharp.PhotoLibrary
-import androidx.compose.material.icons.sharp.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,14 +32,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,20 +48,34 @@ import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+
 @Composable
 fun CameraScreen(
-
+    viewModel: AddEntryViewModel = hiltViewModel(),
+    navController: NavHostController,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
 
 
     CameraView(onImageCaptured = { uri, fromGallery ->
-        //Todo : Do something with the image.
+        coroutineScope.launch {
+            if (fromGallery) {
+                viewModel.imageId.value = uri.lastPathSegment.toString().split(":")[1]
+                navController.popBackStack()
+            } else {
+                viewModel.imageId.value = uri.lastPathSegment.toString()
+                navController.popBackStack()
+            }
+
+        }
 
     }, onError = {
         coroutineScope.launch {
+            println("failed")
+            navController.popBackStack()
             Toast.makeText(ctx, "Failed to save image!", Toast.LENGTH_LONG).show()
+
         }
     })
 }
@@ -215,7 +230,7 @@ fun CameraControl(
     ) {
         Icon(
             imageVector,
-            contentDescription = "test",
+            contentDescription = "",
             modifier = modifier,
             tint = Color.White
         )
@@ -234,7 +249,6 @@ fun ImageCapture.takePicture(
     onError: (ImageCaptureException) -> Unit
 ) {
     val outputDirectory = context.getOutputDirectory()
-    // Create output file to hold the image
     val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
     val outputFileOptions = getOutputFileOptions(lensFacing, photoFile)
 
@@ -244,9 +258,6 @@ fun ImageCapture.takePicture(
         object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                 val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-                // If the folder selected is an external media directory, this is
-                // unnecessary but otherwise other apps will not be able to access our
-                // images unless we scan them using [MediaScannerConnection]
                 val mimeType = MimeTypeMap.getSingleton()
                     .getMimeTypeFromExtension(savedUri.toFile().extension)
                 MediaScannerConnection.scanFile(
@@ -254,9 +265,8 @@ fun ImageCapture.takePicture(
                     arrayOf(savedUri.toFile().absolutePath),
                     arrayOf(mimeType)
                 ) { _, uri ->
-
+                    onImageCaptured(uri, false)
                 }
-                onImageCaptured(savedUri, false)
             }
             override fun onError(exception: ImageCaptureException) {
                 onError(exception)
@@ -270,12 +280,9 @@ fun getOutputFileOptions(
     photoFile: File
 ): ImageCapture.OutputFileOptions {
 
-    // Setup image capture metadata
     val metadata = ImageCapture.Metadata().apply {
-        // Mirror image when using the front camera
         isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
     }
-    // Create output options object which contains file + metadata
     val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile)
         .setMetadata(metadata)
         .build()

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 
-@Database(entities = [Entry::class], version = 4)
+@Database(entities = [Entry::class], version = 5)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun entryDao(): EntryDao

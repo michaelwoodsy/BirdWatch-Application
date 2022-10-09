@@ -11,4 +11,5 @@ class EntryDTO (
     val observedLocation = entry.observedLocation
     val lat = entry.observedLat
     val long = entry.observedLong
+    val imageId = entry.imageId
 }

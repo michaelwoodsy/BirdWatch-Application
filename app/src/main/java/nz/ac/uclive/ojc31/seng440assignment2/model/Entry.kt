@@ -12,4 +12,5 @@ data class Entry(
     var observedLocation: String,
     var observedLat: Double,
     var observedLong: Double,
+    var imageId: Int?,
 )

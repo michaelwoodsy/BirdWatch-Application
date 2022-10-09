@@ -106,7 +106,8 @@ fun NavGraph(navController: NavHostController) {
                             permissions = listOf(
                                 Manifest.permission.CAMERA,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
                             )
                         )
                     }
@@ -154,7 +155,8 @@ fun NavGraph(navController: NavHostController) {
                             permissions = listOf(
                                 Manifest.permission.CAMERA,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
                             )
                         )
                     }
@@ -294,14 +296,14 @@ fun NavGraphBuilder.entryNavGraph(
 
     composable(route = SubScreen.SelectLocationScreen.route) {
         val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
-        SelectLocationScreen(navController = navController, hiltViewModel(backStackEntry))
+        SelectLocationScreen(navController = navController, viewModel = hiltViewModel(backStackEntry))
     }
 
     composable(route = SubScreen.CameraScreen.route) {
-//        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
+        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
 
         SwipeToReturn(navController = navController) {
-            CameraScreen()
+            CameraScreen(navController = navController, viewModel = hiltViewModel(backStackEntry))
         }
     }
 

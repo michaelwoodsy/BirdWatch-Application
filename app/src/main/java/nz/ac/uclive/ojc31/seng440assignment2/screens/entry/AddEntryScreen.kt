@@ -1,7 +1,9 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.app.DatePickerDialog
+import android.content.ContentUris
 import android.content.res.Configuration
+import android.provider.MediaStore
 import android.widget.DatePicker
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
@@ -14,8 +16,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,9 +31,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
+import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -79,8 +87,13 @@ fun AddEntryScreen(
                         contentAlignment = Alignment.TopCenter
                     )
                     {
-                        // Image
-                        OpenCameraButton(navController = navController)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.TopCenter)
+                        {
+                            ChosenImage()
+                        }
                     }
                 }
             }
@@ -178,6 +191,9 @@ fun AddEntryForm(
                         .fillMaxSize()
                         .offset(y = 100.dp)
                 ) {
+                    Row(Modifier.weight(1.3f)) {
+                        OpenCameraButton(navController = navController)
+                    }
                     Row(Modifier.weight(1f)) {
                         Text(
                             text = viewModel.currentBirdName.value,
@@ -359,7 +375,7 @@ fun SelectLocationButton(
                     .width(130.dp),
                 text = stringResource(R.string.no_location_label),
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 color = MaterialTheme.colors.onSurface
             )
@@ -397,6 +413,55 @@ fun SelectLocationButton(
 }
 
 @Composable
+fun ChosenImage(
+    topPadding: Dp = 20.dp,
+    birdImageSize: Dp = 200.dp,
+    viewModel: AddEntryViewModel = hiltViewModel(),
+) {
+    if (viewModel.imageId.value != "") {
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(
+                    ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, viewModel.imageId.value.toLong())
+                    )
+                .build(),
+            contentDescription = "Bird Image",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(birdImageSize)
+                .offset(y = topPadding),
+            loading = {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.scale(0.5f)
+                )
+            },
+        )
+    } else {
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(
+                    "https://www.justcolor.net/kids/wp-content/uploads/sites/12/nggallery/birds/coloring-pages-for-children-birds-82448.jpg"
+                )
+                .build(),
+            contentDescription = "Bird Image",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(birdImageSize)
+                .offset(y = topPadding),
+            loading = {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.scale(0.5f)
+                )
+            },
+        )
+    }
+}
+
+
+@Composable
 fun OpenCameraButton(
     navController: NavHostController,
 ) {
@@ -406,12 +471,12 @@ fun OpenCameraButton(
         Button(
             modifier = Modifier
                 .padding(5.dp)
-                .offset(y = (-7).dp)
-                .width(130.dp),
+                .offset(y = 5.dp)
+                .width(150.dp),
             onClick = { navController.navigate(SubScreen.CameraScreen.route) },
         ) {
             Text(
-                text = "Open Camera",
+                text = stringResource(R.string.change_image_button),
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center
             )

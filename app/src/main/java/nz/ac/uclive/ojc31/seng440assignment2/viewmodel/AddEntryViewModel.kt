@@ -3,19 +3,14 @@ package nz.ac.uclive.ojc31.seng440assignment2.viewmodel
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
-import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
-import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
-import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import java.util.*
 import javax.inject.Inject
 
@@ -37,7 +32,8 @@ class AddEntryViewModel @Inject constructor(
                 observedDate = datePicked.value,
                 observedLocation = currentRegion.value,
                 observedLat = currentLat.value,
-                observedLong = currentLong.value
+                observedLong = currentLong.value,
+                imageId = imageId.value.toIntOrNull(),
             )
             repository.insert(entry = entry)
             Toast.makeText(ctx, "Successfully Saved Entry!", Toast.LENGTH_SHORT).show()
@@ -65,5 +61,7 @@ class AddEntryViewModel @Inject constructor(
     var currentRegion = mutableStateOf("")
     var currentLat = mutableStateOf(200.0)
     var currentLong = mutableStateOf(200.0)
+
+    var imageId = mutableStateOf("")
 
 }
