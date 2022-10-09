@@ -19,4 +19,5 @@
     <string name="failed_location">Failed to get location, zoom in further.</string>
     <string name="no_location_label">No Location</string>
     <string name="change_image_button">Change Image</string>
+    <string name="saving_label">Saving…</string>
 </resources>

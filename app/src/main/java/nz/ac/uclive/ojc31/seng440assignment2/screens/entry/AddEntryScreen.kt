@@ -283,10 +283,14 @@ fun SaveButton(
                 navController.popBackStack()
             }
         },
-        enabled = (viewModel.canSave())
+        enabled = (viewModel.canSave() && !viewModel.saving.value)
 
     ) {
-        Text(text = stringResource(R.string.save_label))
+        if (!viewModel.saving.value) {
+            Text(text = stringResource(R.string.save_label))
+        } else {
+            Text(text = stringResource(R.string.saving_label))
+        }
     }
 }
 

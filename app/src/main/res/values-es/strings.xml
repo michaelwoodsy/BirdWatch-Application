@@ -19,4 +19,5 @@
     <string name="failed_location">No se pudo obtener la ubicación, amplíe más.</string>
     <string name="no_location_label">Sin Ubicación</string>
     <string name="change_image_button">Cambiar Imagen</string>
+    <string name="saving_label">ahorro…</string>
 </resources>

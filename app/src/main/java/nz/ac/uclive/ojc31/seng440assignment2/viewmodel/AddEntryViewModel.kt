@@ -20,6 +20,7 @@ class AddEntryViewModel @Inject constructor(
     private val birdRepository: BirdRepository,
 ) : ViewModel(){
     suspend fun saveEntry(ctx: Context) {
+        saving.value = true
         val birdInfoDeferred = viewModelScope.async {
             birdRepository.getBirdInfo(currentBirdId.value)
         }
@@ -63,5 +64,6 @@ class AddEntryViewModel @Inject constructor(
     var currentLong = mutableStateOf(200.0)
 
     var imageId = mutableStateOf("")
+    var saving = mutableStateOf(false)
 
 }
