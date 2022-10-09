@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
@@ -23,9 +24,13 @@ class AddEntryViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val birdRepository: BirdRepository,
 ) : ViewModel(){
-    fun saveEntry(ctx: Context) {
+    suspend fun saveEntry(ctx: Context) {
+        val birdInfoDeferred = viewModelScope.async {
+            birdRepository.getBirdInfo(currentBirdId.value)
+        }
+        val birdInfo = birdInfoDeferred.await()
+
         viewModelScope.launch {
-            val birdInfo = birdRepository.getBirdInfo(currentBirdId.value)
             val birdsItem = birdInfo.data!![0]
             val entry = Entry(
                 speciesCode = birdsItem.speciesCode,
@@ -37,6 +42,7 @@ class AddEntryViewModel @Inject constructor(
             repository.insert(entry = entry)
             Toast.makeText(ctx, "Successfully Saved Entry!", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     fun canSave(): Boolean {

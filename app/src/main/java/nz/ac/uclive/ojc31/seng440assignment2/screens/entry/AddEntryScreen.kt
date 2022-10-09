@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
@@ -37,6 +39,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 @Composable
 fun AddEntryScreen(
@@ -259,16 +262,17 @@ fun SaveButton(
     navController: NavHostController,
     viewModel: AddEntryViewModel = hiltViewModel(),
 ) {
-
+    val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
     Button(
         modifier = Modifier
             .width(100.dp)
             .padding(5.dp),
         onClick = {
-
-            viewModel.saveEntry(ctx)
-            navController.popBackStack()
+            coroutineScope.launch {
+                viewModel.saveEntry(ctx)
+                navController.popBackStack()
+            }
         },
         enabled = (viewModel.canSave())
 

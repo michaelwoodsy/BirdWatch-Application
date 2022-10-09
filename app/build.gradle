@@ -120,6 +120,8 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     // support kotlin extensions and coroutines (e.g. flow)
     implementation "androidx.room:room-ktx:2.4.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
 
     // AndroidX Preference Library
     def preference_version = "1.2.0"
