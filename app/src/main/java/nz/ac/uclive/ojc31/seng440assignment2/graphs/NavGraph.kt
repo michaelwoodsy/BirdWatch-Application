@@ -34,6 +34,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import kotlin.math.roundToInt
@@ -65,6 +66,7 @@ fun NavGraph(navController: NavHostController) {
         SubScreen.BirdDetails.route -> showNavigationBar.value = false
         SubScreen.AddEntryDetails.route -> showNavigationBar.value = false
         SubScreen.SelectLocationScreen.route -> showNavigationBar.value = false
+        SubScreen.CameraScreen.route -> showNavigationBar.value = false
         SubScreen.Settings.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
@@ -294,6 +296,15 @@ fun NavGraphBuilder.entryNavGraph(
         val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
         SelectLocationScreen(navController = navController, hiltViewModel(backStackEntry))
     }
+
+    composable(route = SubScreen.CameraScreen.route) {
+//        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
+
+        SwipeToReturn(navController = navController) {
+            CameraScreen()
+        }
+    }
+
 }
 
 

@@ -3,7 +3,6 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 import android.app.DatePickerDialog
 import android.content.res.Configuration
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -28,18 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
-import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
-import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
-import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 @Composable
 fun AddEntryScreen(
@@ -88,6 +80,7 @@ fun AddEntryScreen(
                     )
                     {
                         // Image
+                        OpenCameraButton(navController = navController)
                     }
                 }
             }
@@ -403,3 +396,25 @@ fun SelectLocationButton(
     }
 }
 
+@Composable
+fun OpenCameraButton(
+    navController: NavHostController,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            modifier = Modifier
+                .padding(5.dp)
+                .offset(y = (-7).dp)
+                .width(130.dp),
+            onClick = { navController.navigate(SubScreen.CameraScreen.route) },
+        ) {
+            Text(
+                text = "Open Camera",
+                fontSize = 15.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
