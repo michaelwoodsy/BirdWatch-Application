@@ -94,7 +94,7 @@ fun NavGraph(navController: NavHostController) {
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
                         )
                     )
                 }
@@ -106,8 +106,8 @@ fun NavGraph(navController: NavHostController) {
                                 Manifest.permission.CAMERA,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            )
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                )
                         )
                     }
                 }
@@ -156,8 +156,8 @@ fun NavGraph(navController: NavHostController) {
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            )
                     )
                 }
                 composable(route = Screen.Home.route) {
@@ -168,8 +168,8 @@ fun NavGraph(navController: NavHostController) {
                                 Manifest.permission.CAMERA,
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                            )
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                )
                         )
                     }
                 }
