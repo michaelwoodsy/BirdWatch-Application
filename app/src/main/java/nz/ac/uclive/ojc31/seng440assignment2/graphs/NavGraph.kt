@@ -47,7 +47,7 @@ fun NavGraph(navController: NavHostController) {
 
     val context = LocalContext.current
     val onboardingDataStore = StoreOnboarding(context)
-    val onboardingState = onboardingDataStore.getOnboardingState.collectAsState(initial = false)
+    val onboardingState = onboardingDataStore.getOnboardingState.collectAsState(initial = true)
 
     val screens = listOf(
         Screen.Map,
