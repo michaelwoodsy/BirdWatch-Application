@@ -36,6 +36,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import kotlin.math.roundToInt
 
@@ -68,6 +69,7 @@ fun NavGraph(navController: NavHostController) {
         SubScreen.SelectLocationScreen.route -> showNavigationBar.value = false
         SubScreen.CameraScreen.route -> showNavigationBar.value = false
         SubScreen.Settings.route -> showNavigationBar.value = false
+        SubScreen.ViewEntryScreen.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
     }
@@ -95,7 +97,8 @@ fun NavGraph(navController: NavHostController) {
                         permissions = listOf(
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
                         )
                     )
                 }
@@ -129,6 +132,18 @@ fun NavGraph(navController: NavHostController) {
                         SettingsScreen(navController = navController)
                     }
                 }
+
+                composable(route = SubScreen.ViewEntryScreen.route) {
+                    val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(Screen.History.route)}
+                    Box(Modifier.padding(innerPadding)) {
+                        SwipeToReturn(navController = navController) {
+                            ViewEntryScreen(
+                                navController = navController,
+                                historyViewModel = hiltViewModel(backStackEntry)
+                            )
+                        }
+                    }
+                }
             }
         } else {
             NavHost(
@@ -144,7 +159,8 @@ fun NavGraph(navController: NavHostController) {
                         permissions = listOf(
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
                         )
                     )
                 }
@@ -177,6 +193,17 @@ fun NavGraph(navController: NavHostController) {
                 composable(route = SubScreen.Settings.route) {
                     Box(Modifier.padding(innerPadding)) {
                         SettingsScreen(navController = navController)
+                    }
+                }
+                composable(route = SubScreen.ViewEntryScreen.route) {
+                    val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(Screen.History.route)}
+                    Box(Modifier.padding(innerPadding)) {
+                        SwipeToReturn(navController = navController) {
+                            ViewEntryScreen(
+                                navController = navController,
+                                historyViewModel = hiltViewModel(backStackEntry)
+                            )
+                        }
                     }
                 }
             }

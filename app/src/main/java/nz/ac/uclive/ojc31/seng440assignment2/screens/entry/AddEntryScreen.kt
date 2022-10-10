@@ -190,13 +190,16 @@ fun AddEntryForm(
                         .offset(y = 100.dp)
                 ) {
                     Row(Modifier.weight(1.3f)) {
-                        OpenCameraButton(navController = navController)
+                        OpenCameraButton(navController = navController, modifier = Modifier
+                            .padding(5.dp)
+                            .offset(y = 5.dp)
+                            .width(150.dp))
                     }
                     Row(Modifier.weight(1f)) {
                         Text(
                             text = viewModel.currentBirdName.value,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 30.sp,
+                            fontSize = 25.sp,
                             textAlign = TextAlign.Center,
                             color = MaterialTheme.colors.onSurface
                         )
@@ -240,23 +243,60 @@ fun AddEntryForm(
                         .fillMaxSize()
                 ) {
                     Row {
-                        Box(
-                            modifier = Modifier,
-                            contentAlignment = Alignment.TopCenter
-                        ) {
-                            // Image
+                        Column {
+                            Box(
+                                modifier = Modifier,
+                                contentAlignment = Alignment.TopCenter
+                            ) {
+                                ChosenImage()
+                                OpenCameraButton(navController = navController, modifier = Modifier
+                                    .padding(5.dp)
+                                    .offset(y = 220.dp)
+                                    .width(150.dp))
+                            }
                         }
-                        Text(
-                            text = viewModel.currentBirdName.value,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 50.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.CenterVertically),
-                            overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colors.onSurface
-                        )
+                        Column {
+                            Row(Modifier.weight(1f)) {
+                                Text(
+                                    text = viewModel.currentBirdName.value,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 25.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(Alignment.CenterVertically),
+                                    overflow = TextOverflow.Ellipsis,
+                                    color = MaterialTheme.colors.onSurface
+                                )
+                            }
+                            Row(Modifier.weight(1f)) {
+                                SearchBar(
+                                    hint = stringResource(R.string.bird_entry_hint),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp),
+                                ) {
+                                    birdListViewModel.searchBirdList(it)
+                                }
+                            }
+                            Row(
+                                Modifier
+                                    .weight(2f)
+                                    .padding(5.dp)
+                            ) {
+                                BirdList(navController = navController, fromEntry = true)
+                            }
+                            Row(Modifier.weight(2f)) {
+                                SelectLocationButton(navController = navController)
+                            }
+                            Row(Modifier.weight(1.2f)) {
+                                DatePickButton()
+                            }
+                            Row(Modifier.weight(1.2f)) {
+                                CancelButton(navController)
+                                SaveButton(navController)
+                            }
+                        }
                     }
                 }
             }
@@ -466,15 +506,13 @@ fun ChosenImage(
 @Composable
 fun OpenCameraButton(
     navController: NavHostController,
+    modifier: Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            modifier = Modifier
-                .padding(5.dp)
-                .offset(y = 5.dp)
-                .width(150.dp),
+            modifier = modifier,
             onClick = { navController.navigate(SubScreen.CameraScreen.route) },
         ) {
             Text(

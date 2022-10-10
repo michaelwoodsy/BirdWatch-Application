@@ -54,5 +54,6 @@ sealed class SubScreen(val route: String) {
     }
     object SelectLocationScreen : SubScreen("select_location")
     object CameraScreen : SubScreen("camera_view")
+    object ViewEntryScreen : SubScreen("view_entry")
 }
 

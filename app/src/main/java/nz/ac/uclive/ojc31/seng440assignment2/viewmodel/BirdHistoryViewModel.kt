@@ -21,7 +21,7 @@ class BirdHistoryViewModel @Inject constructor (
     var historyList = mutableStateOf<List<EntryDTO>>(listOf())
     var isLoading = mutableStateOf(false)
     private var loadError = mutableStateOf("")
-
+    var currentIndex = mutableStateOf(0)
 
     init {
         loadEntries()
