@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
+import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
@@ -40,7 +41,10 @@ import kotlin.math.roundToInt
     ExperimentalPagerApi::class
 )
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(
+    navController: NavHostController,
+    service: WeeklyNotificationService
+) {
     val showNavigationBar = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
@@ -107,7 +111,8 @@ fun NavGraph(navController: NavHostController) {
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                                )
+                                ),
+                            service = service
                         )
                     }
                 }
@@ -169,7 +174,8 @@ fun NavGraph(navController: NavHostController) {
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                                )
+                                ),
+                            service = service
                         )
                     }
                 }
