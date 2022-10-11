@@ -93,10 +93,14 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation "com.squareup.okhttp3:okhttp:4.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // OkHtttp
+    def okhttp_version = "4.9.0"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     // Coil
     implementation "io.coil-kt:coil-compose:2.0.0"
@@ -105,10 +109,11 @@ dependencies {
     implementation "androidx.palette:palette:1.0.0"
 
     // Google Accompanist
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.9-beta"
-    implementation "com.google.accompanist:accompanist-permissions:0.24.9-beta"
-    implementation "com.google.accompanist:accompanist-pager:0.24.9-beta"
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.24.9-beta"
+    def accompanist_version = "0.24.9-beta"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
     // Maps
     implementation "com.google.maps.android:maps-compose:2.7.2"
@@ -121,12 +126,13 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.0.1")
 
     // Room persistence library
-    implementation "androidx.room:room-runtime:2.4.3"
-    annotationProcessor "androidx.room:room-compiler:2.4.3"
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
     // to use kotlin annotation processing tool (kapt)
-    kapt "androidx.room:room-compiler:2.4.3"
+    kapt "androidx.room:room-compiler:$room_version"
     // support kotlin extensions and coroutines (e.g. flow)
-    implementation "androidx.room:room-ktx:2.4.3"
+    implementation "androidx.room:room-ktx:$room_version"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
 
@@ -143,4 +149,7 @@ dependencies {
 
     // Object detection & tracking feature with custom bundled model
     implementation 'com.google.mlkit:object-detection-custom:17.0.0'
+
+    // Splash Screen
+    implementation "androidx.core:core-splashscreen:1.0.0"
 }
