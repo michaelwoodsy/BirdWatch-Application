@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import nz.ac.uclive.ojc31.seng440assignment2.MainActivity
 import nz.ac.uclive.ojc31.seng440assignment2.R
 
@@ -33,8 +34,9 @@ class WeeklyNotificationService(
                 .bigText("Test Notification"))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(activityPendingIntent)
-            .setColor(0xFF4E9F3D.toInt())
             .setSound(rawPathUri)
+            .setColor(0xFF4E9F3D.toInt())
+            .setVisibility(VISIBILITY_PUBLIC)
             .build()
         notificationManager.notify(
             1,
