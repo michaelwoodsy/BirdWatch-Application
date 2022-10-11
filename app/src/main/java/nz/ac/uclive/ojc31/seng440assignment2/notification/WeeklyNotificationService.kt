@@ -4,11 +4,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import nz.ac.uclive.ojc31.seng440assignment2.MainActivity
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import okhttp3.internal.notify
+
 
 class WeeklyNotificationService(
     private val context: Context
@@ -23,6 +24,7 @@ class WeeklyNotificationService(
             activityIntent,
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         )
+        val rawPathUri: Uri = Uri.parse("android.resource://" + context.packageName + "/" + R.raw.bird_chirp)
         var notification = NotificationCompat.Builder(context, WEEKLY_CHANNEL_ID)
             .setSmallIcon(R.drawable.bird)
             .setContentTitle("BirdWatch")
@@ -31,6 +33,8 @@ class WeeklyNotificationService(
                 .bigText("Test Notification"))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(activityPendingIntent)
+            .setColor(0xFF4E9F3D.toInt())
+            .setSound(rawPathUri)
             .build()
         notificationManager.notify(
             1,
@@ -39,7 +43,7 @@ class WeeklyNotificationService(
     }
 
     companion object {
-        const val WEEKLY_CHANNEL_ID = "weekly_channel"
+        const val WEEKLY_CHANNEL_ID = "weekly_update_channel"
         const val WEEKLY_CHANNEL_NAME = "Weekly Update"
         const val WEEKLY_CHANNEL_DESC = "Used to provide weekly updates on how many entries a user has made."
     }

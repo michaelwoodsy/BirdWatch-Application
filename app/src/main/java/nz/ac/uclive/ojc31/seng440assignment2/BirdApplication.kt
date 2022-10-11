@@ -4,10 +4,14 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
+import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.HiltAndroidApp
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import timber.log.Timber
+
 
 @HiltAndroidApp
 class BirdApplication: Application() {
@@ -29,6 +33,12 @@ class BirdApplication: Application() {
             }
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val rawPathUri: Uri = Uri.parse("android.resource://" + applicationContext.packageName + "/" + R.raw.bird_chirp)
+            val audioAttributes = AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build()
+            channel.setSound(rawPathUri, audioAttributes)
             notificationManager.createNotificationChannel(channel)
         }
     }
