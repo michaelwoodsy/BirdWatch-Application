@@ -37,7 +37,8 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalAnimationApi::class,
+@OptIn(
+    ExperimentalPermissionsApi::class, ExperimentalAnimationApi::class,
     ExperimentalPagerApi::class
 )
 @Composable
@@ -83,129 +84,65 @@ fun NavGraph(
             )
         }
     ) { innerPadding ->
-        if (onboardingState.value!!) {
-            NavHost(
-                navController = navController,
-                startDestination = Screen.Home.route
-            ) {
-                composable(route = Screen.Splash.route) {
-                    SplashScreen(navController = navController)
-                }
-                composable(route = Screen.Onboarding.route) {
-                    OnboardingScreen(
-                        navController = navController,
+        NavHost(
+            navController = navController,
+            startDestination = if (onboardingState.value!!) Screen.Home.route else Screen.Splash.route
+        ) {
+            composable(route = Screen.Splash.route) {
+                SplashScreen(navController = navController)
+            }
+            composable(route = Screen.Onboarding.route) {
+                OnboardingScreen(
+                    navController = navController,
+                    permissions = listOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                    )
+                )
+            }
+            composable(route = Screen.Home.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    HomeScreen(
+                        navController,
                         permissions = listOf(
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                        )
+                        ),
+                        service = service
                     )
-                }
-                composable(route = Screen.Home.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        HomeScreen(
-                            navController,
-                            permissions = listOf(
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                ),
-                            service = service
-                        )
-                    }
-                }
-                composable(route = Screen.Map.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        MapScreen(navController = navController)
-                    }
-                }
-                composable(route = Screen.History.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        BirdHistoryScreen(navController = navController)
-                    }
-                }
-                birdNavGraph(navController = navController, innerPadding = innerPadding)
-                entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
-                composable(route = SubScreen.Settings.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        SettingsScreen(navController = navController)
-                    }
-                }
-
-                composable(route = SubScreen.ViewEntryScreen.route) {
-                    val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(Screen.History.route)}
-                    Box(Modifier.padding(innerPadding)) {
-                        SwipeToReturn(navController = navController) {
-                            ViewEntryScreen(
-                                navController = navController,
-                                historyViewModel = hiltViewModel(backStackEntry)
-                            )
-                        }
-                    }
                 }
             }
-        } else {
-            NavHost(
-                navController = navController,
-                startDestination = Screen.Splash.route
-            ) {
-                composable(route = Screen.Splash.route) {
-                    SplashScreen(navController = navController)
+            composable(route = Screen.Map.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    MapScreen(navController = navController)
                 }
-                composable(route = Screen.Onboarding.route) {
-                    OnboardingScreen(
-                        navController = navController,
-                        permissions = listOf(
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            )
-                    )
+            }
+            composable(route = Screen.History.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    BirdHistoryScreen(navController = navController)
                 }
-                composable(route = Screen.Home.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        HomeScreen(
-                            navController = navController,
-                            permissions = listOf(
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                ),
-                            service = service
-                        )
-                    }
+            }
+            birdNavGraph(navController = navController, innerPadding = innerPadding)
+            entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
+            composable(route = SubScreen.Settings.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    SettingsScreen(navController = navController)
                 }
-                composable(route = Screen.Map.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        MapScreen(navController = navController)
-                    }
-                }
-                composable(route = Screen.History.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        BirdHistoryScreen(navController = navController)
-                    }
-                }
-                birdNavGraph(navController = navController, innerPadding = innerPadding)
-                entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
+            }
 
-                composable(route = SubScreen.Settings.route) {
-                    Box(Modifier.padding(innerPadding)) {
-                        SettingsScreen(navController = navController)
-                    }
-                }
-                composable(route = SubScreen.ViewEntryScreen.route) {
-                    val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(Screen.History.route)}
-                    Box(Modifier.padding(innerPadding)) {
-                        SwipeToReturn(navController = navController) {
-                            ViewEntryScreen(
-                                navController = navController,
-                                historyViewModel = hiltViewModel(backStackEntry)
-                            )
-                        }
+            composable(route = SubScreen.ViewEntryScreen.route) {
+                val backStackEntry =
+                    remember(navBackStackEntry) { navController.getBackStackEntry(Screen.History.route) }
+                Box(Modifier.padding(innerPadding)) {
+                    SwipeToReturn(navController = navController) {
+                        ViewEntryScreen(
+                            navController = navController,
+                            historyViewModel = hiltViewModel(backStackEntry)
+                        )
                     }
                 }
             }
@@ -324,12 +261,17 @@ fun NavGraphBuilder.entryNavGraph(
 
 
     composable(route = SubScreen.SelectLocationScreen.route) {
-        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
-        SelectLocationScreen(navController = navController, viewModel = hiltViewModel(backStackEntry))
+        val backStackEntry =
+            remember(navBackStackEntry) { navController.getBackStackEntry(SubScreen.AddEntryDetails.route) }
+        SelectLocationScreen(
+            navController = navController,
+            viewModel = hiltViewModel(backStackEntry)
+        )
     }
 
     composable(route = SubScreen.CameraScreen.route) {
-        val backStackEntry = remember(navBackStackEntry) {navController.getBackStackEntry(SubScreen.AddEntryDetails.route)}
+        val backStackEntry =
+            remember(navBackStackEntry) { navController.getBackStackEntry(SubScreen.AddEntryDetails.route) }
 
         SwipeToReturn(navController = navController) {
             CameraScreen(navController = navController, viewModel = hiltViewModel(backStackEntry))
@@ -337,7 +279,6 @@ fun NavGraphBuilder.entryNavGraph(
     }
 
 }
-
 
 
 @Composable
