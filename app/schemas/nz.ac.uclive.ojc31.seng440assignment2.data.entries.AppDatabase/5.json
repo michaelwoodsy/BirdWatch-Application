@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "8149492b6d85c6ce382074c1be930dce",
+    "identityHash": "7a300336b3dcab08a63475a16e4856eb",
     "entities": [
       {
         "tableName": "entry",
@@ -59,12 +59,56 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "challenge",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`challengeId` INTEGER PRIMARY KEY AUTOINCREMENT, `speciesCode` TEXT NOT NULL, `receivedDate` TEXT NOT NULL, `lastSeenLat` REAL NOT NULL, `lastSeenLong` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "challengeId",
+            "columnName": "challengeId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesCode",
+            "columnName": "speciesCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "receivedDate",
+            "columnName": "receivedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSeenLat",
+            "columnName": "lastSeenLat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSeenLong",
+            "columnName": "lastSeenLong",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "challengeId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8149492b6d85c6ce382074c1be930dce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7a300336b3dcab08a63475a16e4856eb')"
     ]
   }
 }

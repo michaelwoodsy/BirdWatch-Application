@@ -5,11 +5,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import nz.ac.uclive.ojc31.seng440assignment2.data.entries.AppDatabase
+import nz.ac.uclive.ojc31.seng440assignment2.data.AppDatabase
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdApi
+import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.ImageApi
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
+import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.EBIRD_BASE_URL
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.FLICKR_BASE_URL
@@ -67,6 +69,12 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideChallengeRepository(challengeDao: ChallengeDao): ChallengeRepository {
+        return ChallengeRepository(challengeDao = challengeDao)
+    }
+
+    @Singleton
+    @Provides
     fun provideAppDatabase(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
     }
@@ -75,5 +83,11 @@ object AppModule {
     @Provides
     fun provideEntryDao(appDatabase: AppDatabase): EntryDao {
         return appDatabase.entryDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideChallengeDao(appDatabase: AppDatabase): ChallengeDao {
+        return appDatabase.challengeDao()
     }
 }

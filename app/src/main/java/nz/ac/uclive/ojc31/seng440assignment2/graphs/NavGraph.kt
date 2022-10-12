@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -32,6 +33,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.LoadEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
 import kotlin.math.roundToInt
@@ -66,6 +68,7 @@ fun NavGraph(navController: NavHostController) {
         SubScreen.CameraScreen.route -> showNavigationBar.value = false
         SubScreen.Settings.route -> showNavigationBar.value = false
         SubScreen.ViewEntryScreen.route -> showNavigationBar.value = false
+        SubScreen.LoadEntryFromLink.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
     }
@@ -330,6 +333,30 @@ fun NavGraphBuilder.entryNavGraph(
         }
     }
 
+    composable(
+        route=SubScreen.LoadEntryFromLink.route,
+        deepLinks = listOf(navDeepLink { uriPattern = SubScreen.LoadEntryFromLink.deepLinkURL })
+    ) { backStackEntry ->
+        val birdId = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.birdId)
+        val lat = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.lat)?.toDoubleOrNull()
+        val long = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.long)?.toDoubleOrNull()
+
+        if (!birdId.isNullOrEmpty() && lat != null && long != null) {
+            LoadEntryScreen(
+                navController = navController,
+                birdId = birdId,
+                lat = lat,
+                long = long
+            )
+        } else {
+            LaunchedEffect(Unit) {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Home.route)
+                    launchSingleTop = true
+                }
+            }
+        }
+    }
 }
 
 

@@ -55,5 +55,12 @@ sealed class SubScreen(val route: String) {
     object SelectLocationScreen : SubScreen("select_location")
     object CameraScreen : SubScreen("camera_view")
     object ViewEntryScreen : SubScreen("view_entry")
+
+    object LoadEntryFromLink : SubScreen("load_entry/{birdId}/{lat}/{long}") {
+        const val deepLinkURL : String = "birdwatch://share/{birdId}/{lat}/{long}"
+        const val birdId : String = "birdId"
+        const val lat : String = "lat"
+        const val long : String = "long"
+    }
 }
 
