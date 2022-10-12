@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".BirdApplication"
@@ -25,7 +26,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -37,6 +37,7 @@
                     android:host="share"/>
             </intent-filter>
         </activity>
+        <receiver android:name=".notification.WeeklyNotificationReceiver" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCWtaSm7x2WXYI2TCPpeQnm-T9focwV3R0" />

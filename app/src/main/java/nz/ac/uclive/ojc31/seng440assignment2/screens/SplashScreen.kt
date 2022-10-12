@@ -58,15 +58,3 @@ fun Splash(alpha: Float) {
         )
     }
 }
-
-@Composable
-@Preview
-fun SplashScreenPreview() {
-    Splash(alpha = 1f)
-}
-
-@Composable
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-fun SplashScreenDarkPreview() {
-    Splash(alpha = 1f)
-}

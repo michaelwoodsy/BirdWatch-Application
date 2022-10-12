@@ -14,6 +14,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import nz.ac.uclive.ojc31.seng440assignment2.fragments.SettingsViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.NavGraph
+import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.SENG440Assignment2Theme
 
 @AndroidEntryPoint
@@ -31,13 +32,15 @@ class MainActivity : FragmentActivity() {
                 else -> isSystemInDarkTheme()
             }
 
+            val service = WeeklyNotificationService(applicationContext)
+
             SENG440Assignment2Theme(darkTheme = useDarkTheme) {
                 val systemUiController = rememberSystemUiController()
                 val navBarColor = MaterialTheme.colors.primary
                 SideEffect {
                     systemUiController.setSystemBarsColor(color = navBarColor)
                 }
-                NavGraph(navController = rememberNavController())
+                NavGraph(navController = rememberNavController(), service)
             }
         }
     }

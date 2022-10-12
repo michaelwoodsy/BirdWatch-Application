@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.permissions.*
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
+import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 
 @ExperimentalPermissionsApi
 @Composable
@@ -24,6 +25,7 @@ fun HomeScreen(
     permissions: List<String>,
     deniedMessage: String = "Give this app a permission to proceed. If it doesn't work, then you'll have to do it manually from the settings.",
     rationaleMessage: String = "To use this app's functionalities, you need to give us the permission.",
+    service: WeeklyNotificationService
 ) {
     val multiplePermissionsState = rememberMultiplePermissionsState(permissions)
 
@@ -33,6 +35,13 @@ fun HomeScreen(
         },
         topBar = {HomeTopAppBar(navController)}
     ) { paddingValues ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            Button(onClick = {
+                service.showNotification(0)
+            }) {
+                Text(text = "Show notification")
+            }
+        }
         Box(Modifier.padding(paddingValues)) {
             HandleRequests(
                 multiplePermissionsState = multiplePermissionsState,
