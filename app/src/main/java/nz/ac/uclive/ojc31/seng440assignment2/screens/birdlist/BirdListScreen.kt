@@ -234,8 +234,8 @@ fun BirdEntry(
                     )
                     .clickable {
                         if (fromEntry) {
-                            entryViewModel.currentBirdId.value = birdId
-                            entryViewModel.currentBirdName.value = birdName
+                            entryViewModel.currentBirdCode.value = entry.speciesCode
+                            entryViewModel.currentBirdName.value = entry.comName
                         } else {
                             navController.navigate(
                                 "bird_details_screen/${birdId}/${birdName}",
@@ -270,8 +270,8 @@ fun BirdEntry(
                     )
                     .clickable {
                         if (fromEntry) {
-                            entryViewModel.currentBirdId.value = birdId
-                            entryViewModel.currentBirdName.value = birdName
+                            entryViewModel.currentBirdCode.value = entry.speciesCode
+                            entryViewModel.currentBirdName.value = entry.comName
                         } else {
                             navController.navigate(
                                 "bird_details_screen/${birdId}/${birdName}",
