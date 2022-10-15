@@ -1,7 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,7 +24,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,7 +54,7 @@ fun BirdListScreen(
             Configuration.ORIENTATION_PORTRAIT -> {
                 Column {
                     Text(
-                        text = stringResource(id = R.string.app_name),
+                        text = "BirdSearch",
                         fontFamily = TitleFont,
                         fontSize = 64.sp,
                         color = MaterialTheme.colors.primary,
@@ -81,7 +79,7 @@ fun BirdListScreen(
                         modifier = Modifier
                             .fillMaxWidth()) {
                         Text(
-                            text = stringResource(id = R.string.app_name),
+                            text = "BirdSearch",
                             fontFamily = TitleFont,
                             fontSize = 64.sp,
                             color = MaterialTheme.colors.primary,

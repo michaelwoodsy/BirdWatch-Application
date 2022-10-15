@@ -1,6 +1,5 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
@@ -29,15 +28,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
-import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.CancelButton
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.LoadEntryViewModel
 
 

@@ -1,4 +1,4 @@
-package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
+package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 
 import android.app.DatePickerDialog
 import android.content.ContentUris
@@ -37,6 +37,8 @@ import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdList
+import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.SearchBar
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 

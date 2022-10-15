@@ -33,6 +33,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
+import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 
 
@@ -44,7 +45,18 @@ fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryVi
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            HistoryList(navController = navController)
+            Column(Modifier.fillMaxSize()) {
+                Text(
+                    text = "BirdHistory",
+                    fontFamily = TitleFont,
+                    fontSize = 64.sp,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                )
+                HistoryList(navController = navController)
+            }
         }
     }
 }

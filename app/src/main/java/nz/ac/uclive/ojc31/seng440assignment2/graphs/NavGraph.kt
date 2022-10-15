@@ -29,7 +29,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
-import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.AddEntryScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.AddEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
