@@ -49,20 +49,35 @@ fun HomeScreen(
                 when (configuration.orientation) {
                     Configuration.ORIENTATION_PORTRAIT -> {
                         Button(
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.height(80.dp).width(320.dp).padding(16.dp)
+                            onClick = {
+                                navController.navigate(SubScreen.Challenges.route)
+                                      },
+                            modifier = Modifier
+                                .height(80.dp)
+                                .width(320.dp)
+                                .padding(16.dp)
                         ) {
                             Text(text = "View Challenges", fontSize = 20.sp)
                         }
                         Button(
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.height(80.dp).width(320.dp).padding(16.dp)
+                            onClick = {
+                                navController.navigate(SubScreen.Achievements.route)
+                            },
+                            modifier = Modifier
+                                .height(80.dp)
+                                .width(320.dp)
+                                .padding(16.dp)
                         ) {
                             Text(text = "View Achievements", fontSize = 20.sp)
                         }
                         Button(
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.height(80.dp).width(320.dp).padding(16.dp)
+                            onClick = {
+                                navController.navigate(SubScreen.Statistics.route)
+                            },
+                            modifier = Modifier
+                                .height(80.dp)
+                                .width(320.dp)
+                                .padding(16.dp)
                         ) {
                             Text(text = "View Statistics", fontSize = 20.sp)
                         }
@@ -70,19 +85,25 @@ fun HomeScreen(
                     else -> {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    navController.navigate(SubScreen.Challenges.route)
+                                },
                                 modifier = Modifier.padding(16.dp)
                             ) {
                                 Text(text = "View Challenges", fontSize = 16.sp)
                             }
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    navController.navigate(SubScreen.Achievements.route)
+                                },
                                 modifier = Modifier.padding(16.dp)
                             ) {
                                 Text(text = "View Achievements", fontSize = 16.sp)
                             }
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    navController.navigate(SubScreen.Statistics.route)
+                                },
                                 modifier = Modifier.padding(16.dp)
                             ) {
                                 Text(text = "View Statistics", fontSize = 16.sp)

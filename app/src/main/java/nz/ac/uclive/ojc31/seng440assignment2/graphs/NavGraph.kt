@@ -36,7 +36,10 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.LoadEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.AchievementsScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ChallengesScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.HomeScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.StatisticsScreen
 import kotlin.math.roundToInt
 
 @OptIn(
@@ -140,6 +143,30 @@ fun NavGraph(
                     }
                 }
             }
+
+            composable(route = SubScreen.Challenges.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    SwipeToReturn(navController = navController) {
+                        ChallengesScreen(navController = navController)
+                    }
+                }
+            }
+
+            composable(route = SubScreen.Achievements.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    SwipeToReturn(navController = navController) {
+                        AchievementsScreen(navController = navController)
+                    }
+                }
+            }
+
+            composable(route = SubScreen.Statistics.route) {
+                Box(Modifier.padding(innerPadding)) {
+                    SwipeToReturn(navController = navController) {
+                        StatisticsScreen(navController = navController)
+                    }
+                }
+            }
         }
     }
 }
@@ -184,7 +211,6 @@ fun SwipeToReturn(navController: NavHostController, content: @Composable () -> U
             content()
         }
     }
-
 }
 
 fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
