@@ -5,7 +5,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 
 class EntryDTO (
     val bird: BirdsItem,
-    private val  entry: Entry
+    entry: Entry
     ) {
     val observedDate = entry.observedDate
     val observedLocation = entry.observedLocation

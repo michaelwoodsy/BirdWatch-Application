@@ -11,7 +11,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.model.Achievement
 import nz.ac.uclive.ojc31.seng440assignment2.model.Challenge
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 
-@Database(entities = [Entry::class, Challenge::class, Achievement::class], version = 6)
+@Database(entities = [Entry::class, Challenge::class, Achievement::class], version = 7)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun entryDao(): EntryDao
