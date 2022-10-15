@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -37,6 +36,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.LoadEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.HomeScreen
 import kotlin.math.roundToInt
 
 @OptIn(
@@ -107,16 +107,7 @@ fun NavGraph(
             }
             composable(route = Screen.Home.route) {
                 Box(Modifier.padding(innerPadding)) {
-                    HomeScreen(
-                        navController,
-                        permissions = listOf(
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                        ),
-                        service = service
-                    )
+                    HomeScreen(navController = navController)
                 }
             }
             composable(route = Screen.Map.route) {
@@ -130,7 +121,7 @@ fun NavGraph(
                 }
             }
             birdNavGraph(navController = navController, innerPadding = innerPadding)
-            entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry)
+            entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry, service = service)
             composable(route = SubScreen.Settings.route) {
                 Box(Modifier.padding(innerPadding)) {
                     SettingsScreen(navController = navController)
@@ -228,6 +219,7 @@ fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding:
 fun NavGraphBuilder.entryNavGraph(
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
+    service: WeeklyNotificationService
 ) {
 
     composable(SubScreen.AddEntryDetails.route, arguments = listOf(
@@ -258,6 +250,7 @@ fun NavGraphBuilder.entryNavGraph(
         SwipeToReturn(navController = navController) {
             AddEntryScreen(
                 navController = navController,
+                service = service
             )
         }
     }

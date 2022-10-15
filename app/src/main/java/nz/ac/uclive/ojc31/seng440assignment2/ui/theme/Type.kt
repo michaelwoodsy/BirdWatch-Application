@@ -20,6 +20,10 @@ val RobotoCondensed = FontFamily(
     Font(R.font.roboto_condensed_regular, FontWeight.Normal),
 )
 
+val TitleFont = FontFamily(
+    Font(R.font.bird_font)
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(

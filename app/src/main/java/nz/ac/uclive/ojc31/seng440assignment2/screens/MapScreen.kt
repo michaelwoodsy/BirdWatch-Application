@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 
 @SuppressLint("MissingPermission")

@@ -36,6 +36,7 @@ import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
+import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -44,6 +45,7 @@ fun AddEntryScreen(
     navController: NavHostController,
     topPadding: Dp = 20.dp,
     birdImageSize: Dp = 200.dp,
+    service: WeeklyNotificationService
 ) {
 
     val configuration = LocalConfiguration.current
@@ -72,6 +74,7 @@ fun AddEntryScreen(
                         .background(MaterialTheme.colors.surface)
                         .padding(16.dp)
                         .align(Alignment.BottomCenter),
+                    service = service
                 )
                 Box(
                     modifier = Modifier
@@ -120,6 +123,7 @@ fun AddEntryScreen(
                         .background(MaterialTheme.colors.surface)
                         .padding(16.dp)
                         .align(Alignment.BottomCenter),
+                    service = service
                 )
             }
         }
@@ -132,6 +136,7 @@ fun AddEntryScreen(
 fun AddEntryFormStateWrapper(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    service: WeeklyNotificationService
 ) {
     val showForm = remember { mutableStateOf(false) }
 
@@ -152,12 +157,14 @@ fun AddEntryFormStateWrapper(
                     navController = navController,
                     modifier = modifier
                         .offset(y = (-10).dp),
+                    service = service
                 )
             }
             else -> {
                 AddEntryForm(
                     navController = navController,
                     modifier = modifier,
+                    service = service
                 )
             }
         }
@@ -171,6 +178,7 @@ fun AddEntryForm(
     modifier: Modifier,
     viewModel: AddEntryViewModel = hiltViewModel(),
     birdListViewModel: BirdListViewModel = hiltViewModel(),
+    service: WeeklyNotificationService
 ) {
     val configuration = LocalConfiguration.current
     if (viewModel.currentBirdName.value == "") {
@@ -229,7 +237,7 @@ fun AddEntryForm(
                     }
                     Row(Modifier.weight(1.2f)) {
                         CancelButton(navController)
-                        SaveButton(navController)
+                        SaveButton(navController, service = service)
                     }
                     Row(Modifier.height(100.dp)) {
                     }
@@ -294,7 +302,7 @@ fun AddEntryForm(
                             }
                             Row(Modifier.weight(1.2f)) {
                                 CancelButton(navController)
-                                SaveButton(navController)
+                                SaveButton(navController, service = service)
                             }
                         }
                     }
@@ -308,6 +316,7 @@ fun AddEntryForm(
 fun SaveButton(
     navController: NavHostController,
     viewModel: AddEntryViewModel = hiltViewModel(),
+    service: WeeklyNotificationService
 ) {
     val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
@@ -319,6 +328,7 @@ fun SaveButton(
             coroutineScope.launch {
                 viewModel.saveEntry(ctx)
                 navController.popBackStack()
+                service.showNotification(0)
             }
         },
         enabled = (viewModel.canSave() && !viewModel.saving.value)

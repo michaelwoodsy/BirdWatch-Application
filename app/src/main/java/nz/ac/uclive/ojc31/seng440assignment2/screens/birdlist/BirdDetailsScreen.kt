@@ -37,8 +37,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
-import nz.ac.uclive.ojc31.seng440assignment2.screens.ExtendedAddEntryButton
-import nz.ac.uclive.ojc31.seng440assignment2.screens.HistoryList
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdDetailViewModel
 

@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 
