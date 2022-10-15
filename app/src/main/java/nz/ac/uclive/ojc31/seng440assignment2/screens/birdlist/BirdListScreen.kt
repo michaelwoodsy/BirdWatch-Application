@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdsItem
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
+import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.AddEntryViewModel
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdListViewModel
 
@@ -54,11 +55,12 @@ fun BirdListScreen(
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 Column {
-                    Image(
-                        painter = painterResource(id = R.drawable.bird),
-                        contentDescription = "BirdWatch",
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        fontFamily = TitleFont,
+                        fontSize = 64.sp,
+                        color = MaterialTheme.colors.primary,
                         modifier = Modifier
-                            .fillMaxWidth()
                             .align(Alignment.CenterHorizontally)
                             .padding(16.dp)
                     )
@@ -78,12 +80,13 @@ fun BirdListScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()) {
-                        Image(
-                            painter = painterResource(id = R.drawable.bird),
-                            contentDescription = "BirdWatch",
+                        Text(
+                            text = stringResource(id = R.string.app_name),
+                            fontFamily = TitleFont,
+                            fontSize = 64.sp,
+                            color = MaterialTheme.colors.primary,
                             modifier = Modifier
                                 .fillMaxWidth(0.4f)
-                                .align(Alignment.CenterStart)
                                 .padding(16.dp)
                         )
                         SearchBar(
