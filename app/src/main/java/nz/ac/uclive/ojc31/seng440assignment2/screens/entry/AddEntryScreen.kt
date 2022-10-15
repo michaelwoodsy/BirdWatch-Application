@@ -330,7 +330,7 @@ fun SaveButton(
             coroutineScope.launch {
                 viewModel.saveEntry(ctx)
                 navController.popBackStack()
-                service.showNotification(0)
+                service.showNotification()
             }
         },
         enabled = (viewModel.canSave() && !viewModel.saving.value)

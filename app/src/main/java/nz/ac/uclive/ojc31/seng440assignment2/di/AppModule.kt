@@ -6,10 +6,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nz.ac.uclive.ojc31.seng440assignment2.data.AppDatabase
+import nz.ac.uclive.ojc31.seng440assignment2.data.achievements.AchievementDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.BirdApi
 import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.ImageApi
+import nz.ac.uclive.ojc31.seng440assignment2.repository.AchievementRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
@@ -75,6 +77,12 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideAchievementRepository(achievementDao: AchievementDao): AchievementRepository {
+        return AchievementRepository(achievementDao = achievementDao)
+    }
+
+    @Singleton
+    @Provides
     fun provideAppDatabase(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
     }
@@ -89,5 +97,11 @@ object AppModule {
     @Provides
     fun provideChallengeDao(appDatabase: AppDatabase): ChallengeDao {
         return appDatabase.challengeDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAchievementDao(appDatabase: AppDatabase): AchievementDao {
+        return appDatabase.achievementDao()
     }
 }

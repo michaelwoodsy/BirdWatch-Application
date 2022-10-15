@@ -8,6 +8,6 @@ class WeeklyNotificationReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
         val service = WeeklyNotificationService(context)
-        service.showNotification(0)
+        service.showNotification()
     }
 }

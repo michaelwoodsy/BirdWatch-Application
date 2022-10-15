@@ -17,7 +17,7 @@ class WeeklyNotificationService(
 ) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    fun showNotification(counter: Int) {
+    fun showNotification() {
         val activityIntent = Intent(context, MainActivity::class.java)
         val activityPendingIntent = PendingIntent.getActivity(
             context,
@@ -29,9 +29,9 @@ class WeeklyNotificationService(
         var notification = NotificationCompat.Builder(context, WEEKLY_CHANNEL_ID)
             .setSmallIcon(R.drawable.bird)
             .setContentTitle("BirdWatch")
-            .setContentText("Test Notification")
+            .setContentText("Achievement Unlocked")
             .setStyle(NotificationCompat.BigTextStyle()
-                .bigText("Test Notification"))
+                .bigText("You have successfully completed the achievement..."))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(activityPendingIntent)
             .setSound(rawPathUri)

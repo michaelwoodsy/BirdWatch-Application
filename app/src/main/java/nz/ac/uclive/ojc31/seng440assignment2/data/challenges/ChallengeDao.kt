@@ -7,7 +7,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.model.Challenge
 @Dao
 interface ChallengeDao {
     @Query("select * from challenge")
-    fun getAllEntries(): Flow<List<Challenge>>
+    fun getAllChallenges(): Flow<List<Challenge>>
 
     @Insert
     suspend fun insert(challenge: Challenge)
