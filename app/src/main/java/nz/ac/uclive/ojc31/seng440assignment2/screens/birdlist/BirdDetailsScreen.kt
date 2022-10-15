@@ -2,10 +2,6 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.*
@@ -308,8 +304,6 @@ fun BirdDetailStateWrapper(
                 visible = showBirdInfo.value,
                 enter = slideInVertically(initialOffsetY = {it}),
                 exit = fadeOut(),
-
-
             ) {
                 val configuration = LocalConfiguration.current
                 when (configuration.orientation) {

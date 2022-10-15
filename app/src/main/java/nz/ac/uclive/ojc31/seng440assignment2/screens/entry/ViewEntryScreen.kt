@@ -3,6 +3,9 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 import android.content.ContentUris
 import android.content.res.Configuration
 import android.provider.MediaStore
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +19,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,8 +41,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import kotlinx.coroutines.delay
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ViewEntryScreen(
@@ -231,25 +239,33 @@ fun BirdDetailStateWrapper(
     entry: EntryDTO,
     modifier: Modifier = Modifier,
 ) {
-
-    val configuration = LocalConfiguration.current
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            BirdDetailSection(
-                modifier = modifier
-                    .offset(y = (-10).dp),
-                entry = entry
-            )
-        }
-        else -> {
-            BirdDetailSection(
-                modifier = modifier,
-                entry = entry
-            )
+    var showBirdInfo = remember{ mutableStateOf(false) }
+    LaunchedEffect(key1 = true) {
+        delay(0.5.seconds)
+        showBirdInfo.value = true
+    }
+    AnimatedVisibility(
+        visible = showBirdInfo.value,
+        enter = slideInVertically(initialOffsetY = {it}),
+        exit = fadeOut(),
+    ) {
+        val configuration = LocalConfiguration.current
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                BirdDetailSection(
+                    modifier = modifier
+                        .offset(y = (-10).dp),
+                    entry = entry
+                )
+            }
+            else -> {
+                BirdDetailSection(
+                    modifier = modifier,
+                    entry = entry
+                )
+            }
         }
     }
-
-
 }
 
 @Composable
