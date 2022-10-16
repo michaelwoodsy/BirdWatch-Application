@@ -3,6 +3,9 @@
 
     <style name="Theme.SENG440Assignment2" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:textColor">#32771A</item>
+        <item name="android:textColorSecondary">#32771A</item>
+        <item name="android:textColorTertiary">#32771A</item>
     </style>
 
     <style name="Theme.SENG440Assignment2.NoActionBar">
