@@ -6,13 +6,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.StatisticsRepository
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val statisticsRepository: StatisticsRepository
+    private val statisticsRepository: StatisticsRepository,
+    private val birdRepository: BirdRepository,
 ) : ViewModel() {
     var entryCount = mutableStateOf("")
     var achievementsCount = mutableStateOf("")
@@ -40,7 +43,8 @@ class StatisticsViewModel @Inject constructor(
                 if (date.isEmpty()) {
                     mostRecentEntry.value = "No recent entry"
                 } else {
-                    mostRecentEntry.value = date.toList()[0].toString()
+                    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                    mostRecentEntry.value = date.toList()[0].format(formatter)
                 }
             }
         }
@@ -50,7 +54,8 @@ class StatisticsViewModel @Inject constructor(
                 if (date.isEmpty()) {
                     oldestEntry.value = "No oldest entry"
                 } else {
-                    oldestEntry.value = date.toList()[0].toString()
+                    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                    oldestEntry.value = date.toList()[0].format(formatter)
                 }
             }
         }
@@ -60,7 +65,8 @@ class StatisticsViewModel @Inject constructor(
                 if (bird.isEmpty()) {
                     mostCommonBird.value = "No common bird"
                 } else {
-                    mostCommonBird.value = bird.toList()[0]
+                    val birdInfo = birdRepository.getBirdInfo(bird.toList()[0])
+                    mostCommonBird.value = birdInfo.data!![0].comName
                 }
             }
         }
@@ -69,7 +75,8 @@ class StatisticsViewModel @Inject constructor(
     fun isLoading(): Boolean {
         var isLoading = false
 
-        if (entryCount.value == "" || achievementsCount.value == "" || mostRecentEntry.value == "" || oldestEntry.value == "") {
+        if (entryCount.value == "" || achievementsCount.value == "" || mostRecentEntry.value == ""
+            || oldestEntry.value == "" || mostCommonBird.value == "") {
             isLoading = true
         }
 

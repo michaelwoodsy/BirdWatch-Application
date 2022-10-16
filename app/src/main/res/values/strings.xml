@@ -20,4 +20,9 @@
     <string name="no_location_label">No Location</string>
     <string name="change_image_button">Change Image</string>
     <string name="saving_label">Saving…</string>
+    <string name="total_entries_label">Total Entries:</string>
+    <string name="total_achievements_label">Total Achievements:</string>
+    <string name="most_recent_label">Most Recent Entry:</string>
+    <string name="first_entry_label">First Entry:</string>
+    <string name="most_common_label">Most Common Entry:</string>
 </resources>
