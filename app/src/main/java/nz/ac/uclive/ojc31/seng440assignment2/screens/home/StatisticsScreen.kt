@@ -60,6 +60,9 @@ fun StatisticsScreen(
             Row {
                 Text(viewModel.oldestEntry.value)
             }
+            Row {
+                Text(viewModel.mostCommonBird.value)
+            }
 
         }
 

@@ -18,6 +18,7 @@ class StatisticsViewModel @Inject constructor(
     var achievementsCount = mutableStateOf("")
     var mostRecentEntry = mutableStateOf("")
     var oldestEntry = mutableStateOf("")
+    var mostCommonBird = mutableStateOf("")
 
     init {
         loadStatistics()
@@ -50,6 +51,16 @@ class StatisticsViewModel @Inject constructor(
                     oldestEntry.value = "No oldest entry"
                 } else {
                     oldestEntry.value = date.toList()[0].toString()
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            statisticsRepository.getMostCommonBird().collect { bird ->
+                if (bird.isEmpty()) {
+                    mostCommonBird.value = "No common bird"
+                } else {
+                    mostCommonBird.value = bird.toList()[0]
                 }
             }
         }

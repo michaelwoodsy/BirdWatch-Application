@@ -12,7 +12,7 @@ class StatisticsRepository (
     fun getEntryCount(): Flow<List<Int>> = entryDao.getEntryCount()
     fun getFirstEntry(): Flow<List<LocalDate>> = entryDao.getFirst()
     fun getMostRecentEntry(): Flow<List<LocalDate>> = entryDao.getMostRecent()
-    fun getMostCommonBird(): Flow<List<Int>> = entryDao.getEntryCount()
+    fun getMostCommonBird(): Flow<List<String>> = entryDao.getMostCommon()
 
     fun getAchievementsCount(): Flow<List<Int>> = achievementDao.getAchievementCount()
 

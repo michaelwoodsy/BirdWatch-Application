@@ -14,11 +14,14 @@ interface EntryDao {
     @Query("select count(*) from entry")
     fun getEntryCount(): Flow<List<Int>>
 
-    @Query("select observedDate from entry order by observedDate desc")
+    @Query("select observedDate from entry order by observedDate desc limit 1")
     fun getMostRecent(): Flow<List<LocalDate>>
 
-    @Query("select observedDate from entry order by observedDate asc")
+    @Query("select observedDate from entry order by observedDate asc limit 1")
     fun getFirst(): Flow<List<LocalDate>>
+
+    @Query("select speciesCode from entry group by speciesCode order by count(*) desc limit 1")
+    fun getMostCommon(): Flow<List<String>>
 
     @Insert
     suspend fun insert(entry: Entry)
