@@ -33,6 +33,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.LoadEntryViewModel
 
 
@@ -226,7 +228,11 @@ private fun SaveButton(
         onClick = {
             coroutineScope.launch {
                 viewModel.saveEntry(ctx)
-                navController.popBackStack()
+                navController.navigate(SubScreen.Home.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
+                }
             }
         },
         enabled = !viewModel.isSaving.value

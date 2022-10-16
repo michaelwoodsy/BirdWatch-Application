@@ -62,7 +62,7 @@ class StatisticsViewModel @Inject constructor(
 
         viewModelScope.launch {
             statisticsRepository.getMostCommonBird().collect { bird ->
-                if (bird.isEmpty()) {
+                if (bird.isNullOrEmpty()) {
                     mostCommonBird.value = "No common bird"
                 } else {
                     val birdInfo = birdRepository.getBirdInfo(bird.toList()[0])
