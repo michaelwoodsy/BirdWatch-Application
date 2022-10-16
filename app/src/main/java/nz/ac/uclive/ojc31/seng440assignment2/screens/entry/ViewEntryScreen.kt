@@ -181,7 +181,7 @@ fun BirdDetailLeftSection(
             .background(
                 Brush.horizontalGradient(
                     listOf(
-                        MaterialTheme.colors.surface,
+                        MaterialTheme.colors.primary,
                         MaterialTheme.colors.primary
                     )
                 )
@@ -213,7 +213,7 @@ fun BirdDetailTopSection(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        MaterialTheme.colors.surface,
+                        MaterialTheme.colors.primary,
                         MaterialTheme.colors.primary
                     )
                 )
@@ -241,7 +241,7 @@ fun BirdDetailStateWrapper(
 ) {
     var showBirdInfo = remember{ mutableStateOf(false) }
     LaunchedEffect(key1 = true) {
-        delay(0.5.seconds)
+        delay(0.01.seconds)
         showBirdInfo.value = true
     }
     AnimatedVisibility(
