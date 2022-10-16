@@ -13,6 +13,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Resource
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
@@ -53,10 +54,9 @@ class LoadEntryViewModel @Inject constructor (
 
     suspend fun saveEntry(ctx: Context) {
         isSaving.value = true
-        val dateFormatted = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
         val challenge = Challenge(
             speciesCode = bird.value!!.speciesCode,
-            receivedDate = dateFormatted,
+            receivedDate = LocalDate.now(),
             lastSeenLat = lat.value,
             lastSeenLong = long.value
         )

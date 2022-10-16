@@ -4,12 +4,12 @@ import android.content.Context
 import android.location.Geocoder
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
+import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEntryViewModel @Inject constructor(
-    private val repository: EntryRepository
+    private val repository: EntryRepository,
+    private val challengeRepo: ChallengeRepository
 ) : ViewModel(){
     suspend fun saveEntry(ctx: Context) {
         saving.value = true
@@ -34,6 +35,9 @@ class AddEntryViewModel @Inject constructor(
                 imageId = imageId.value.toIntOrNull(),
             )
             repository.insert(entry = entry)
+            if (fromChallengeId != null) {
+                challengeRepo.deleteById(fromChallengeId!!)
+            }
             Toast.makeText(ctx, "Successfully Saved Entry!", Toast.LENGTH_SHORT).show()
         }
 
@@ -46,9 +50,14 @@ class AddEntryViewModel @Inject constructor(
         return false
     }
 
-    fun initFromArguments(ctx: Context, birdId: String, birdName: String, lat: String, long: String) {
-        if (birdId.isNotEmpty()) this.currentBirdCode.value = birdId
-        if (birdName.isNotEmpty()) this.currentBirdName.value = birdName
+    fun initFromArguments(ctx: Context, birdId: String, birdName: String, lat: String, long: String, challengeId: String) {
+        if (birdId.isNotEmpty() && birdName.isNotEmpty()) {
+            this.currentBirdCode.value = birdId
+            this.currentBirdName.value = birdName
+            this.birdFromArgs.value = true
+        }
+
+        if (challengeId.isNotEmpty()) this.fromChallengeId = challengeId.toLongOrNull()
 
         if (lat.isNotEmpty() && long.isNotEmpty()) {
             this.currentLat.value = lat.toDouble()
@@ -72,7 +81,11 @@ class AddEntryViewModel @Inject constructor(
 
     var currentBirdCode = mutableStateOf("")
     var currentBirdName = mutableStateOf("")
+    var birdFromArgs = mutableStateOf(false)
+    var fromChallengeId : Long? = null
+
     var datePicked = mutableStateOf("$day/${month + 1}/$year")
+
     var currentRegion = mutableStateOf("")
     var currentLat = mutableStateOf(200.0)
     var currentLong = mutableStateOf(200.0)

@@ -24,12 +24,9 @@ class ChallengeListViewModel @Inject constructor(
     val isLoading = mutableStateOf(false)
     val loadError = mutableStateOf("")
     var challenges = mutableStateListOf<ChallengeDTO>()
+    var a = challengeRepository.getAllFlow()
 
-    init {
-        loadChallenges()
-    }
-
-    private fun loadChallenges() {
+    fun loadChallenges() {
         isLoading.value = true
         challenges.clear()
         viewModelScope.launch {

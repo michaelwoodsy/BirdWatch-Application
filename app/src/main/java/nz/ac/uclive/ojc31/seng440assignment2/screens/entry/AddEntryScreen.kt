@@ -35,6 +35,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdList
@@ -52,11 +53,12 @@ fun AddEntryScreen(
     birdName: String,
     lat: String,
     long: String,
+    fromChallengeId: String,
     viewModel: AddEntryViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.initFromArguments(context, birdId, birdName, lat, long)
+        viewModel.initFromArguments(context, birdId, birdName, lat, long, fromChallengeId)
     }
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
@@ -222,22 +224,26 @@ fun AddEntryForm(
                             color = MaterialTheme.colors.onSurface
                         )
                     }
-                    Row(Modifier.weight(1f)) {
-                        SearchBar(
-                            hint = stringResource(R.string.bird_entry_hint),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp),
-                        ) {
-                            birdListViewModel.searchBirdList(it)
+                    if (!viewModel.birdFromArgs.value) {
+                        Row(Modifier.weight(1f)) {
+
+                            SearchBar(
+                                hint = stringResource(R.string.bird_entry_hint),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp),
+                            ) {
+                                birdListViewModel.searchBirdList(it)
+                            }
+
                         }
-                    }
-                    Row(
-                        Modifier
-                            .weight(2f)
-                            .padding(5.dp)
-                    ) {
-                        BirdList(navController = navController, fromEntry = true)
+                        Row(
+                            Modifier
+                                .weight(2f)
+                                .padding(5.dp)
+                        ) {
+                            BirdList(navController = navController, fromEntry = true)
+                        }
                     }
                     Row(Modifier.weight(2f)) {
                         SelectLocationButton(navController = navController)
@@ -337,7 +343,9 @@ fun SaveButton(
         onClick = {
             coroutineScope.launch {
                 viewModel.saveEntry(ctx)
-                navController.popBackStack()
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Home.route)
+                }
                 service.showNotification()
             }
         },

@@ -17,4 +17,7 @@ interface ChallengeDao {
 
     @Delete
     suspend fun delete(challenge: Challenge)
+
+    @Query("DELETE FROM challenge WHERE challengeId = :challengeId")
+    suspend fun deleteById(challengeId: Long)
 }

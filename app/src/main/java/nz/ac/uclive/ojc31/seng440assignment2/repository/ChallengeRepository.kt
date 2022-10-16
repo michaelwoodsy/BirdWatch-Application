@@ -11,4 +11,5 @@ class ChallengeRepository (
     suspend fun insert(challenge: Challenge) = challengeDao.insert(challenge = challenge)
     suspend fun update(challenge: Challenge) = challengeDao.update(challenge = challenge)
     suspend fun delete(challenge: Challenge) = challengeDao.delete(challenge = challenge)
+    suspend fun deleteById(challengeId: Long) = challengeDao.deleteById(challengeId = challengeId)
 }

@@ -32,12 +32,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDTO
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.ChallengeListViewModel
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ChallengesScreen(
     navController: NavHostController,
+    viewModel: ChallengeListViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -51,9 +54,9 @@ fun ChallengesScreen(
     }
 
     LaunchedEffect(Unit) {
+        viewModel.loadChallenges()
         Toast.makeText(context, "Select a challenge to try complete it!", Toast.LENGTH_SHORT ).show()
     }
-
 }
 
 
@@ -99,7 +102,17 @@ private fun ChallengeListStateWrapper(
 @Composable
 private fun ChallengeRow(rowIndex: Int, entries: List<ChallengeDTO>, navController: NavHostController) {
     Row(
-        Modifier.clickable {  }
+        Modifier.clickable {
+            val challenge = entries[rowIndex]
+            navController.navigate(
+                "add_entry_screen/" +
+                        "${challenge.bird.speciesCode}/" +
+                        "${challenge.bird.comName}/" +
+                        "${challenge.challenge.lastSeenLat}/" +
+                        "${challenge.challenge.lastSeenLong}/" +
+                        "${challenge.challenge.challengeId}"
+            )
+        }
     ) {
         ChallengeEntry(challenge = entries[rowIndex])
     }
@@ -125,8 +138,9 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
     var visibleAddress by remember {
         mutableStateOf("")
     }
-
-    visibleAddress = getAddress(context, challenge.challenge.lastSeenLat, challenge.challenge.lastSeenLong)
+    LaunchedEffect(Unit) {
+        visibleAddress = getAddress(context, challenge.challenge.lastSeenLat, challenge.challenge.lastSeenLong)
+    }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
@@ -158,6 +172,10 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
                         append("Spotted near ")
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append(visibleAddress)
+                        }
+                        append(" on ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(challenge.challenge.receivedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyy")))
                         }
                     })
                 }

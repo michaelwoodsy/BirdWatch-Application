@@ -252,13 +252,15 @@ fun NavGraphBuilder.entryNavGraph(
         navArgument(SubScreen.AddEntryDetails.birdId) { type = NavType.StringType },
         navArgument(SubScreen.AddEntryDetails.birdName) { type = NavType.StringType },
         navArgument(SubScreen.AddEntryDetails.lat) { type = NavType.StringType },
-        navArgument(SubScreen.AddEntryDetails.long) { type = NavType.StringType }
+        navArgument(SubScreen.AddEntryDetails.long) { type = NavType.StringType },
+        navArgument(SubScreen.AddEntryDetails.challengeId) { type = NavType.StringType }
     )
     ) {
         var birdId = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdId) }
         var birdName = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdName) }
         var lat = remember { it.arguments?.getString(SubScreen.AddEntryDetails.lat) }
         var long = remember { it.arguments?.getString(SubScreen.AddEntryDetails.long) }
+        var challengeId = remember { it.arguments?.getString(SubScreen.AddEntryDetails.challengeId) }
 
         if (birdId == "default") {
             birdId = ""
@@ -272,6 +274,9 @@ fun NavGraphBuilder.entryNavGraph(
         if (long == "default") {
             long = ""
         }
+        if (challengeId == "default") {
+            challengeId = ""
+        }
 
         SwipeToReturn(navController = navController) {
             AddEntryScreen(
@@ -280,7 +285,8 @@ fun NavGraphBuilder.entryNavGraph(
                 birdId = birdId!!,
                 birdName = birdName!!,
                 lat = lat!!,
-                long = long!!
+                long = long!!,
+                fromChallengeId =  challengeId!!
             )
         }
     }

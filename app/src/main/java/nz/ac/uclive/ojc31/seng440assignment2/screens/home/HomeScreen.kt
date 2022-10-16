@@ -137,12 +137,13 @@ fun ExtendedAddEntryButton(
     birdName: String = "default",
     lat: String = "default",
     long: String = "default",
+    challengeId: String = "default"
 ) {
     ExtendedFloatingActionButton(
         text = { Text(text = "Add Entry") },
         icon = { Icon(Icons.Filled.Add, "") },
         onClick = { navController.navigate(
-            "add_entry_screen/${birdId}/${birdName}/${lat}/${long}",
+            "add_entry_screen/${birdId}/${birdName}/${lat}/${long}/$challengeId",
         ) },
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.surface,
