@@ -55,7 +55,10 @@ fun StatisticsScreen(
                 Text(viewModel.achievementsCount.value)
             }
             Row {
-                Text(viewModel.mostRecentEntry.value.toString())
+                Text(viewModel.mostRecentEntry.value)
+            }
+            Row {
+                Text(viewModel.oldestEntry.value)
             }
 
         }

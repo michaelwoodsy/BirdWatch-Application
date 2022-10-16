@@ -17,6 +17,7 @@ class StatisticsViewModel @Inject constructor(
     var entryCount = mutableStateOf("")
     var achievementsCount = mutableStateOf("")
     var mostRecentEntry = mutableStateOf("")
+    var oldestEntry = mutableStateOf("")
 
     init {
         loadStatistics()
@@ -37,9 +38,18 @@ class StatisticsViewModel @Inject constructor(
             statisticsRepository.getMostRecentEntry().collect { date ->
                 if (date.isEmpty()) {
                     mostRecentEntry.value = "No recent entry"
-                }
-                else {
+                } else {
                     mostRecentEntry.value = date.toList()[0].toString()
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            statisticsRepository.getFirstEntry().collect { date ->
+                if (date.isEmpty()) {
+                    oldestEntry.value = "No oldest entry"
+                } else {
+                    oldestEntry.value = date.toList()[0].toString()
                 }
             }
         }
@@ -48,7 +58,7 @@ class StatisticsViewModel @Inject constructor(
     fun isLoading(): Boolean {
         var isLoading = false
 
-        if (entryCount.value == "" || achievementsCount.value == "" || mostRecentEntry.value == "") {
+        if (entryCount.value == "" || achievementsCount.value == "" || mostRecentEntry.value == "" || oldestEntry.value == "") {
             isLoading = true
         }
 

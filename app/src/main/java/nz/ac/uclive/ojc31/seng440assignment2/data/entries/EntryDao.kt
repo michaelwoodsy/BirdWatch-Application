@@ -17,6 +17,9 @@ interface EntryDao {
     @Query("select observedDate from entry order by observedDate desc")
     fun getMostRecent(): Flow<List<LocalDate>>
 
+    @Query("select observedDate from entry order by observedDate asc")
+    fun getFirst(): Flow<List<LocalDate>>
+
     @Insert
     suspend fun insert(entry: Entry)
 

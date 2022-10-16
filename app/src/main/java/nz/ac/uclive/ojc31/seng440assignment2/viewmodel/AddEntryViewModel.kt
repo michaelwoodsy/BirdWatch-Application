@@ -20,7 +20,7 @@ class AddEntryViewModel @Inject constructor(
 ) : ViewModel(){
     suspend fun saveEntry(ctx: Context) {
         saving.value = true
-        val dateFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
 
         viewModelScope.launch {
             val entry = Entry(
