@@ -1,8 +1,10 @@
 package nz.ac.uclive.ojc31.seng440assignment2.viewmodel
 
 import android.content.Context
+import android.location.Geocoder
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEntryViewModel @Inject constructor(
-    private val repository: EntryRepository,
+    private val repository: EntryRepository
 ) : ViewModel(){
     suspend fun saveEntry(ctx: Context) {
         saving.value = true
@@ -41,6 +43,23 @@ class AddEntryViewModel @Inject constructor(
         return false
     }
 
+    fun initFromArguments(ctx: Context, birdId: String, birdName: String, lat: String, long: String) {
+        if (birdId.isNotEmpty()) this.currentBirdCode.value = birdId
+        if (birdName.isNotEmpty()) this.currentBirdName.value = birdName
+
+        if (lat.isNotEmpty() && long.isNotEmpty()) {
+            this.currentLat.value = lat.toDouble()
+            this.currentLong.value = long.toDouble()
+            val geoCoder = Geocoder(ctx)
+            viewModelScope.launch {
+                val addressList = geoCoder.getFromLocation(currentLat.value, currentLong.value, 1)
+                currentRegion.value = if (addressList.isNotEmpty()) {
+                    val address = addressList[0]
+                    address.locality ?: address.subAdminArea ?: address.adminArea ?: "Latitude: $lat, Longitude: $long"
+                } else ""
+            }
+        }
+    }
 
     val cal = Calendar.getInstance()
 

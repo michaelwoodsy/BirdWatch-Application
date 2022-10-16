@@ -114,7 +114,11 @@ fun MapScreen(
                 )
             }
         }
-        ExtendedAddEntryButton(navController)
+        ExtendedAddEntryButton(
+            navController,
+            lat = cameraPositionState.position.target.latitude.toString(),
+            long = cameraPositionState.position.target.longitude.toString(),
+        )
     }
 }
 

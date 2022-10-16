@@ -241,13 +241,12 @@ private fun SaveButton(
 }
 
 @SuppressLint("MissingPermission")
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun LocationViewer(viewModel: LoadEntryViewModel = hiltViewModel()) {
     val uiSettings = remember {
         MapUiSettings()
     }
-    var properties by remember {
+    val properties by remember {
         mutableStateOf(
             MapProperties(
             mapType = MapType.HYBRID,
@@ -255,7 +254,7 @@ private fun LocationViewer(viewModel: LoadEntryViewModel = hiltViewModel()) {
         )
     }
     val spottedLocation = LatLng(viewModel.lat.value, viewModel.long.value)
-    var birdLocationState = rememberCameraPositionState {
+    val birdLocationState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(spottedLocation, 15f)
     }
 

@@ -67,4 +67,8 @@ class ChallengeListViewModel @Inject constructor(
                 }
             }
     }
+
+    fun completeChallenge(index: Int) {
+
+    }
 }

@@ -37,7 +37,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.LoadEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.AchievementsScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ChallengesScreen
+import nz.ac.uclive.ojc31.seng440assignment2.screens.home.challenge.ChallengesScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.HomeScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.StatisticsScreen
 import kotlin.math.roundToInt
@@ -267,16 +267,20 @@ fun NavGraphBuilder.entryNavGraph(
             birdName = ""
         }
         if (lat == "default") {
-            lat = "200"
+            lat = ""
         }
         if (long == "default") {
-            long = "200"
+            long = ""
         }
 
         SwipeToReturn(navController = navController) {
             AddEntryScreen(
                 navController = navController,
-                service = service
+                service = service,
+                birdId = birdId!!,
+                birdName = birdName!!,
+                lat = lat!!,
+                long = long!!
             )
         }
     }
