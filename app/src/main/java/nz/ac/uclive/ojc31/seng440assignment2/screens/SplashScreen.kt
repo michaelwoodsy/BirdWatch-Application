@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import nz.ac.uclive.ojc31.seng440assignment2.R
+import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
 
@@ -32,12 +34,24 @@ fun SplashScreen(navController: NavHostController) {
         )
     )
 
+    val context = LocalContext.current
+    val onboardingDataStore = StoreOnboarding(context)
+    val onboardingState = onboardingDataStore.getOnboardingState.collectAsState(initial = false)
+
     LaunchedEffect(key1 = true) {
         startAnimation = true
         delay(4000)
-        navController.navigate(Screen.Onboarding.route) {
-            popUpTo(Screen.Splash.route) {
-                inclusive = true // prevent back button returning to splash screen
+        if (onboardingState.value!!) {
+            navController.navigate(Screen.Home.route) {
+                popUpTo(Screen.Splash.route) {
+                    inclusive = true // prevent back button returning to splash screen
+                }
+            }
+        } else {
+            navController.navigate(Screen.Onboarding.route) {
+                popUpTo(Screen.Splash.route) {
+                    inclusive = true // prevent back button returning to splash screen
+                }
             }
         }
     }

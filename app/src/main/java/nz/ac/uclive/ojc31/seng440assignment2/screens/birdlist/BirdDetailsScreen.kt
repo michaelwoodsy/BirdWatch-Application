@@ -234,7 +234,7 @@ fun BirdDetailLeftSection(
             .background(
                 Brush.horizontalGradient(
                     listOf(
-                        MaterialTheme.colors.surface,
+                        MaterialTheme.colors.primary,
                         MaterialTheme.colors.primary
                     )
                 )
@@ -266,7 +266,7 @@ fun BirdDetailTopSection(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        MaterialTheme.colors.surface,
+                        MaterialTheme.colors.primary,
                         MaterialTheme.colors.primary
                     )
                 )

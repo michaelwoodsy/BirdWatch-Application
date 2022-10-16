@@ -55,10 +55,6 @@ fun NavGraph(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
 
-    val context = LocalContext.current
-    val onboardingDataStore = StoreOnboarding(context)
-    val onboardingState = onboardingDataStore.getOnboardingState.collectAsState(initial = true)
-
     val screens = listOf(
         Screen.Map,
         Screen.Home,
@@ -77,6 +73,9 @@ fun NavGraph(
         SubScreen.Settings.route -> showNavigationBar.value = false
         SubScreen.ViewEntryScreen.route -> showNavigationBar.value = false
         SubScreen.LoadEntryFromLink.route -> showNavigationBar.value = false
+        SubScreen.Challenges.route -> showNavigationBar.value = false
+        SubScreen.Achievements.route -> showNavigationBar.value = false
+        SubScreen.Statistics.route -> showNavigationBar.value = false
         null -> {}
         else -> showNavigationBar.value = true
     }
@@ -92,7 +91,7 @@ fun NavGraph(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if (onboardingState.value!!) Screen.Home.route else Screen.Splash.route
+            startDestination = Screen.Splash.route
         ) {
             composable(route = Screen.Splash.route) {
                 SplashScreen(navController = navController)

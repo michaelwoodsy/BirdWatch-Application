@@ -13,10 +13,6 @@
             app:useSimpleSummaryProvider="true"
             />
 
-        <SwitchPreference
-            app:key="setting1"
-            app:title="This is a setting"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
