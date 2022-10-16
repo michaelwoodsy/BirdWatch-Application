@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -29,11 +30,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDTO
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
+import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.ChallengeListViewModel
 import java.time.format.DateTimeFormatter
 
@@ -49,7 +52,18 @@ fun ChallengesScreen(
         topBar = {topSection(navController = navController)}
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            ChallengeListStateWrapper(navController)
+            Column(Modifier.fillMaxSize()) {
+                Text(
+                    text = "Challenges",
+                    fontFamily = TitleFont,
+                    fontSize = 64.sp,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                )
+                ChallengeListStateWrapper(navController)
+            }
         }
     }
 
@@ -79,10 +93,42 @@ private fun ChallengeListStateWrapper(
         }
         else -> {
             if (challengeListViewModel.loadError.value.isEmpty()){
-                LazyColumn(contentPadding = PaddingValues(16.dp)) {
-                    val itemCount = challenges.size
-                    items(itemCount) {
-                        ChallengeRow(rowIndex = it, entries = challenges, navController = navController)
+                if (challengeListViewModel.challenges.size == 0) {
+                    Column(
+                        Modifier
+                            .padding(30.dp)
+                            .padding(top = 40.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(painterResource(R.drawable.bird), null, Modifier.size(80.dp))
+                        Text(
+                            text = "You don't have any current challenges.",
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = buildAnnotatedString {
+                                append("Get a friend to share the location of a bird from the ")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("history page")
+                                }
+                            },
+                            textAlign = TextAlign.Center
+                        )
+                        OutlinedButton(
+                            onClick = { navController.navigate(Screen.History.route) },
+                            Modifier.padding(top=10.dp)
+
+                        ) {
+                            Text(text = "History Page")
+                        }
+                    }
+                } else {
+                    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                        val itemCount = challenges.size
+                        items(itemCount) {
+                            ChallengeRow(rowIndex = it, entries = challenges, navController = navController)
+                        }
                     }
                 }
             } else {
@@ -105,12 +151,12 @@ private fun ChallengeRow(rowIndex: Int, entries: List<ChallengeDTO>, navControll
         Modifier.clickable {
             val challenge = entries[rowIndex]
             navController.navigate(
-                "add_entry_screen/" +
-                        "${challenge.bird.speciesCode}/" +
-                        "${challenge.bird.comName}/" +
-                        "${challenge.challenge.lastSeenLat}/" +
-                        "${challenge.challenge.lastSeenLong}/" +
-                        "${challenge.challenge.challengeId}"
+                "add_entry_screen?" +
+                        "${SubScreen.AddEntryDetails.birdId}=${challenge.bird.speciesCode}&" +
+                        "${SubScreen.AddEntryDetails.birdName}=${challenge.bird.comName}&" +
+                        "${SubScreen.AddEntryDetails.lat}=${challenge.challenge.lastSeenLat}&" +
+                        "${SubScreen.AddEntryDetails.long}=${challenge.challenge.lastSeenLong}&" +
+                        "${SubScreen.AddEntryDetails.challengeId}=${challenge.challenge.challengeId}"
             )
         }
     ) {
