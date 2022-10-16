@@ -145,7 +145,7 @@ fun HistoryEntry(
                         text = buildAnnotatedString {
                             append("Found on ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append(entry.observedDate)
+                                append(entry.observedDate.toString())
                             }
                             append(" at ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -188,7 +188,7 @@ fun HistoryEntry(
                         text = buildAnnotatedString {
                             append("Found on ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append(entry.observedDate)
+                                append(entry.observedDate.toString())
                             }
                             append(" at ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {

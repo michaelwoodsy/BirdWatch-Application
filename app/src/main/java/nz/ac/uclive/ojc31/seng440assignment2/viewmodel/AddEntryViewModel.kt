@@ -9,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
@@ -18,11 +20,12 @@ class AddEntryViewModel @Inject constructor(
 ) : ViewModel(){
     suspend fun saveEntry(ctx: Context) {
         saving.value = true
+        val dateFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy")
 
         viewModelScope.launch {
             val entry = Entry(
                 speciesCode = currentBirdCode.value,
-                observedDate = datePicked.value,
+                observedDate = LocalDate.parse(datePicked.value, dateFormatter),
                 observedLocation = currentRegion.value,
                 observedLat = currentLat.value,
                 observedLong = currentLong.value,

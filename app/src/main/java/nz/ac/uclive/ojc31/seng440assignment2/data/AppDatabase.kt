@@ -4,14 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import nz.ac.uclive.ojc31.seng440assignment2.data.achievements.AchievementDao
 import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDao
+import nz.ac.uclive.ojc31.seng440assignment2.data.converters.LocalDateConverter
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDao
 import nz.ac.uclive.ojc31.seng440assignment2.model.Achievement
 import nz.ac.uclive.ojc31.seng440assignment2.model.Challenge
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 
-@Database(entities = [Entry::class, Challenge::class, Achievement::class], version = 6)
+@Database(entities = [Entry::class, Challenge::class, Achievement::class], version = 8)
+@TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun entryDao(): EntryDao

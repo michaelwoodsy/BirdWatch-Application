@@ -304,7 +304,7 @@ fun BirdDetailSection(
                 }
                 Row(Modifier.weight(1.2f)) {
                     Text(
-                        text = entry.observedDate,
+                        text = entry.observedDate.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,
@@ -349,7 +349,7 @@ fun BirdDetailSection(
                 }
                 Row(Modifier.weight(1.2f)) {
                     Text(
-                        text = entry.observedDate,
+                        text = entry.observedDate.toString(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,

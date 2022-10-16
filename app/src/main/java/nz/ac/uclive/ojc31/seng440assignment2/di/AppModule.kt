@@ -15,6 +15,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.repository.AchievementRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.BirdRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
+import nz.ac.uclive.ojc31.seng440assignment2.repository.StatisticsRepository
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.EBIRD_BASE_URL
 import nz.ac.uclive.ojc31.seng440assignment2.util.Constants.FLICKR_BASE_URL
 import okhttp3.OkHttpClient
@@ -83,6 +84,12 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideStatisticRepository(entryDao: EntryDao, achievementDao: AchievementDao): StatisticsRepository {
+        return StatisticsRepository(entryDao = entryDao, achievementDao = achievementDao)
+    }
+
+    @Singleton
+    @Provides
     fun provideAppDatabase(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
     }
@@ -104,4 +111,5 @@ object AppModule {
     fun provideAchievementDao(appDatabase: AppDatabase): AchievementDao {
         return appDatabase.achievementDao()
     }
+
 }
