@@ -45,9 +45,14 @@ fun MapScreen(
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     val universityOfCanterbury = LatLng(-43.5225, 172.5794)
-    var cameraPositionState = rememberCameraPositionState {
+    val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(universityOfCanterbury, 15f)
     }
+
+    val centerPosition = remember {
+        cameraPositionState.position
+    }
+
     val uiSettings = remember {
         MapUiSettings()
     }
@@ -114,12 +119,17 @@ fun MapScreen(
                 )
             }
         }
-        ExtendedAddEntryButton(
-            navController,
-            lat = cameraPositionState.position.target.latitude.toString(),
-            long = cameraPositionState.position.target.longitude.toString(),
-        )
+        AddButton(navController = navController, cameraPosition = cameraPositionState)
     }
+}
+
+@Composable
+private fun AddButton(navController: NavHostController, cameraPosition: CameraPositionState) {
+    ExtendedAddEntryButton(
+        navController,
+        lat = cameraPosition.position.target.latitude.toString(),
+        long = cameraPosition.position.target.longitude.toString(),
+    )
 }
 
 @Composable
