@@ -9,6 +9,9 @@ interface AchievementDao {
     @Query("select * from achievement")
     fun getAllAchievements(): Flow<List<Achievement>>
 
+    @Query("select count(*) from achievement")
+    fun getAchievementCount(): Flow<List<Int>>
+
     @Insert
     suspend fun insert(achievement: Achievement)
 

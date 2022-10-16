@@ -35,6 +35,7 @@ import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -143,7 +144,8 @@ fun HistoryEntry(
                         text = buildAnnotatedString {
                             append("Found on ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append(entry.observedDate)
+                                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                                append(entry.observedDate.format(formatter))
                             }
                             append(" at ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -186,7 +188,8 @@ fun HistoryEntry(
                         text = buildAnnotatedString {
                             append("Found on ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append(entry.observedDate)
+                                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                                append(entry.observedDate.format(formatter))
                             }
                             append(" at ")
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
