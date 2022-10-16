@@ -3,6 +3,7 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 import android.content.ContentUris
 import android.content.res.Configuration
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -18,10 +19,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,8 +28,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,6 +45,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.delay
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -55,6 +58,15 @@ fun ViewEntryScreen(
 ) {
     val entry = historyViewModel.historyList.value[historyViewModel.currentIndex.value]
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+
+    val onShare: ()-> Unit = {
+        val deepLinkText = "birdwatch://share/${entry.bird.speciesCode}/${entry.lat}/${entry.long}"
+        clipboardManager.setText(AnnotatedString(deepLinkText))
+        Toast.makeText(context, "Copied share link to clipboard!\n Share this challenge with your friends!", Toast.LENGTH_LONG).show()
+    }
+
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             Box {
@@ -64,6 +76,7 @@ fun ViewEntryScreen(
                         .fillMaxWidth()
                         .fillMaxHeight(0.2f)
                         .align(Alignment.TopCenter),
+                    onShare = onShare
                 )
                 Box(modifier = Modifier
                     .fillMaxWidth()
@@ -111,6 +124,7 @@ fun ViewEntryScreen(
                         .fillMaxWidth(0.2f)
                         .fillMaxHeight()
                         .align(Alignment.CenterStart),
+                    onShare = onShare
                 )
                 Box(modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -172,9 +186,10 @@ fun BirdImage(
 }
 
 @Composable
-fun BirdDetailLeftSection(
+private fun BirdDetailLeftSection(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    onShare: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -186,27 +201,43 @@ fun BirdDetailLeftSection(
                     )
                 )
             ),
-        contentAlignment = Alignment.TopStart
+        contentAlignment = Alignment.TopStart,
     ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = null,
-            tint = MaterialTheme.colors.onSurface,
-            modifier = Modifier
-                .size(36.dp)
-                .offset(16.dp, 16.dp)
-                .clickable {
-                    navController.popBackStack()
-                }
-                .align(Alignment.TopStart)
-        )
+        Column(Modifier
+            .fillMaxHeight().padding(top=16.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
+                modifier = Modifier
+                    .size(36.dp)
+                    .offset(16.dp, 16.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    }
+            )
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
+                modifier = Modifier
+                    .size(36.dp)
+                    .offset(16.dp, -(16.dp))
+                    .clickable {
+                        onShare()
+                    }
+            )
+        }
     }
 }
 
 @Composable
-fun BirdDetailTopSection(
+private fun BirdDetailTopSection(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    onShare: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -220,22 +251,38 @@ fun BirdDetailTopSection(
             ),
         contentAlignment = Alignment.TopStart
     ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = null,
-            tint = MaterialTheme.colors.onSurface,
-            modifier = Modifier
-                .size(36.dp)
-                .offset(16.dp, 16.dp)
-                .clickable {
-                    navController.popBackStack()
-                }
-        )
+        Row(
+            Modifier.fillMaxWidth().padding(start = 16.dp, end=16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
+                modifier = Modifier
+                    .size(36.dp)
+                    .offset(16.dp, 16.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    }
+            )
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
+                modifier = Modifier
+                    .size(36.dp)
+                    .offset(-(16.dp), 16.dp)
+                    .clickable {
+                        onShare()
+                    }
+            )
+        }
     }
 }
 
 @Composable
-fun BirdDetailStateWrapper(
+private fun BirdDetailStateWrapper(
     entry: EntryDTO,
     modifier: Modifier = Modifier,
 ) {
@@ -269,7 +316,7 @@ fun BirdDetailStateWrapper(
 }
 
 @Composable
-fun BirdDetailSection(
+private fun BirdDetailSection(
     entry: EntryDTO,
     modifier: Modifier,
 ) {
