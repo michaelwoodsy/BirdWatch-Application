@@ -13,10 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
@@ -45,7 +42,6 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.delay
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
-import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.BirdHistoryViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -66,10 +62,9 @@ fun ViewEntryScreen(
         clipboardManager.setText(AnnotatedString(deepLinkText))
         Toast.makeText(context, "Copied share link to clipboard!\n Share this challenge with your friends!", Toast.LENGTH_LONG).show()
     }
-
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
-            Box {
+            Box(Modifier.background(color = MaterialTheme.colors.primary)) {
                 BirdDetailTopSection(
                     navController = navController,
                     modifier = Modifier
@@ -127,8 +122,8 @@ fun ViewEntryScreen(
                     onShare = onShare
                 )
                 Box(modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f)
                     .background(MaterialTheme.colors.primary)
                     .align(Alignment.CenterEnd)
                 )
@@ -203,8 +198,10 @@ private fun BirdDetailLeftSection(
             ),
         contentAlignment = Alignment.TopStart,
     ) {
-        Column(Modifier
-            .fillMaxHeight().padding(top=16.dp, bottom = 16.dp),
+        Column(
+            Modifier
+                .fillMaxHeight()
+                .padding(top = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
@@ -252,7 +249,9 @@ private fun BirdDetailTopSection(
         contentAlignment = Alignment.TopStart
     ) {
         Row(
-            Modifier.fillMaxWidth().padding(start = 16.dp, end=16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
@@ -286,33 +285,65 @@ private fun BirdDetailStateWrapper(
     entry: EntryDTO,
     modifier: Modifier = Modifier,
 ) {
-    var showBirdInfo = remember{ mutableStateOf(false) }
-    LaunchedEffect(key1 = true) {
-        delay(0.01.seconds)
-        showBirdInfo.value = true
+    val showBirdInfo = remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(true)}
+
+    LaunchedEffect(Unit) {
+        delay(0.4.seconds)
+        isLoading = false
     }
-    AnimatedVisibility(
-        visible = showBirdInfo.value,
-        enter = slideInVertically(initialOffsetY = {it}),
-        exit = fadeOut(),
-    ) {
-        val configuration = LocalConfiguration.current
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                BirdDetailSection(
-                    modifier = modifier
-                        .offset(y = (-10).dp),
-                    entry = entry
-                )
+
+    when(isLoading) {
+        false -> {
+            LaunchedEffect(Unit) {
+                showBirdInfo.value = true
             }
-            else -> {
-                BirdDetailSection(
-                    modifier = modifier,
-                    entry = entry
-                )
+            AnimatedVisibility(
+                visible = showBirdInfo.value,
+                enter = slideInVertically(initialOffsetY = {it}),
+                exit = fadeOut(),
+            ) {
+                val configuration = LocalConfiguration.current
+                when (configuration.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> {
+                        BirdDetailSection(
+                            modifier = modifier
+                                .offset(y = (-10).dp),
+                            entry = entry
+                        )
+                    }
+                    else -> {
+                        BirdDetailSection(
+                            modifier = modifier,
+                            entry = entry
+                        )
+                    }
+                }
             }
         }
+        true -> {
+            Column(Modifier
+                .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(
+                            top = 120.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        )
+
+                )
+            }
+
+        }
     }
+
 }
 
 @Composable

@@ -1,8 +1,6 @@
 package nz.ac.uclive.ojc31.seng440assignment2.graphs
 
-import android.Manifest
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.gestures.Orientation
@@ -12,40 +10,20 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import nz.ac.uclive.ojc31.seng440assignment2.datastore.StoreOnboarding
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
-import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.AddEntryScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdDetailsScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.birdlist.BirdListScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.CameraScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.LoadEntryScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.SelectLocationScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.entry.ViewEntryScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.home.AchievementsScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.home.challenge.ChallengesScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.home.HomeScreen
-import nz.ac.uclive.ojc31.seng440assignment2.screens.home.StatisticsScreen
 import kotlin.math.roundToInt
 
-@OptIn(
-    ExperimentalPermissionsApi::class, ExperimentalAnimationApi::class,
-    ExperimentalPagerApi::class
-)
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -93,79 +71,18 @@ fun NavGraph(
             navController = navController,
             startDestination = Screen.Splash.route
         ) {
-            composable(route = Screen.Splash.route) {
-                SplashScreen(navController = navController)
-            }
-            composable(route = Screen.Onboarding.route) {
-                OnboardingScreen(
-                    navController = navController,
-                    permissions = listOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                    )
-                )
-            }
-            composable(route = Screen.Home.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    HomeScreen(navController = navController)
-                }
-            }
+            launchGraph(navController = navController)
+
             composable(route = Screen.Map.route) {
                 Box(Modifier.padding(innerPadding)) {
                     MapScreen(navController = navController)
                 }
             }
-            composable(route = Screen.History.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    BirdHistoryScreen(navController = navController)
-                }
-            }
+
+            homeGraph(navController = navController, innerPadding = innerPadding)
+            historyGraph(navController = navController, innerPadding = innerPadding)
             birdNavGraph(navController = navController, innerPadding = innerPadding)
             entryNavGraph(navController = navController, navBackStackEntry = navBackStackEntry, service = service)
-            composable(route = SubScreen.Settings.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    SettingsScreen(navController = navController)
-                }
-            }
-
-            composable(route = SubScreen.ViewEntryScreen.route) {
-                val backStackEntry =
-                    remember(navBackStackEntry) { navController.getBackStackEntry(Screen.History.route) }
-                Box(Modifier.padding(innerPadding)) {
-                    SwipeToReturn(navController = navController) {
-                        ViewEntryScreen(
-                            navController = navController,
-                            historyViewModel = hiltViewModel(backStackEntry)
-                        )
-                    }
-                }
-            }
-
-            composable(route = SubScreen.Challenges.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    SwipeToReturn(navController = navController) {
-                        ChallengesScreen(navController = navController)
-                    }
-                }
-            }
-
-            composable(route = SubScreen.Achievements.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    SwipeToReturn(navController = navController) {
-                        AchievementsScreen(navController = navController)
-                    }
-                }
-            }
-
-            composable(route = SubScreen.Statistics.route) {
-                Box(Modifier.padding(innerPadding)) {
-                    SwipeToReturn(navController = navController) {
-                        StatisticsScreen(navController = navController)
-                    }
-                }
-            }
         }
     }
 }
@@ -208,112 +125,6 @@ fun SwipeToReturn(navController: NavHostController, content: @Composable () -> U
                 .fillMaxSize()
         ) {
             content()
-        }
-    }
-}
-
-fun NavGraphBuilder.birdNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
-    navigation(startDestination = SubScreen.BirdList.route, route = Screen.Birds.route) {
-
-        composable(route = SubScreen.BirdList.route) {
-            Box(Modifier.padding(innerPadding)) {
-                BirdListScreen(navController = navController)
-            }
-        }
-
-        composable(SubScreen.BirdDetails.route, arguments = listOf(
-            navArgument(SubScreen.BirdDetails.birdId) { type = NavType.StringType },
-            navArgument(SubScreen.BirdDetails.birdName) { type = NavType.StringType }
-        )
-        ) {
-            val birdId = remember { it.arguments?.getString(SubScreen.BirdDetails.birdId) }
-            val birdName = remember { it.arguments?.getString(SubScreen.BirdDetails.birdName) }
-
-            SwipeToReturn(navController = navController) {
-                BirdDetailsScreen(
-                    birdId = birdId ?: "",
-                    birdName = birdName ?: "",
-                    navController = navController,
-                )
-            }
-        }
-    }
-}
-
-
-fun NavGraphBuilder.entryNavGraph(
-    navController: NavHostController,
-    navBackStackEntry: NavBackStackEntry?,
-    service: WeeklyNotificationService
-) {
-
-    composable(SubScreen.AddEntryDetails.route, arguments = listOf(
-        navArgument(SubScreen.AddEntryDetails.birdId) {
-            type = NavType.StringType
-            nullable=true },
-        navArgument(SubScreen.AddEntryDetails.birdName) {
-            type = NavType.StringType
-            nullable = true },
-        navArgument(SubScreen.AddEntryDetails.lat) {
-            type = NavType.StringType
-            nullable = true },
-        navArgument(SubScreen.AddEntryDetails.long) {
-            type = NavType.StringType
-            nullable = true },
-        navArgument(SubScreen.AddEntryDetails.challengeId) {
-            type = NavType.StringType
-            nullable = true}
-    )
-    ) {
-        SwipeToReturn(navController = navController) {
-            AddEntryScreen(
-                navController = navController,
-                service = service,
-            )
-        }
-    }
-
-
-    composable(route = SubScreen.SelectLocationScreen.route) {
-        val backStackEntry =
-            remember(navBackStackEntry) { navController.getBackStackEntry(SubScreen.AddEntryDetails.route) }
-        SelectLocationScreen(
-            navController = navController,
-            viewModel = hiltViewModel(backStackEntry)
-        )
-    }
-
-    composable(route = SubScreen.CameraScreen.route) {
-        val backStackEntry =
-            remember(navBackStackEntry) { navController.getBackStackEntry(SubScreen.AddEntryDetails.route) }
-
-        SwipeToReturn(navController = navController) {
-            CameraScreen(navController = navController, viewModel = hiltViewModel(backStackEntry))
-        }
-    }
-
-    composable(
-        route=SubScreen.LoadEntryFromLink.route,
-        deepLinks = listOf(navDeepLink { uriPattern = SubScreen.LoadEntryFromLink.deepLinkURL })
-    ) { backStackEntry ->
-        val birdId = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.birdId)
-        val lat = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.lat)?.toDoubleOrNull()
-        val long = backStackEntry.arguments?.getString(SubScreen.LoadEntryFromLink.long)?.toDoubleOrNull()
-
-        if (!birdId.isNullOrEmpty() && lat != null && long != null) {
-            LoadEntryScreen(
-                navController = navController,
-                birdId = birdId,
-                lat = lat,
-                long = long
-            )
-        } else {
-            LaunchedEffect(Unit) {
-                navController.navigate(Screen.Home.route) {
-                    popUpTo(Screen.Home.route)
-                    launchSingleTop = true
-                }
-            }
         }
     }
 }
