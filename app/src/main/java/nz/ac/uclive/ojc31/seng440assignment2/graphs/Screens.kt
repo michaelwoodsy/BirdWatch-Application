@@ -50,7 +50,7 @@ sealed class SubScreen(val route: String) {
         const val birdName : String = "birdName"
     }
     object Settings : SubScreen("settings")
-    object AddEntryDetails : SubScreen("add_entry_screen/{birdId}/{birdName}/{lat}/{long}/{challengeId}") {
+    object AddEntryDetails : SubScreen("add_entry_screen?birdId={birdId}&birdName={birdName}&lat={lat}&long={long}&challengeId={challengeId}") {
         const val birdId : String = "birdId"
         const val birdName : String = "birdName"
         const val lat : String = "lat"

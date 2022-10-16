@@ -1,6 +1,7 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.home
 
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -133,17 +134,28 @@ private fun HomeTopAppBar(navController: NavHostController) {
 @Composable
 fun ExtendedAddEntryButton(
     navController: NavHostController,
-    birdId: String = "default",
-    birdName: String = "default",
-    lat: String = "default",
-    long: String = "default",
-    challengeId: String = "default"
+    birdId: String? = null,
+    birdName: String? = null,
+    lat: String? = null,
+    long: String? = null,
+    challengeId: String? = null
 ) {
+
+
+    val builder =  Uri.Builder()
+    builder.authority("add_entry_screen")
+    if (!birdId.isNullOrEmpty()) builder.appendQueryParameter(SubScreen.AddEntryDetails.birdId, birdId)
+    if (!birdName.isNullOrEmpty()) builder.appendQueryParameter(SubScreen.AddEntryDetails.birdName, birdName)
+    if (!lat.isNullOrEmpty()) builder.appendQueryParameter(SubScreen.AddEntryDetails.lat, lat)
+    if (!long.isNullOrEmpty()) builder.appendQueryParameter(SubScreen.AddEntryDetails.long, long)
+    if (!challengeId.isNullOrEmpty()) builder.appendQueryParameter(SubScreen.AddEntryDetails.challengeId, challengeId)
+    val queryString = builder.build().toString().replace("//", "")
+
     ExtendedFloatingActionButton(
         text = { Text(text = "Add Entry") },
         icon = { Icon(Icons.Filled.Add, "") },
         onClick = { navController.navigate(
-            "add_entry_screen/${birdId}/${birdName}/${lat}/${long}/$challengeId",
+            queryString,
         ) },
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.surface,

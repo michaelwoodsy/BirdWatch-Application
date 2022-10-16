@@ -249,44 +249,27 @@ fun NavGraphBuilder.entryNavGraph(
 ) {
 
     composable(SubScreen.AddEntryDetails.route, arguments = listOf(
-        navArgument(SubScreen.AddEntryDetails.birdId) { type = NavType.StringType },
-        navArgument(SubScreen.AddEntryDetails.birdName) { type = NavType.StringType },
-        navArgument(SubScreen.AddEntryDetails.lat) { type = NavType.StringType },
-        navArgument(SubScreen.AddEntryDetails.long) { type = NavType.StringType },
-        navArgument(SubScreen.AddEntryDetails.challengeId) { type = NavType.StringType }
+        navArgument(SubScreen.AddEntryDetails.birdId) {
+            type = NavType.StringType
+            nullable=true },
+        navArgument(SubScreen.AddEntryDetails.birdName) {
+            type = NavType.StringType
+            nullable = true },
+        navArgument(SubScreen.AddEntryDetails.lat) {
+            type = NavType.StringType
+            nullable = true },
+        navArgument(SubScreen.AddEntryDetails.long) {
+            type = NavType.StringType
+            nullable = true },
+        navArgument(SubScreen.AddEntryDetails.challengeId) {
+            type = NavType.StringType
+            nullable = true}
     )
     ) {
-        var birdId = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdId) }
-        var birdName = remember { it.arguments?.getString(SubScreen.AddEntryDetails.birdName) }
-        var lat = remember { it.arguments?.getString(SubScreen.AddEntryDetails.lat) }
-        var long = remember { it.arguments?.getString(SubScreen.AddEntryDetails.long) }
-        var challengeId = remember { it.arguments?.getString(SubScreen.AddEntryDetails.challengeId) }
-
-        if (birdId == "default") {
-            birdId = ""
-        }
-        if (birdName == "default") {
-            birdName = ""
-        }
-        if (lat == "default") {
-            lat = ""
-        }
-        if (long == "default") {
-            long = ""
-        }
-        if (challengeId == "default") {
-            challengeId = ""
-        }
-
         SwipeToReturn(navController = navController) {
             AddEntryScreen(
                 navController = navController,
                 service = service,
-                birdId = birdId!!,
-                birdName = birdName!!,
-                lat = lat!!,
-                long = long!!,
-                fromChallengeId =  challengeId!!
             )
         }
     }

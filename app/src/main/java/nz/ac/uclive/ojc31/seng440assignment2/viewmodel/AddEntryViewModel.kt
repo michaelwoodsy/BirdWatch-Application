@@ -1,13 +1,16 @@
 package nz.ac.uclive.ojc31.seng440assignment2.viewmodel
 
+import android.app.Application
 import android.content.Context
 import android.location.Geocoder
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
 import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
@@ -19,8 +22,33 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEntryViewModel @Inject constructor(
     private val repository: EntryRepository,
-    private val challengeRepo: ChallengeRepository
-) : ViewModel(){
+    private val challengeRepo: ChallengeRepository,
+    application: Application,
+    savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    val cal = Calendar.getInstance()
+
+    val year = cal.get(Calendar.YEAR)
+    val month = cal.get(Calendar.MONTH)
+    val day = cal.get(Calendar.DAY_OF_MONTH)
+
+    var currentBirdCode = mutableStateOf("")
+    var currentBirdName = mutableStateOf("")
+    var birdFromArgs = mutableStateOf(false)
+    var fromChallengeId : Long? = null
+
+    var datePicked = mutableStateOf("$day/${month + 1}/$year")
+
+    var currentRegion = mutableStateOf("")
+    var currentLat = mutableStateOf(200.0)
+    var currentLong = mutableStateOf(200.0)
+
+    var imageId = mutableStateOf("")
+    var saving = mutableStateOf(false)
+
+
+
     suspend fun saveEntry(ctx: Context) {
         saving.value = true
         val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
@@ -50,19 +78,25 @@ class AddEntryViewModel @Inject constructor(
         return false
     }
 
-    fun initFromArguments(ctx: Context, birdId: String, birdName: String, lat: String, long: String, challengeId: String) {
-        if (birdId.isNotEmpty() && birdName.isNotEmpty()) {
+    init {
+        val birdId = savedStateHandle.get<String>(SubScreen.AddEntryDetails.birdId)
+        val birdName = savedStateHandle.get<String>(SubScreen.AddEntryDetails.birdName)
+        val lat = savedStateHandle.get<String>(SubScreen.AddEntryDetails.lat)
+        val long = savedStateHandle.get<String>(SubScreen.AddEntryDetails.long)
+        val challengeId = savedStateHandle.get<String>(SubScreen.AddEntryDetails.challengeId)
+
+        if (!birdId.isNullOrEmpty() && !birdName.isNullOrEmpty()) {
             this.currentBirdCode.value = birdId
             this.currentBirdName.value = birdName
             this.birdFromArgs.value = true
         }
 
-        if (challengeId.isNotEmpty()) this.fromChallengeId = challengeId.toLongOrNull()
+        if (!challengeId.isNullOrEmpty()) this.fromChallengeId = challengeId.toLongOrNull()
 
-        if (lat.isNotEmpty() && long.isNotEmpty()) {
+        if (!lat.isNullOrEmpty() && !long.isNullOrEmpty()) {
             this.currentLat.value = lat.toDouble()
             this.currentLong.value = long.toDouble()
-            val geoCoder = Geocoder(ctx)
+            val geoCoder = Geocoder(application)
             viewModelScope.launch {
                 val addressList = geoCoder.getFromLocation(currentLat.value, currentLong.value, 1)
                 currentRegion.value = if (addressList.isNotEmpty()) {
@@ -71,26 +105,6 @@ class AddEntryViewModel @Inject constructor(
                 } else ""
             }
         }
+
     }
-
-    val cal = Calendar.getInstance()
-
-    val year = cal.get(Calendar.YEAR)
-    val month = cal.get(Calendar.MONTH)
-    val day = cal.get(Calendar.DAY_OF_MONTH)
-
-    var currentBirdCode = mutableStateOf("")
-    var currentBirdName = mutableStateOf("")
-    var birdFromArgs = mutableStateOf(false)
-    var fromChallengeId : Long? = null
-
-    var datePicked = mutableStateOf("$day/${month + 1}/$year")
-
-    var currentRegion = mutableStateOf("")
-    var currentLat = mutableStateOf(200.0)
-    var currentLong = mutableStateOf(200.0)
-
-    var imageId = mutableStateOf("")
-    var saving = mutableStateOf(false)
-
 }

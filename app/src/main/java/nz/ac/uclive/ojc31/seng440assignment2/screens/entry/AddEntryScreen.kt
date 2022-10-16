@@ -48,18 +48,9 @@ fun AddEntryScreen(
     navController: NavHostController,
     topPadding: Dp = 20.dp,
     birdImageSize: Dp = 200.dp,
-    service: WeeklyNotificationService,
-    birdId: String,
-    birdName: String,
-    lat: String,
-    long: String,
-    fromChallengeId: String,
-    viewModel: AddEntryViewModel = hiltViewModel()
+    service: WeeklyNotificationService
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.initFromArguments(context, birdId, birdName, lat, long, fromChallengeId)
-    }
+
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
