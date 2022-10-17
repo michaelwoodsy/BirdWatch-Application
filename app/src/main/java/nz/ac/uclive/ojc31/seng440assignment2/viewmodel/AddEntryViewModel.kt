@@ -90,7 +90,7 @@ class AddEntryViewModel @Inject constructor(
                             achievementCount = entries.size,
                             achievementType = "Entry Number",
                             receivedDate = LocalDate.now(),
-                            achievementText = "You have made your ${entries.size}st entry"
+                            achievementText = "You made your ${entries.size}st entry"
                         )
                         achievementRepository.insert(achievement = achievement)
                     } else {
@@ -98,7 +98,7 @@ class AddEntryViewModel @Inject constructor(
                             achievementCount = entries.size,
                             achievementType = "Entry Number",
                             receivedDate = LocalDate.now(),
-                            achievementText = "You have made your ${entries.size}th entry"
+                            achievementText = "You made your ${entries.size}th entry"
                         )
                         achievementRepository.insert(achievement = achievement)
                     }
@@ -112,14 +112,25 @@ class AddEntryViewModel @Inject constructor(
                     }
                 }
                 if (speciesNumberAchievementList.contains(uniqueSpeciesList.size)) {
-                    val achievement = Achievement(
-                        achievementCount = uniqueSpeciesList.size,
-                        achievementType = "Species Number",
-                        receivedDate = LocalDate.now(),
-                        achievementText = "You have seen ${uniqueSpeciesList.size} unique bird species"
-                    )
-                    achievementRepository.insert(achievement = achievement)
-                    service.showNotification()
+                    if ((uniqueSpeciesList.size == 2) || (uniqueSpeciesList.size == 32)) {
+                        val achievement = Achievement(
+                            achievementCount = uniqueSpeciesList.size,
+                            achievementType = "Species Number",
+                            receivedDate = LocalDate.now(),
+                            achievementText = "You entered your ${uniqueSpeciesList.size}nd unique species of bird"
+                        )
+                        achievementRepository.insert(achievement = achievement)
+                        service.showNotification()
+                    } else {
+                        val achievement = Achievement(
+                            achievementCount = uniqueSpeciesList.size,
+                            achievementType = "Species Number",
+                            receivedDate = LocalDate.now(),
+                            achievementText = "You entered your ${uniqueSpeciesList.size}th unique species of bird"
+                        )
+                        achievementRepository.insert(achievement = achievement)
+                        service.showNotification()
+                    }
                 }
             }
         }

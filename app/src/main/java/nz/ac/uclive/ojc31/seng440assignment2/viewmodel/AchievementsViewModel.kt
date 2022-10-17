@@ -31,6 +31,7 @@ class AchievementsViewModel @Inject constructor(
                 }
 
                 achievementList.value = achievement.toList()
+                isLoading.value = false
             }
         }
     }

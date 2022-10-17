@@ -49,7 +49,7 @@ fun ChallengesScreen(
     val context = LocalContext.current
 
     Scaffold(
-        topBar = {TopSection(navController = navController)}
+        topBar = { TopSection(navController = navController) }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             Column(
@@ -85,7 +85,7 @@ private fun ChallengeListStateWrapper(
     navController: NavHostController,
     challengeListViewModel: ChallengeListViewModel = hiltViewModel(),
 ) {
-    val challenges = remember{challengeListViewModel.challenges}
+    val challenges = remember { challengeListViewModel.challenges }
     when (challengeListViewModel.isLoading.value) {
         true -> {
             Box(Modifier.fillMaxSize()) {
@@ -98,14 +98,18 @@ private fun ChallengeListStateWrapper(
             }
         }
         else -> {
-            if (challengeListViewModel.loadError.value.isEmpty()){
+            if (challengeListViewModel.loadError.value.isEmpty()) {
                 if (challengeListViewModel.challenges.size == 0) {
                     NoContentTemplate()
                 } else {
                     LazyColumn(contentPadding = PaddingValues(16.dp)) {
                         val itemCount = challenges.size
                         items(itemCount) {
-                            ChallengeRow(rowIndex = it, entries = challenges, navController = navController)
+                            ChallengeRow(
+                                rowIndex = it,
+                                entries = challenges,
+                                navController = navController
+                            )
                         }
                     }
                 }
@@ -159,12 +163,12 @@ private fun NoContentTemplate() {
                 verticalAlignment = Alignment.CenterVertically
 
             ) {
-                Icon(painterResource(R.drawable.bird), null, Modifier.size(65.dp))
                 Column(
                     Modifier.padding(5.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Icon(painterResource(R.drawable.bird), null, Modifier.size(65.dp))
                     Text(
                         text = "You don't have any current challenges.",
                         textAlign = TextAlign.Center
@@ -186,7 +190,11 @@ private fun NoContentTemplate() {
 }
 
 @Composable
-private fun ChallengeRow(rowIndex: Int, entries: List<ChallengeDTO>, navController: NavHostController) {
+private fun ChallengeRow(
+    rowIndex: Int,
+    entries: List<ChallengeDTO>,
+    navController: NavHostController
+) {
     Row(
         Modifier.clickable {
             val challenge = entries[rowIndex]
@@ -206,12 +214,13 @@ private fun ChallengeRow(rowIndex: Int, entries: List<ChallengeDTO>, navControll
 }
 
 
-private fun getAddress(context: Context, lat: Double, long: Double) : String {
+private fun getAddress(context: Context, lat: Double, long: Double): String {
     val geoCoder = Geocoder(context)
     val addressList = geoCoder.getFromLocation(lat, long, 1)
     return if (addressList.isNotEmpty()) {
         val address = addressList[0]
-        address.locality ?: address.subAdminArea ?: address.adminArea ?: "Latitude: $lat, Longitude: $long"
+        address.locality ?: address.subAdminArea ?: address.adminArea
+        ?: "Latitude: $lat, Longitude: $long"
     } else {
         "Latitude: $lat, Longitude: $long"
     }
@@ -225,7 +234,8 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
         mutableStateOf("")
     }
     LaunchedEffect(Unit) {
-        visibleAddress = getAddress(context, challenge.challenge.lastSeenLat, challenge.challenge.lastSeenLong)
+        visibleAddress =
+            getAddress(context, challenge.challenge.lastSeenLat, challenge.challenge.lastSeenLong)
     }
 
     when (configuration.orientation) {
@@ -261,7 +271,13 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
                         }
                         append(" on ")
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(challenge.challenge.receivedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyy")))
+                            append(
+                                challenge.challenge.receivedDate.format(
+                                    DateTimeFormatter.ofPattern(
+                                        "dd-MM-yyy"
+                                    )
+                                )
+                            )
                         }
                     })
                 }
