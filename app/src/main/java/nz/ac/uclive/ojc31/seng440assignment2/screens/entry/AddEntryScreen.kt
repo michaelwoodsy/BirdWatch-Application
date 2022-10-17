@@ -353,13 +353,14 @@ fun SaveButton(
 @Composable
 fun CancelButton(
     navController: NavHostController,
+    onClick: ()-> Unit = {navController.popBackStack()}
 ) {
     Button(
         modifier = Modifier
             .width(100.dp)
             .padding(5.dp),
         onClick = {
-            navController.popBackStack()
+            onClick()
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = Color(128, 128, 128))
     ) {

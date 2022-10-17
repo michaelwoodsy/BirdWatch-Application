@@ -198,7 +198,16 @@ fun LoadEntryForm(
                         Column() {
                             Text("Do you accept this challenge?")
                             Row() {
-                                CancelButton(navController = navController)
+                                CancelButton(
+                                    navController = navController,
+                                    onClick = {
+                                        navController.navigate(Screen.Home.route) {
+                                            popUpTo(Screen.Splash.route) {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                )
                                 SaveButton(navController = navController)
                             }
                         }
