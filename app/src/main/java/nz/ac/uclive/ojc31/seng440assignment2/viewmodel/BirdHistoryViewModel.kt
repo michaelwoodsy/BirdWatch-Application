@@ -52,7 +52,7 @@ class BirdHistoryViewModel @Inject constructor (
                                     EntryDTO(bird, entry)
                                 }
                             }
-                        historyList.value = entryDTOList as List<EntryDTO>
+                        historyList.value = entryDTOList.reversed() as List<EntryDTO>
                         isLoading.value = false
                     }
                     is Resource.Error -> {
