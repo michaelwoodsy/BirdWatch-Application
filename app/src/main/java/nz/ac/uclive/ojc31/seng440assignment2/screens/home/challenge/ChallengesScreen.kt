@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.location.Geocoder
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,12 +46,16 @@ fun ChallengesScreen(
 ) {
 
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {topSection(navController = navController)}
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            Column(Modifier.fillMaxSize()) {
+            Column(
+                Modifier.fillMaxSize().verticalScroll(scrollState),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = "Challenges",
                     fontFamily = TitleFont,
@@ -77,7 +80,7 @@ fun ChallengesScreen(
 @Composable
 private fun ChallengeListStateWrapper(
     navController: NavHostController,
-    challengeListViewModel: ChallengeListViewModel = hiltViewModel()
+    challengeListViewModel: ChallengeListViewModel = hiltViewModel(),
 ) {
     val challenges = remember{challengeListViewModel.challenges}
     when (challengeListViewModel.isLoading.value) {
