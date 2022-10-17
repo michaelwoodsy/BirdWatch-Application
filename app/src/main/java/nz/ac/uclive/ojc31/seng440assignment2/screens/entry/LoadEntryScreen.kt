@@ -58,7 +58,7 @@ fun LoadEntryScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.8f)
+                        .fillMaxHeight()
                         .background(MaterialTheme.colors.primary)
                         .align(Alignment.BottomCenter)
                 )
