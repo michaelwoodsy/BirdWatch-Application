@@ -49,7 +49,7 @@ fun ChallengesScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        topBar = {topSection(navController = navController)}
+        topBar = {TopSection(navController = navController)}
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             Column(
@@ -118,13 +118,6 @@ private fun ChallengeListStateWrapper(
                             },
                             textAlign = TextAlign.Center
                         )
-                        OutlinedButton(
-                            onClick = { navController.navigate(Screen.History.route) },
-                            Modifier.padding(top=10.dp)
-
-                        ) {
-                            Text(text = "History Page")
-                        }
                     }
                 } else {
                     LazyColumn(contentPadding = PaddingValues(16.dp)) {
@@ -269,7 +262,7 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
 }
 
 @Composable
-private fun topSection(navController: NavHostController) {
+private fun TopSection(navController: NavHostController) {
     Box(
         Modifier.padding(bottom = 30.dp),
         contentAlignment = Alignment.TopStart
