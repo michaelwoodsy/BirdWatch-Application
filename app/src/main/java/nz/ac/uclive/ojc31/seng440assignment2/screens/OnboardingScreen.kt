@@ -6,11 +6,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -52,11 +51,9 @@ fun OnboardingScreen(
     val onboardingDataStore = StoreOnboarding(context)
 
     Column {
-
-        Text(text = "Skip",modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp)
-            .clickable {
+        Button(
+            shape = RoundedCornerShape(20.dp),
+            onClick = {
                 scope.launch {
                     onboardingDataStore.setOnboardingState(true)
                 }
@@ -66,30 +63,40 @@ fun OnboardingScreen(
                         inclusive = true // prevent back button returning to splash screen
                     }
                 }
-            }
-        )
+            },
+            modifier = Modifier.align(Alignment.Start).padding(4.dp)
+        ) {
+            Text(
+                text = "Skip", modifier = Modifier
+            )
+        }
 
-        HorizontalPager(state = pagerState,
+
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-        count = 3) { page ->
+            count = 3
+        ) { page ->
 
             PageUI(page = onboardPages[page])
         }
 
-        HorizontalPagerIndicator(pagerState = pagerState,
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp),
             activeColor = MaterialTheme.colors.primary
         )
 
-        AnimatedVisibility(visible = pagerState.currentPage == 2 ) {
-            OutlinedButton(shape = RoundedCornerShape(20.dp) ,
+        AnimatedVisibility(visible = pagerState.currentPage == 2) {
+            Button(
+                shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),onClick = {
+                    .padding(horizontal = 8.dp), onClick = {
                     scope.launch {
                         onboardingDataStore.setOnboardingState(true)
                     }
@@ -100,9 +107,7 @@ fun OnboardingScreen(
                         }
                     }
                 },
-                colors = ButtonDefaults.outlinedButtonColors(
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = Color.White)) {
+            ) {
                 Text(text = stringResource(R.string.app_name))
             }
         }
@@ -112,44 +117,53 @@ fun OnboardingScreen(
 
 @Composable
 fun PageUI(page: Page) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier.verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Image(
             painter = painterResource(page.image),
             contentDescription = null,
             modifier = Modifier.size(200.dp)
         )
-        Spacer(modifier = Modifier.height(20.dp))
-
         Text(
             text = page.title,
-            fontSize = 28.sp, fontWeight = FontWeight.Bold
+            fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = page.description,
-            textAlign = TextAlign.Center,fontSize = 14.sp)
-        Spacer(modifier = Modifier.height(12.dp))
-
+        Text(
+            text = page.description,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
+        )
     }
 }
 
-data class Page(val title: String,
-                val description: String,
-                @DrawableRes val image:Int)
+data class Page(
+    val title: String,
+    val description: String,
+    @DrawableRes val image: Int
+)
 
 val onboardPages = listOf(
     Page(
-        "Welcome to BirdWatch",
-        "This app is really really good",
-        R.drawable.bird
+        "Welcome to BirdWatch!",
+        "BirdWatch is the perfect application for BirdWatchers across the globe.",
+        R.drawable.ic_baseline_accessibility_24
     ),
     Page(
-        "Trust me, this app is sick",
-        "You're gonna have such ana awesome time on BirdWatch",
-        R.drawable.bird
+        "Find as many birds as possible!",
+        "Add bird entries to your history and challenge your friends to find the same " +
+                "birds as you.",
+        R.drawable.ic_baseline_camera_front_24
     ),
     Page(
-        "Please enable your camera and location",
-        "You can also do so in your phone's settings",
-        R.drawable.bird
+        "Please ensure to enable your phone's camera and location",
+        "This is so you can take full advantage of BirdWatch's countless features. " +
+                "If you don't approve it after exiting this screen, you can enable them later " +
+                "in your phone's settings.",
+        R.drawable.ic_baseline_perm_device_information_24
     )
 )
