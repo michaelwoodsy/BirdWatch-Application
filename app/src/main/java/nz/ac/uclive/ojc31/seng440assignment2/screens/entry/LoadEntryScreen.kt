@@ -228,7 +228,7 @@ private fun SaveButton(
         onClick = {
             coroutineScope.launch {
                 viewModel.saveEntry(ctx)
-                navController.navigate(SubScreen.Home.route) {
+                navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Splash.route) {
                         inclusive = true
                     }

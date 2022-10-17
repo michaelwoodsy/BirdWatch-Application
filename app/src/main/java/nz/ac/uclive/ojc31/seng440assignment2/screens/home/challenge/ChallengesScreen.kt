@@ -2,6 +2,7 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.home.challenge
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.drawable.GradientDrawable.Orientation
 import android.location.Geocoder
 import android.widget.Toast
 import androidx.compose.foundation.*
@@ -46,14 +47,13 @@ fun ChallengesScreen(
 ) {
 
     val context = LocalContext.current
-    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {TopSection(navController = navController)}
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             Column(
-                Modifier.fillMaxSize().verticalScroll(scrollState),
+                Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -100,28 +100,7 @@ private fun ChallengeListStateWrapper(
         else -> {
             if (challengeListViewModel.loadError.value.isEmpty()){
                 if (challengeListViewModel.challenges.size == 0) {
-                    Column(
-                        Modifier
-                            .padding(30.dp)
-                            .padding(top = 40.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(painterResource(R.drawable.bird), null, Modifier.size(80.dp))
-                        Text(
-                            text = "You don't have any current challenges.",
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = buildAnnotatedString {
-                                append("Get a friend to share the location of a bird from the ")
-                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("history page")
-                                }
-                            },
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    NoContentTemplate()
                 } else {
                     LazyColumn(contentPadding = PaddingValues(16.dp)) {
                         val itemCount = challenges.size
@@ -142,6 +121,68 @@ private fun ChallengeListStateWrapper(
 
         }
     }
+}
+
+@Composable
+private fun NoContentTemplate() {
+    val configuration = LocalConfiguration.current
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_PORTRAIT -> {
+            Column(
+                Modifier
+                    .padding(30.dp)
+                    .padding(top = 40.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(painterResource(R.drawable.bird), null, Modifier.size(80.dp))
+                Text(
+                    text = "You don't have any current challenges.",
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = buildAnnotatedString {
+                        append("Get a friend to share the location of a bird from the ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("history page")
+                        }
+                    },
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else -> {
+            Row(
+                Modifier
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+
+            ) {
+                Icon(painterResource(R.drawable.bird), null, Modifier.size(65.dp))
+                Column(
+                    Modifier.padding(5.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "You don't have any current challenges.",
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            append("Get a friend to share the location of a bird from the ")
+                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("history page")
+                            }
+                        },
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+
 }
 
 @Composable
