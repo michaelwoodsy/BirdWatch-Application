@@ -21,9 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -350,6 +353,12 @@ fun BirdDetailSection(
 ) {
     val scrollState = rememberScrollState()
     val birdName = birdInfo[0].comName
+    val sciName = birdInfo[0].sciName
+    val famName = birdInfo[0].familyComName
+    val famSciName = birdInfo[0].familySciName
+    val order = birdInfo[0].order
+    val extinct = birdInfo[0].extinct
+    val extinctYear = birdInfo[0].extinctYear
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
@@ -365,8 +374,91 @@ fun BirdDetailSection(
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
                     textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
                 )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Scientific Name: ")
+                        }
+                        append("$sciName")
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Family Name: ")
+                        }
+                        append("$famName")
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Scientific Family Name: ")
+                        }
+                        append("$famSciName")
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Order: ")
+                        }
+                        append("$order")
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                if (extinct) {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct: ")
+                            }
+                            append("Yes")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
+                    )
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct Year: ")
+                            }
+                            append("$extinctYear")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
+                    )
+                } else {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct: ")
+                            }
+                            append("No")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
+                    )
+                }
             }
         }
         else -> {
@@ -378,21 +470,101 @@ fun BirdDetailSection(
             ) {
                 Row {
                     Box(
-                        modifier = Modifier,
                         contentAlignment = Alignment.TopCenter) {
                         BirdImage(birdsImages = birdsImages)
                     }
-                    Text(
-                        text = birdName,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 50.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterVertically),
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colors.onSurface
-                    )
+                    Column(Modifier.fillMaxSize()) {
+                        Text(
+                            text = birdName,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Scientific Name: ")
+                                }
+                                append("$sciName")
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Family Name: ")
+                                }
+                                append("$famName")
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Scientific Family Name: ")
+                                }
+                                append("$famSciName")
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Order: ")
+                                }
+                                append("$order")
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp)
+                        )
+                        if (extinct) {
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct: ")
+                                    }
+                                    append("Yes")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(16.dp)
+                            )
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct Year: ")
+                                    }
+                                    append("$extinctYear")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(16.dp)
+                            )
+                        } else {
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct: ")
+                                    }
+                                    append("No")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
