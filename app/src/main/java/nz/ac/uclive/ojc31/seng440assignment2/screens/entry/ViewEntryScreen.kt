@@ -30,9 +30,11 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -362,31 +364,108 @@ private fun BirdDetailSection(
                     .offset(y = 100.dp)
                     .verticalScroll(scrollState)
             ) {
-                Row(Modifier.weight(1.2f)) {
+                Text(
+                    text = entry.bird.comName,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                )
+                Text(
+                    text = entry.observedLocation,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onSurface
+                )
+                Text(
+                    text = entry.observedDate.toString(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onSurface
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Scientific Name: ")
+                        }
+                        append(entry.bird.sciName)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Family Name: ")
+                        }
+                        append(entry.bird.familyComName)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Scientific Family Name: ")
+                        }
+                        append(entry.bird.familySciName)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Order: ")
+                        }
+                        append(entry.bird.order)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp)
+                )
+                if (entry.bird.extinct) {
                     Text(
-                        text = entry.bird.comName,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onSurface
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct: ")
+                            }
+                            append("Yes")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
                     )
-                }
-                Row(Modifier.weight(1.2f)) {
                     Text(
-                        text = entry.observedLocation,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onSurface
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct Year: ")
+                            }
+                            append("${entry.bird.extinctYear}")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
                     )
-                }
-                Row(Modifier.weight(1.2f)) {
+                } else {
                     Text(
-                        text = entry.observedDate.toString(),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onSurface
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Extinct: ")
+                            }
+                            append("No")
+                        },
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(16.dp)
                     )
                 }
             }
@@ -398,41 +477,122 @@ private fun BirdDetailSection(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
-                Row(Modifier.weight(1.2f)) {
+                Row {
                     Box(
                         modifier = Modifier,
                         contentAlignment = Alignment.TopCenter) {
                         BirdImage(imageId = entry.imageId)
                     }
-                    Text(
-                        text = entry.bird.comName,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 50.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterVertically),
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colors.onSurface
-                    )
-                }
-                Row(Modifier.weight(1.2f)) {
-                    Text(
-                        text = entry.observedLocation,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onSurface
-                    )
-                }
-                Row(Modifier.weight(1.2f)) {
-                    Text(
-                        text = entry.observedDate.toString(),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onSurface
-                    )
+                    Column(Modifier.fillMaxSize()) {
+                        Text(
+                            text = entry.bird.comName,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 30.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            text = entry.observedLocation,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Text(
+                            text = entry.observedDate.toString(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Scientific Name: ")
+                                }
+                                append(entry.bird.sciName)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Family Name: ")
+                                }
+                                append(entry.bird.familyComName)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Scientific Family Name: ")
+                                }
+                                append(entry.bird.familySciName)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(16.dp)
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Order: ")
+                                }
+                                append(entry.bird.order)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(16.dp)
+                        )
+                        if (entry.bird.extinct) {
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct: ")
+                                    }
+                                    append("Yes")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(16.dp)
+                            )
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct Year: ")
+                                    }
+                                    append("${entry.bird.extinctYear}")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(16.dp)
+                            )
+                        } else {
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("Extinct: ")
+                                    }
+                                    append("No")
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.Start)
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
