@@ -32,7 +32,7 @@ class WeeklyNotificationService(
             .setContentText("Achievement Complete")
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText("You have successfully completed an achievement, good work!"))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(activityPendingIntent)
             .setSound(rawPathUri)
             .setColor(0xFF4E9F3D.toInt())
@@ -45,8 +45,8 @@ class WeeklyNotificationService(
     }
 
     companion object {
-        const val WEEKLY_CHANNEL_ID = "weekly_update_channel"
-        const val WEEKLY_CHANNEL_NAME = "Weekly Update"
-        const val WEEKLY_CHANNEL_DESC = "Used to provide weekly updates on how many entries a user has made."
+        const val WEEKLY_CHANNEL_ID = "achievement_channel"
+        const val WEEKLY_CHANNEL_NAME = "Achievements"
+        const val WEEKLY_CHANNEL_DESC = "Used to indicate to the user when an achievement has been completed."
     }
 }

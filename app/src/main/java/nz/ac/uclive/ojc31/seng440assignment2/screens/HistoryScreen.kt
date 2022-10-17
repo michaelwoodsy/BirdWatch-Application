@@ -88,7 +88,7 @@ fun HistoryList(
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(Icons.Outlined.Info, null, Modifier.size(80.dp))
-                Text("You haven't yet spotted any birds!")
+                Text("You haven't spotted any birds yet!")
             }
         } else {
             LazyColumn(contentPadding = PaddingValues(16.dp)) {

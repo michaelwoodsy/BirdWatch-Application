@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -64,7 +65,9 @@ fun OnboardingScreen(
                     }
                 }
             },
-            modifier = Modifier.align(Alignment.Start).padding(4.dp)
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(4.dp)
         ) {
             Text(
                 text = "Skip", modifier = Modifier
@@ -131,12 +134,16 @@ fun PageUI(page: Page) {
         Text(
             text = page.title,
             fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(16.dp)
         )
         Text(
             text = page.description,
             textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(16.dp)
         )
     }
 }
