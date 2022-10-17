@@ -337,7 +337,6 @@ fun SaveButton(
                 navController.navigate(Screen.Home.route) {
                     popUpTo(Screen.Home.route)
                 }
-                service.showNotification()
             }
         },
         enabled = (viewModel.canSave() && !viewModel.saving.value)

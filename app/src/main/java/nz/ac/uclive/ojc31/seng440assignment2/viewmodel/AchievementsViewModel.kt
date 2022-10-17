@@ -24,7 +24,7 @@ class AchievementsViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading.value = true
 
-            achievementRepository.getAllFlow().collect { achievement ->
+            achievementRepository.getAllAchievements().collect { achievement ->
                 if (achievement.isEmpty()) {
                     isLoading.value = false
                     return@collect

@@ -11,7 +11,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
+import nz.ac.uclive.ojc31.seng440assignment2.model.Achievement
 import nz.ac.uclive.ojc31.seng440assignment2.model.Entry
+import nz.ac.uclive.ojc31.seng440assignment2.repository.AchievementRepository
+import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.repository.ChallengeRepository
 import nz.ac.uclive.ojc31.seng440assignment2.repository.EntryRepository
 import java.time.LocalDate
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class AddEntryViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val challengeRepo: ChallengeRepository,
+    private val achievementRepository: AchievementRepository,
     application: Application,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
@@ -53,6 +57,8 @@ class AddEntryViewModel @Inject constructor(
         saving.value = true
         val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
 
+        val service = WeeklyNotificationService(ctx)
+
         viewModelScope.launch {
             val entry = Entry(
                 speciesCode = currentBirdCode.value,
@@ -66,9 +72,57 @@ class AddEntryViewModel @Inject constructor(
             if (fromChallengeId != null) {
                 challengeRepo.deleteById(fromChallengeId!!)
             }
+            addNotification(service)
             Toast.makeText(ctx, "Successfully Saved Entry!", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    private suspend fun addNotification(service: WeeklyNotificationService) {
+        val totalNumberAchievementList = listOf(1, 5, 10, 25, 50, 100, 250, 500, 1000)
+        val speciesNumberAchievementList = listOf(2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
+
+        repository.getAllFlow().collect { entries ->
+            if (entries.isNotEmpty()) {
+                if (totalNumberAchievementList.contains(entries.size)) {
+                    if (entries.size == 1) {
+                        val achievement = Achievement(
+                            achievementCount = entries.size,
+                            achievementType = "Entry Number",
+                            receivedDate = LocalDate.now(),
+                            achievementText = "You have made your ${entries.size}st entry"
+                        )
+                        achievementRepository.insert(achievement = achievement)
+                    } else {
+                        val achievement = Achievement(
+                            achievementCount = entries.size,
+                            achievementType = "Entry Number",
+                            receivedDate = LocalDate.now(),
+                            achievementText = "You have made your ${entries.size}th entry"
+                        )
+                        achievementRepository.insert(achievement = achievement)
+                    }
+                    service.showNotification()
+                }
+                var uniqueSpeciesList = mutableListOf<String>()
+                for (entry in entries) {
+                    if (uniqueSpeciesList.contains(entry.speciesCode)) {
+                    } else {
+                        uniqueSpeciesList.add(entry.speciesCode)
+                    }
+                }
+                if (speciesNumberAchievementList.contains(uniqueSpeciesList.size)) {
+                    val achievement = Achievement(
+                        achievementCount = uniqueSpeciesList.size,
+                        achievementType = "Species Number",
+                        receivedDate = LocalDate.now(),
+                        achievementText = "You have seen ${uniqueSpeciesList.size} unique bird species"
+                    )
+                    achievementRepository.insert(achievement = achievement)
+                    service.showNotification()
+                }
+            }
+        }
     }
 
     fun canSave(): Boolean {
