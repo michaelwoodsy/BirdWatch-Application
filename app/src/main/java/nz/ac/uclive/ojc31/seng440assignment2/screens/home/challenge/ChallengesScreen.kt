@@ -72,7 +72,10 @@ fun ChallengesScreen(
 
     LaunchedEffect(Unit) {
         viewModel.loadChallenges()
-        Toast.makeText(context, "Select a challenge to try complete it!", Toast.LENGTH_SHORT ).show()
+        if (viewModel.challenges.isNotEmpty()) {
+            Toast.makeText(context, "Select a challenge to try complete it!", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }
 
