@@ -24,17 +24,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.launch
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
-import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.viewmodel.LoadEntryViewModel
 
 
@@ -176,7 +173,7 @@ fun LoadEntryForm(
                 ) {
                     Row(Modifier.weight(0.5f)) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = "Someone spotted a")
+                            Text(text = stringResource(R.string.someone_spotted_label))
                             Text(
                                 text = viewModel.bird.value!!.comName,
                                 fontWeight = FontWeight.Bold,
@@ -196,7 +193,7 @@ fun LoadEntryForm(
                     }
                     Row(Modifier.weight(1.0f)) {
                         Column() {
-                            Text("Do you accept this challenge?")
+                            Text(stringResource(R.string.challenge_question))
                             Row() {
                                 CancelButton(
                                     navController = navController,
@@ -247,7 +244,7 @@ private fun SaveButton(
         enabled = !viewModel.isSaving.value
     ) {
         if (!viewModel.isSaving.value) {
-            Text("Accept")
+            Text(stringResource(R.string.accept_button))
         } else {
             Text(text = stringResource(R.string.saving_label))
         }

@@ -74,7 +74,7 @@ fun Splash(alpha: Float) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.bird),
-                contentDescription = "Logo Icon",
+                contentDescription = stringResource(R.string.logo_icon),
                 modifier = Modifier
                     .size(120.dp)
                     .alpha(alpha = alpha)

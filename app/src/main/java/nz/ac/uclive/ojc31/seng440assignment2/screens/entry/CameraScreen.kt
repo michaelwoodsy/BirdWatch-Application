@@ -1,10 +1,8 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.entry
 
 import android.content.Context
-import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -32,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -57,6 +56,7 @@ fun CameraScreen(
     val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
 
+    val toastText = stringResource(R.string.failed_image_save)
 
     CameraView(onImageCaptured = { uri, fromGallery ->
         coroutineScope.launch {
@@ -69,12 +69,10 @@ fun CameraScreen(
             }
 
         }
-
     }, onError = {
         coroutineScope.launch {
-            println("failed")
             navController.popBackStack()
-            Toast.makeText(ctx, "Failed to save image!", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show()
 
         }
     })
@@ -114,7 +112,6 @@ fun CameraView(onImageCaptured: (Uri, Boolean) -> Unit, onError: (ImageCaptureEx
                     galleryLauncher.launch("image/*")
                 }
             }
-            else -> {}
         }
     }
 }
@@ -189,14 +186,12 @@ fun CameraControls(cameraUIAction: (CameraUIAction) -> Unit) {
 
         CameraControl(
             Icons.Sharp.FlipCameraAndroid,
-            0,
             modifier= Modifier.size(64.dp),
             onClick = { cameraUIAction(CameraUIAction.OnSwitchCameraClick) }
         )
 
         CameraControl(
             Icons.Sharp.Lens,
-            0,
             modifier= Modifier
                 .size(64.dp)
                 .padding(1.dp)
@@ -206,7 +201,6 @@ fun CameraControls(cameraUIAction: (CameraUIAction) -> Unit) {
 
         CameraControl(
             Icons.Sharp.PhotoLibrary,
-            0,
             modifier= Modifier.size(64.dp),
             onClick = { cameraUIAction(CameraUIAction.OnGalleryViewClick) }
         )
@@ -218,7 +212,6 @@ fun CameraControls(cameraUIAction: (CameraUIAction) -> Unit) {
 @Composable
 fun CameraControl(
     imageVector: ImageVector,
-    contentDescId: Int,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {

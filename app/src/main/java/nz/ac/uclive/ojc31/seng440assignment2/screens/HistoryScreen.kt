@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.entries.EntryDTO
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
@@ -39,7 +41,7 @@ import java.time.format.DateTimeFormatter
 
 
 @Composable
-fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryViewModel = hiltViewModel()) {
+fun BirdHistoryScreen(navController: NavHostController) {
     Scaffold(
         floatingActionButton = {
             ExtendedAddEntryButton(navController)
@@ -48,7 +50,7 @@ fun BirdHistoryScreen(navController: NavHostController, viewModel: BirdHistoryVi
         Box(Modifier.padding(paddingValues)) {
             Column(Modifier.fillMaxSize()) {
                 Text(
-                    text = "BirdHistory",
+                    text = stringResource(R.string.bird_history_title),
                     fontFamily = TitleFont,
                     fontSize = 64.sp,
                     color = MaterialTheme.colors.primary,
@@ -88,7 +90,7 @@ fun HistoryList(
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(Icons.Outlined.Info, null, Modifier.size(80.dp))
-                Text("You haven't spotted any birds yet!")
+                Text(stringResource(R.string.no_entries))
             }
         } else {
             LazyColumn(contentPadding = PaddingValues(16.dp)) {
@@ -142,12 +144,12 @@ fun HistoryEntry(
                     Text(
                         textAlign = TextAlign.Center,
                         text = buildAnnotatedString {
-                            append("Found on ")
+                            append(stringResource(R.string.found_on))
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
                                 val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                                 append(entry.observedDate.format(formatter))
                             }
-                            append(" at ")
+                            append(stringResource(R.string.at))
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(entry.observedLocation)
                             }
@@ -186,12 +188,12 @@ fun HistoryEntry(
                     Text(
                         textAlign = TextAlign.Center,
                         text = buildAnnotatedString {
-                            append("Found on ")
+                            append(stringResource(R.string.found_on))
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
                                 val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                                 append(entry.observedDate.format(formatter))
                             }
-                            append(" at ")
+                            append(stringResource(R.string.at))
                             withStyle(style= SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(entry.observedLocation)
                             }

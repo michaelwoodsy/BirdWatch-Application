@@ -7,8 +7,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.navigation.NavHostController
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.databinding.PreferencesContainerViewBinding
 
 
@@ -28,7 +30,7 @@ fun SettingsScreen(navController: NavHostController) {
 fun SettingsTopBar(navController: NavHostController) {
     TopAppBar(
         title = {
-            Text("BirdWatch Settings")
+            Text(stringResource(R.string.settings_title))
         },
         navigationIcon = {
              IconButton(

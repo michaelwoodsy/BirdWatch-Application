@@ -16,6 +16,4 @@ class StatisticsRepository (
 
     fun getAchievementsCount(): Flow<List<Int>> = achievementDao.getAchievementCount()
 
-
-
 }

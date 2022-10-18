@@ -20,6 +20,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.notification.WeeklyNotificationService
 import nz.ac.uclive.ojc31.seng440assignment2.screens.*
 import kotlin.math.roundToInt
@@ -156,7 +157,7 @@ fun NavigationBar(
                     icon = {
                         Icon(
                             painter = painterResource(id = screen.icon),
-                            contentDescription = "Navigation Item"
+                            contentDescription = stringResource(R.string.nav_item)
                         )
                     },
                     onClick = {

@@ -2,10 +2,10 @@ package nz.ac.uclive.ojc31.seng440assignment2.screens.home.challenge
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.drawable.GradientDrawable.Orientation
 import android.location.Geocoder
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +34,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.challenges.ChallengeDTO
-import nz.ac.uclive.ojc31.seng440assignment2.graphs.Screen
 import nz.ac.uclive.ojc31.seng440assignment2.graphs.SubScreen
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.RobotoCondensed
 import nz.ac.uclive.ojc31.seng440assignment2.ui.theme.TitleFont
@@ -57,7 +57,7 @@ fun ChallengesScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Challenges",
+                    text = stringResource(R.string.challenges_title),
                     fontFamily = TitleFont,
                     fontSize = 64.sp,
                     color = MaterialTheme.colors.primary,
@@ -69,11 +69,11 @@ fun ChallengesScreen(
             }
         }
     }
-
+    val toastText = stringResource(R.string.toast_challenge)
     LaunchedEffect(Unit) {
         viewModel.loadChallenges()
         if (viewModel.challenges.isNotEmpty()) {
-            Toast.makeText(context, "Select a challenge to try complete it!", Toast.LENGTH_SHORT)
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT)
                 .show()
         }
     }
@@ -141,14 +141,14 @@ private fun NoContentTemplate() {
             ) {
                 Icon(painterResource(R.drawable.bird), null, Modifier.size(80.dp))
                 Text(
-                    text = "You don't have any current challenges.",
+                    text = stringResource(R.string.no_current_challenges),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = buildAnnotatedString {
-                        append("Get a friend to share the location of a bird from the ")
+                        append(stringResource(R.string.no_challenges_tip))
                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("history page")
+                            append(stringResource(R.string.history_page_text))
                         }
                     },
                     textAlign = TextAlign.Center
@@ -170,14 +170,14 @@ private fun NoContentTemplate() {
                 ) {
                     Icon(painterResource(R.drawable.bird), null, Modifier.size(65.dp))
                     Text(
-                        text = "You don't have any current challenges.",
+                        text = stringResource(R.string.no_current_challenges),
                         textAlign = TextAlign.Center
                     )
                     Text(
                         text = buildAnnotatedString {
-                            append("Get a friend to share the location of a bird from the ")
+                            append(stringResource(R.string.no_challenges_tip))
                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("history page")
+                                append(stringResource(R.string.history_page_text))
                             }
                         },
                         textAlign = TextAlign.Center
@@ -265,11 +265,11 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(textAlign = TextAlign.Center, text = buildAnnotatedString {
-                        append("Spotted near ")
+                        append(stringResource(R.string.spotted_near))
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append(visibleAddress)
                         }
-                        append(" on ")
+                        append(stringResource(R.string.on))
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append(
                                 challenge.challenge.receivedDate.format(
@@ -310,7 +310,7 @@ private fun ChallengeEntry(challenge: ChallengeDTO) {
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(textAlign = TextAlign.Center, text = buildAnnotatedString {
-                        append("Spotted near ")
+                        append(stringResource(R.string.spotted_near))
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append(visibleAddress)
                         }

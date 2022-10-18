@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -41,8 +42,6 @@ import java.time.format.DateTimeFormatter
 fun AchievementsScreen(
     navController: NavHostController,
 ) {
-    val context = LocalContext.current
-
     Scaffold(
         topBar = { TopSection(navController = navController) }
     ) { paddingValues ->
@@ -52,7 +51,7 @@ fun AchievementsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Achievements",
+                    text = stringResource(R.string.achievements_title),
                     fontFamily = TitleFont,
                     fontSize = 64.sp,
                     color = MaterialTheme.colors.primary,
@@ -72,7 +71,6 @@ fun AchievementsList(
 ) {
     val achievementList by remember { viewModel.achievementList }
     val isLoading by remember { viewModel.isLoading }
-    val configuration = LocalConfiguration.current
 
     if (isLoading) {
         Box(
@@ -120,12 +118,12 @@ fun NoAchievementDisplay() {
                     Modifier.size(80.dp)
                 )
                 Text(
-                    text = "You have not completed any achievements.",
+                    text = stringResource(R.string.no_achievements),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = buildAnnotatedString {
-                        append("Start adding some entries to receive achievements!")
+                        append(stringResource(R.string.no_achievements_tip))
                     },
                     textAlign = TextAlign.Center
                 )
@@ -150,12 +148,12 @@ fun NoAchievementDisplay() {
                         Modifier.size(65.dp)
                     )
                     Text(
-                        text = "You have not completed any achievements.",
+                        text = stringResource(R.string.no_achievements),
                         textAlign = TextAlign.Center
                     )
                     Text(
                         text = buildAnnotatedString {
-                            append("Start adding some entries to receive achievements!")
+                            append(stringResource(R.string.no_achievements_tip))
                         },
                         textAlign = TextAlign.Center
                     )

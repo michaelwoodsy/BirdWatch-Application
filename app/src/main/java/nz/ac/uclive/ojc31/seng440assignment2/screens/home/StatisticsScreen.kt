@@ -1,6 +1,5 @@
 package nz.ac.uclive.ojc31.seng440assignment2.screens.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -30,12 +29,12 @@ fun StatisticsScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        topBar = { topSection(navController = navController) }
+        topBar = { TopSection(navController = navController) }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             Column(Modifier.fillMaxSize().verticalScroll(scrollState)) {
                 Text(
-                    text = "Statistics",
+                    text = stringResource(R.string.stats_title),
                     fontFamily = TitleFont,
                     fontSize = 64.sp,
                     color = MaterialTheme.colors.primary,
@@ -156,7 +155,7 @@ fun StatisticsScreen(
 }
 
 @Composable
-private fun topSection(navController: NavHostController) {
+private fun TopSection(navController: NavHostController) {
     Box(
         Modifier.padding(bottom = 30.dp),
         contentAlignment = Alignment.TopStart

@@ -58,7 +58,7 @@ fun HomeScreen(
                                 .width(320.dp)
                                 .padding(16.dp)
                         ) {
-                            Text(text = "View Challenges", fontSize = 20.sp)
+                            Text(text = stringResource(R.string.view_challenges_button), fontSize = 20.sp)
                         }
                         Button(
                             onClick = {
@@ -69,7 +69,7 @@ fun HomeScreen(
                                 .width(320.dp)
                                 .padding(16.dp)
                         ) {
-                            Text(text = "View Achievements", fontSize = 20.sp)
+                            Text(text = stringResource(R.string.view_achievements_button), fontSize = 20.sp)
                         }
                         Button(
                             onClick = {
@@ -80,7 +80,7 @@ fun HomeScreen(
                                 .width(320.dp)
                                 .padding(16.dp)
                         ) {
-                            Text(text = "View Statistics", fontSize = 20.sp)
+                            Text(text = stringResource(R.string.view_stats_button), fontSize = 20.sp)
                         }
                     }
                     else -> {
@@ -91,7 +91,7 @@ fun HomeScreen(
                                 },
                                 modifier = Modifier.padding(16.dp)
                             ) {
-                                Text(text = "View Challenges", fontSize = 16.sp)
+                                Text(text = stringResource(R.string.view_challenges_button), fontSize = 16.sp)
                             }
                             Button(
                                 onClick = {
@@ -99,7 +99,7 @@ fun HomeScreen(
                                 },
                                 modifier = Modifier.padding(16.dp)
                             ) {
-                                Text(text = "View Achievements", fontSize = 16.sp)
+                                Text(text = stringResource(R.string.view_achievements_button), fontSize = 16.sp)
                             }
                             Button(
                                 onClick = {
@@ -107,7 +107,7 @@ fun HomeScreen(
                                 },
                                 modifier = Modifier.padding(16.dp)
                             ) {
-                                Text(text = "View Statistics", fontSize = 16.sp)
+                                Text(text = stringResource(R.string.view_stats_button), fontSize = 16.sp)
                             }
                         }
                     }
@@ -122,7 +122,7 @@ fun HomeScreen(
 private fun HomeTopAppBar(navController: NavHostController) {
     TopAppBar(
         backgroundColor = MaterialTheme.colors.primary,
-        title = {Text("BirdWatch")},
+        title = {Text(stringResource(R.string.app_name))},
         navigationIcon = {
             IconButton( onClick = {
                 navController.navigate(SubScreen.Settings.route) {
@@ -157,7 +157,7 @@ fun ExtendedAddEntryButton(
     val queryString = builder.build().toString().replace("//", "")
 
     ExtendedFloatingActionButton(
-        text = { Text(text = "Add Entry") },
+        text = { Text(text = stringResource(R.string.add_entry_button)) },
         icon = { Icon(Icons.Filled.Add, "") },
         onClick = { navController.navigate(
             queryString,

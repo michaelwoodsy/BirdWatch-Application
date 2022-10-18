@@ -4,18 +4,20 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -70,7 +72,7 @@ fun OnboardingScreen(
                 .padding(4.dp)
         ) {
             Text(
-                text = "Skip", modifier = Modifier
+                text = stringResource(R.string.skip), modifier = Modifier
             )
         }
 
@@ -132,14 +134,14 @@ fun PageUI(page: Page) {
             modifier = Modifier.size(200.dp)
         )
         Text(
-            text = page.title,
+            text = stringResource(page.title),
             fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
         )
         Text(
-            text = page.description,
+            text = stringResource(page.description),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -149,28 +151,25 @@ fun PageUI(page: Page) {
 }
 
 data class Page(
-    val title: String,
-    val description: String,
+    val title: Int,
+    val description: Int,
     @DrawableRes val image: Int
 )
 
 val onboardPages = listOf(
     Page(
-        "Welcome to BirdWatch!",
-        "BirdWatch is the perfect application for BirdWatchers across the globe.",
+        R.string.welcome_title,
+        R.string.welcome_desc,
         R.drawable.ic_baseline_accessibility_24
     ),
     Page(
-        "Find as many birds as possible!",
-        "Add bird entries to your history and challenge your friends to find the same " +
-                "birds as you.",
+        R.string.find_birds_title,
+        R.string.add_birds_desc,
         R.drawable.ic_baseline_camera_front_24
     ),
     Page(
-        "Please ensure to enable your phone's camera and location",
-        "This is so you can take full advantage of BirdWatch's countless features. " +
-                "If you don't approve it after exiting this screen, you can enable them later " +
-                "in your phone's settings.",
+        R.string.help_title,
+        R.string.help_desc,
         R.drawable.ic_baseline_perm_device_information_24
     )
 )

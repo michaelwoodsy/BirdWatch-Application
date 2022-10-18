@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -47,10 +48,6 @@ fun MapScreen(
     val universityOfCanterbury = LatLng(-43.5225, 172.5794)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(universityOfCanterbury, 15f)
-    }
-
-    val centerPosition = remember {
-        cameraPositionState.position
     }
 
     val uiSettings = remember {
@@ -151,7 +148,7 @@ fun MapMarker(
     ) { marker ->
         // Implement the custom info window here
         Column {
-            Text(marker.title ?: "Default Marker Title")
+            Text(marker.title ?: stringResource(R.string.default_marker))
         }
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import nz.ac.uclive.ojc31.seng440assignment2.R
 import nz.ac.uclive.ojc31.seng440assignment2.data.birds.Birds
 import nz.ac.uclive.ojc31.seng440assignment2.data.images.Images
 import nz.ac.uclive.ojc31.seng440assignment2.screens.home.ExtendedAddEntryButton
@@ -191,7 +193,7 @@ fun BirdImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(birdImageUrl)
                     .build(),
-                contentDescription = "Bird Image",
+                contentDescription = stringResource(R.string.bird_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(birdImageSize)
@@ -209,7 +211,7 @@ fun BirdImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(birdImageUrl)
                     .build(),
-                contentDescription = "Bird Image",
+                contentDescription = stringResource(R.string.bird_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(birdImageSize)
@@ -382,9 +384,9 @@ fun BirdDetailSection(
                 Text(
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Scientific Name: ")
+                            append(stringResource(R.string.scientific_name_label))
                         }
-                        append("$sciName")
+                        append(sciName)
                     },
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -393,9 +395,9 @@ fun BirdDetailSection(
                 Text(
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Family Name: ")
+                            append(stringResource(R.string.family_name_label))
                         }
-                        append("$famName")
+                        append(famName)
                     },
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -404,9 +406,9 @@ fun BirdDetailSection(
                 Text(
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Scientific Family Name: ")
+                            append(stringResource(R.string.scientific_family_name_label))
                         }
-                        append("$famSciName")
+                        append(famSciName)
                     },
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -415,9 +417,9 @@ fun BirdDetailSection(
                 Text(
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Order: ")
+                            append(stringResource(R.string.order_label))
                         }
-                        append("$order")
+                        append(order)
                     },
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -427,9 +429,9 @@ fun BirdDetailSection(
                     Text(
                         buildAnnotatedString {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Extinct: ")
+                                append(stringResource(R.string.extinct_label))
                             }
-                            append("Yes")
+                            append(stringResource(R.string.yes))
                         },
                         modifier = Modifier
                             .align(Alignment.Start)
@@ -438,7 +440,7 @@ fun BirdDetailSection(
                     Text(
                         buildAnnotatedString {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Extinct Year: ")
+                                append(stringResource(R.string.extinct_year_label))
                             }
                             append("$extinctYear")
                         },
@@ -450,9 +452,9 @@ fun BirdDetailSection(
                     Text(
                         buildAnnotatedString {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Extinct: ")
+                                append(stringResource(R.string.extinct_label))
                             }
-                            append("No")
+                            append(stringResource(R.string.no))
                         },
                         modifier = Modifier
                             .align(Alignment.Start)
@@ -487,9 +489,9 @@ fun BirdDetailSection(
                         Text(
                             buildAnnotatedString {
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("Scientific Name: ")
+                                    append(stringResource(R.string.scientific_name_label))
                                 }
-                                append("$sciName")
+                                append(sciName)
                             },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -498,9 +500,9 @@ fun BirdDetailSection(
                         Text(
                             buildAnnotatedString {
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("Family Name: ")
+                                    append(stringResource(R.string.family_name_label))
                                 }
-                                append("$famName")
+                                append(famName)
                             },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -509,9 +511,9 @@ fun BirdDetailSection(
                         Text(
                             buildAnnotatedString {
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("Scientific Family Name: ")
+                                    append(stringResource(R.string.scientific_family_name_label))
                                 }
-                                append("$famSciName")
+                                append(famSciName)
                             },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -520,9 +522,9 @@ fun BirdDetailSection(
                         Text(
                             buildAnnotatedString {
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("Order: ")
+                                    append(stringResource(R.string.order_label))
                                 }
-                                append("$order")
+                                append(order)
                             },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -532,9 +534,9 @@ fun BirdDetailSection(
                             Text(
                                 buildAnnotatedString {
                                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append("Extinct: ")
+                                        append(stringResource(R.string.extinct_label))
                                     }
-                                    append("Yes")
+                                    append(stringResource(R.string.yes))
                                 },
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
@@ -543,7 +545,7 @@ fun BirdDetailSection(
                             Text(
                                 buildAnnotatedString {
                                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append("Extinct Year: ")
+                                        append(stringResource(R.string.extinct_year_label))
                                     }
                                     append("$extinctYear")
                                 },
@@ -555,9 +557,9 @@ fun BirdDetailSection(
                             Text(
                                 buildAnnotatedString {
                                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append("Extinct: ")
+                                        append(stringResource(R.string.extinct_label))
                                     }
-                                    append("No")
+                                    append(stringResource(R.string.no))
                                 },
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)

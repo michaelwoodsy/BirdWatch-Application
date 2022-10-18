@@ -487,7 +487,7 @@ fun ChosenImage(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, viewModel.imageId.value.toLong())
                     )
                 .build(),
-            contentDescription = "Bird Image",
+            contentDescription = stringResource(R.string.bird_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(birdImageSize)
@@ -506,7 +506,7 @@ fun ChosenImage(
                     "https://www.justcolor.net/kids/wp-content/uploads/sites/12/nggallery/birds/coloring-pages-for-children-birds-82448.jpg"
                 )
                 .build(),
-            contentDescription = "Bird Image",
+            contentDescription = stringResource(R.string.bird_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(birdImageSize)

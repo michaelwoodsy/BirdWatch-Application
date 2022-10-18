@@ -54,7 +54,7 @@ fun BirdListScreen(
             Configuration.ORIENTATION_PORTRAIT -> {
                 Column {
                     Text(
-                        text = "BirdSearch",
+                        text = stringResource(R.string.bird_search_title),
                         fontFamily = TitleFont,
                         fontSize = 64.sp,
                         color = MaterialTheme.colors.primary,
@@ -79,7 +79,7 @@ fun BirdListScreen(
                         modifier = Modifier
                             .fillMaxWidth()) {
                         Text(
-                            text = "BirdSearch",
+                            text = stringResource(R.string.bird_search_title),
                             fontFamily = TitleFont,
                             fontSize = 64.sp,
                             color = MaterialTheme.colors.primary,
