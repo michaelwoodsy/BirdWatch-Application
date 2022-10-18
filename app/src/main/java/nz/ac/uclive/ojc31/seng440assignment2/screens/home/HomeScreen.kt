@@ -124,7 +124,12 @@ private fun HomeTopAppBar(navController: NavHostController) {
         backgroundColor = MaterialTheme.colors.primary,
         title = {Text("BirdWatch")},
         navigationIcon = {
-            IconButton( onClick = { navController.navigate(SubScreen.Settings.route)}) {
+            IconButton( onClick = {
+                navController.navigate(SubScreen.Settings.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }) {
                 Icon(Icons.Filled.Settings, null)
             }
         }

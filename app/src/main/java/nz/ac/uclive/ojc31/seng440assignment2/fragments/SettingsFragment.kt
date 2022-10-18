@@ -9,19 +9,21 @@ import nz.ac.uclive.ojc31.seng440assignment2.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    val viewModel: SettingsViewModel by activityViewModels()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+        if (activity != null && isAdded) {
 
-        val viewModel: SettingsViewModel by activityViewModels()
-        val sharedPreferences = preferenceManager.sharedPreferences
+            val sharedPreferences = preferenceManager.sharedPreferences
 
-
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener() {prefs, key ->
-            when (key) {
-                "app_theme" -> viewModel.appTheme.value = prefs.getString(key, "system_default")!!
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener() { prefs, key ->
+                when (key) {
+                    "app_theme" -> viewModel.appTheme.value =
+                        prefs.getString(key, "system_default")!!
+                }
             }
+            sharedPreferences?.registerOnSharedPreferenceChangeListener(listener)
+            setPreferencesFromResource(R.xml.preferences, rootKey)
         }
-        sharedPreferences?.registerOnSharedPreferenceChangeListener(listener)
-
     }
 }
